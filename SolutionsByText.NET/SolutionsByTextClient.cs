@@ -222,8 +222,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                 if (httpResponse.IsSuccessStatusCode)
                     return httpResponse;
 
-                if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                    httpResponse.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                if (httpResponse.StatusCode is System.Net.HttpStatusCode.Unauthorized or System.Net.HttpStatusCode.Forbidden)
                 {
                     throw new ApiException((int)httpResponse.StatusCode, "Authentication failed");
                 }
