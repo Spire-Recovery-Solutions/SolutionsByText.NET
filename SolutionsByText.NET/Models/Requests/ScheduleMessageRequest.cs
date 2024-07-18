@@ -55,5 +55,7 @@ namespace SolutionsByText.NET.Models.Requests
         /// </summary>
         [JsonPropertyName("media")]
         public string Media { get; set; }
+
+        public string GroupId { get; set; }
     }
 }

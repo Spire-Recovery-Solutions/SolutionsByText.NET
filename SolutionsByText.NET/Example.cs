@@ -1,6 +1,7 @@
 ﻿using SolutionsByText.NET;
 using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Enums;
 
 var client = new SolutionsByTextClient("https://api.solutionsbytext.com", "your-api-key");
 
@@ -22,7 +23,7 @@ try
 }
 catch (ApiException ex)
 {
-    Console.WriteLine($"API error {ex.StatusCode}: {ex.Message}");
+    Console.WriteLine($"API error {ex.AppCode}: {ex.Message}");
 }
 catch (Exception ex)
 {

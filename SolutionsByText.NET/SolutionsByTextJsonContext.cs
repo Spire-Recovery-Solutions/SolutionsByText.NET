@@ -1,6 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Enums;
 using SolutionsByText.NET.Models.Responses;
+using SolutionsByText.NET.Models.Responses.Enums;
 
 namespace SolutionsByText.NET;
 
@@ -43,6 +45,9 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(SubscriptionStatus))]
 [JsonSerializable(typeof(OperationStatus))]
 [JsonSerializable(typeof(CarrierType))]
+
+[JsonSerializable(typeof(ApiResponse<SendMessageResponse>))]
+[JsonSerializable(typeof(ErrorResponse))]
 
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
