@@ -178,6 +178,18 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
+    /// </summary>
+    /// <typeparam name="TRequest">The type of the request body.</typeparam>
+    /// <typeparam name="TResponse">The type of the response body.</typeparam>
+    /// <param name="method">The HTTP method to use for the request.</param>
+    /// <param name="endpoint">The API endpoint to send the request to.</param>
+    /// <param name="request">The request body (optional).</param>
+    /// <returns>The deserialized response from the API.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
+    /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
+
     private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
         TRequest request = default!)
     {
