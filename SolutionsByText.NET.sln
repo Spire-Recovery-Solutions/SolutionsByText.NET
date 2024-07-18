@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionsByText.NET.Data", "SolutionsByText.NET.Data\SolutionsByText.NET.Data.csproj", "{B33032CC-0059-493A-96D5-47AF45A1EC3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionsByText.NET", "SolutionsByText.NET\SolutionsByText.NET.csproj", "{B33032CC-0059-493A-96D5-47AF45A1EC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
