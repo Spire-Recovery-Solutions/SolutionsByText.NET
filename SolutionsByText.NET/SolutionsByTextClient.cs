@@ -212,7 +212,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
     /// <exception cref="NotSupportedException">Thrown when an unsupported HTTP method is used.</exception>
     /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
-    private async Task<TResponse?> SendRequestAsync<TRequest, TResponse?>(HttpMethod method, string endpoint,
+    private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
         TRequest request = default)
     {
         var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;

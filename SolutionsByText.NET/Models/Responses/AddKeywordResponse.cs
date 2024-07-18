@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class AddKeywordResponse : BaseResponse
+    public class AddKeywordResponse : ApiResponse<AddKeywordResponse>
     {
-        /// <summary>
-        /// The data returned in the response.
-        /// </summary>
-        [JsonPropertyName("data")]
-        public string Data { get; set; }
     }
 }

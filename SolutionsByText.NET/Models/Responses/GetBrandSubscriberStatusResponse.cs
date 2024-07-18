@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class GetBrandSubscriberStatusResponse : BaseResponse
+    public class GetBrandSubscriberStatusResponse : ApiResponse<List<ConsentItem>>
     {
-        /// <summary>
-        /// Gets or sets the collection of consent items.
-        /// </summary>
-        [JsonPropertyName("data")]
-        public List<ConsentItem> Data { get; set; }
     }
 }

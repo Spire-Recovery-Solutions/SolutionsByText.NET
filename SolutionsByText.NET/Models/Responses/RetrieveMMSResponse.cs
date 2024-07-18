@@ -2,7 +2,7 @@
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class RetrieveMMSResponse : BaseResponse
+    public class RetrieveMMSResponse : ErrorResponse
     {
     }
 }

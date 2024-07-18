@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class GetKeywordsResponse : BaseResponse
+    public class GetKeywordsResponse : ApiResponse<GetKeywordsResponse>
     {
-         /// <summary>
-        /// The paginated data containing the keywords.
-        /// </summary>
-       [JsonPropertyName("data")]
-        public KeywordPaginatedData PaginatedData { get; set; }
     }
 }

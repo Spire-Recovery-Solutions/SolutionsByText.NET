@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class UpdateSmartURLResponse : BaseResponse
+    public class UpdateSmartURLResponse : ApiResponse<UpdateSmartURLResponse>
     {
-        /// <summary>
-        /// The data returned in the response.
-        /// </summary>
-        [JsonPropertyName("data")]
-        public string Data { get; set; }
     }
 }

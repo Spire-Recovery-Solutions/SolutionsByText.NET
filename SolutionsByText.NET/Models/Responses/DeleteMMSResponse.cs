@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class DeleteMMSResponse : BaseResponse
+    public class DeleteMMSResponse : ErrorResponse
     {
     }
 }

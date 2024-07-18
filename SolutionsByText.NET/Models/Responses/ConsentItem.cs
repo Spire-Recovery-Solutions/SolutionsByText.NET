@@ -77,6 +77,6 @@ namespace SolutionsByText.NET.Models.Responses
         /// Gets or sets the properties associated with the consent item.
         /// </summary>
         [JsonPropertyName("properties")]
-        public List<ConsentProperty> Properties { get; set; }
+        public List<Property> Properties { get; set; }
     }
 }

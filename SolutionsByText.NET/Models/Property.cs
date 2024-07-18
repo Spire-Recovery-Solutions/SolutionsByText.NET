@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Responses
+namespace SolutionsByText.NET.Models
 {
     /// <summary>
     /// Represents a property associated with a consent item.
     /// </summary>
-    public class ConsentProperty
+    public class Property
     {
         /// <summary>
         /// Gets or sets the name of the property.

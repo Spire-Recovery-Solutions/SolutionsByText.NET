@@ -82,14 +82,6 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the group ID.</param>
     /// <returns>A response containing detailed information about the group.</returns>
     Task<GetGroupResponse?> GetGroupAsync(GetGroupRequest request);
-
-    /// <summary>
-    /// Updates the information of a specific group.
-    /// </summary>
-    /// <param name="request">The request containing the group ID and updated information.</param>
-    /// <returns>A response indicating the success or failure of the update operation.</returns>
-    Task<UpdateGroupResponse?> UpdateGroupAsync(UpdateGroupRequest request);
-
     #endregion
 
     #region Reporting
@@ -222,24 +214,6 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the group ID and template ID.</param>
     /// <returns>A response containing the details of the requested template.</returns>
     Task<GetTemplateResponse?> GetTemplateAsync(GetTemplateRequest request);
-
-    #endregion
-
-    #region Webhook Management
-
-    /// <summary>
-    /// Registers a webhook for receiving specific event notifications.
-    /// </summary>
-    /// <param name="request">The request containing the webhook URL and event types to subscribe to.</param>
-    /// <returns>A response indicating the success or failure of the webhook registration.</returns>
-    Task<RegisterWebhookResponse?> RegisterWebhookAsync(RegisterWebhookRequest request);
-
-    /// <summary>
-    /// Updates an existing webhook registration.
-    /// </summary>
-    /// <param name="request">The request containing the webhook ID and updated information.</param>
-    /// <returns>A response indicating the success or failure of the update operation.</returns>
-    Task<UpdateWebhookResponse?> UpdateWebhookAsync(UpdateWebhookRequest request);
 
     #endregion
 }

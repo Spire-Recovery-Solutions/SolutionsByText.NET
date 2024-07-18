@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class GetTemplateResponse : BaseResponse
+    public class GetTemplateResponse : ApiResponse<GetTemplateResponse>
     {
-        /// <summary>
-        /// Gets or sets the data item.
-        /// </summary>
-        [JsonPropertyName("data")]
-        public TemplateItem Data { get; set; }
     }
 }

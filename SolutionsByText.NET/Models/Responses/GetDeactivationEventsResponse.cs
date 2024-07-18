@@ -9,14 +9,9 @@ namespace SolutionsByText.NET.Models.Responses
 {
     /// <summary>
     /// Represents the response for getting deactivation events.
-    /// Inherits common response properties from the BaseResponse class.
+    /// Inherits common response properties from the ApiResponse class.
     /// </summary>
-    public class GetDeactivationEventsResponse : BaseResponse
+    public class GetDeactivationEventsResponse : ApiResponse<GetDeactivationEventsResponse>
     {
-        /// <summary>
-        /// Gets or sets the data for the deactivation events.
-        /// </summary>
-        [JsonPropertyName("data")]
-        public DeactivateEventData Data { get; set; }
     }
 }
