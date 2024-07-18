@@ -31,29 +31,10 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                 onRetry: (outcome, timespan, retryAttempt, context) =>
                 {
-                    Console.WriteLine($"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
+                    Console.WriteLine(
+                        $"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
                 }
             );
-    }
-
-    public Task<GetSubscriberStatusResponse> GetSubscriberStatusAsync(GetSubscriberStatusRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<AddSubscriberResponse> AddSubscriberAsync(AddSubscriberRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<ConfirmSubscriberResponse> ConfirmSubscriberAsync(ConfirmSubscriberRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DeleteSubscriberResponse> DeleteSubscriberAsync(DeleteSubscriberRequest request)
-    {
-        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -61,121 +42,162 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing the message details and recipient information.</param>
     /// <returns>A response containing the message ID and delivery status.</returns>
-    /// <exception cref="ApiException">Thrown when the API returns an error.</exception>
-    public async Task<SendMessageResponse?> SendMessageAsync(SendMessageRequest request)
+    public async Task<SendMessageResponse> SendMessageAsync(SendMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/messages";
-        return await SendRequestAsync<SendMessageRequest, SendMessageResponse?>(HttpMethod.Post, endpoint, request);
+        return await SendRequestAsync<SendMessageRequest, SendMessageResponse>(HttpMethod.Post, endpoint, request);
     }
 
-    public Task<SendTemplateMessageResponse> SendTemplateMessageAsync(SendTemplateMessageRequest request)
+    /// <summary>
+    /// Sends a template message to one or more subscribers in a group.
+    /// </summary>
+    /// <param name="request">The request containing the template ID, variables, and recipient information.</param>
+    /// <returns>A response containing the message ID and delivery status.</returns>
+    public async Task<SendTemplateMessageResponse> SendTemplateMessageAsync(SendTemplateMessageRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/template-messages";
+        return await SendRequestAsync<SendTemplateMessageRequest, SendTemplateMessageResponse>(HttpMethod.Post,
+            endpoint, request);
     }
 
-    public Task<ScheduleMessageResponse> ScheduleMessageAsync(ScheduleMessageRequest request)
+    /// <summary>
+    /// Schedules a message to be sent at a future time.
+    /// </summary>
+    /// <param name="request">The request containing the message details, recipient information, and scheduled time.</param>
+    /// <returns>A response containing the scheduled message ID.</returns>
+    public async Task<ScheduleMessageResponse> ScheduleMessageAsync(ScheduleMessageRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/schedule-messages";
+        return await SendRequestAsync<ScheduleMessageRequest, ScheduleMessageResponse>(HttpMethod.Post, endpoint,
+            request);
     }
 
-    public Task<ScheduleTemplateMessageResponse> ScheduleTemplateMessageAsync(ScheduleTemplateMessageRequest request)
+    /// <summary>
+    /// Retrieves the status of one or more subscribers in a group.
+    /// </summary>
+    /// <param name="request">The request containing group ID and list of phone numbers.</param>
+    /// <returns>A response containing the status of the requested subscribers.</returns>
+    public async Task<GetSubscriberStatusResponse?> GetSubscriberStatusAsync(GetSubscriberStatusRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint =
+            $"{_baseUrl}/groups/{request.GroupId}/subscribers/status?msisdn={string.Join(",", request.Msisdn)}";
+        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse>(HttpMethod.Get,
+            endpoint);
     }
 
-    public Task<GetGroupResponse> GetGroupAsync(GetGroupRequest request)
+    /// <summary>
+    /// Adds a new subscriber to a specified group.
+    /// </summary>
+    /// <param name="request">The request containing subscriber details and group information.</param>
+    /// <returns>A response indicating the success or failure of the operation.</returns>
+    public async Task<AddSubscriberResponse> AddSubscriberAsync(AddSubscriberRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers";
+        return await SendRequestAsync<AddSubscriberRequest, AddSubscriberResponse>(HttpMethod.Post, endpoint, request);
     }
 
-    public Task<UpdateGroupResponse> UpdateGroupAsync(UpdateGroupRequest request)
+    /// <summary>
+    /// Confirms a subscriber's opt-in using a PIN.
+    /// </summary>
+    /// <param name="request">The request containing the subscriber's phone number, group ID, and PIN.</param>
+    /// <returns>A response indicating whether the confirmation was successful.</returns>
+    public async Task<ConfirmSubscriberResponse> ConfirmSubscriberAsync(ConfirmSubscriberRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/verification";
+        return await SendRequestAsync<ConfirmSubscriberRequest, ConfirmSubscriberResponse>(HttpMethod.Post, endpoint,
+            request);
     }
 
-    public Task<GetOutboundMessagesResponse> GetOutboundMessagesAsync(GetOutboundMessagesRequest request)
+    /// <summary>
+    /// Removes a subscriber from a specified group.
+    /// </summary>
+    /// <param name="request">The request containing the subscriber's phone number and group ID.</param>
+    /// <returns>A response indicating the success or failure of the operation.</returns>
+    public async Task<DeleteSubscriberResponse> DeleteSubscriberAsync(DeleteSubscriberRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}";
+        return await SendRequestAsync<DeleteSubscriberRequest, DeleteSubscriberResponse>(HttpMethod.Delete, endpoint);
     }
 
-    public Task<GetInboundMessagesResponse> GetInboundMessagesAsync(GetInboundMessagesRequest request)
+    /// <summary>
+    /// Retrieves information about a specific group.
+    /// </summary>
+    /// <param name="request">The request containing the group ID.</param>
+    /// <returns>A response containing detailed information about the group.</returns>
+    public async Task<GetGroupResponse> GetGroupAsync(GetGroupRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}";
+        return await SendRequestAsync<GetGroupRequest, GetGroupResponse>(HttpMethod.Get, endpoint);
     }
 
-    public Task<GetDeactivationEventsResponse> GetDeactivationEventsAsync(GetDeactivationEventsRequest request)
+    /// <summary>
+    /// Retrieves details of outbound messages for a specific group.
+    /// </summary>
+    /// <param name="request">The request containing the group ID and optional filters.</param>
+    /// <returns>A response containing a list of outbound message details.</returns>
+    public async Task<GetOutboundMessagesResponse> GetOutboundMessagesAsync(GetOutboundMessagesRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/outbound-messages";
+        return await SendRequestAsync<GetOutboundMessagesRequest, GetOutboundMessagesResponse>(HttpMethod.Get,
+            endpoint);
     }
 
-    public Task<CreateSmartURLResponse> CreateSmartURLAsync(CreateSmartURLRequest request)
+    /// <summary>
+    /// Retrieves details of inbound messages for a specific group.
+    /// </summary>
+    /// <param name="request">The request containing the group ID and optional filters.</param>
+    /// <returns>A response containing a list of inbound message details.</returns>
+    public async Task<GetInboundMessagesResponse> GetInboundMessagesAsync(GetInboundMessagesRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/inbound-messages";
+        return await SendRequestAsync<GetInboundMessagesRequest, GetInboundMessagesResponse>(HttpMethod.Get, endpoint);
     }
 
-    public Task<UpdateSmartURLResponse> UpdateSmartURLAsync(UpdateSmartURLRequest request)
+    /// <summary>
+    /// Creates a new SmartURL (shortened URL) for a group.
+    /// </summary>
+    /// <param name="request">The request containing the long URL and group ID.</param>
+    /// <returns>A response containing the created SmartURL.</returns>
+    public async Task<CreateSmartURLResponse> CreateSmartURLAsync(CreateSmartURLRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/shortUrls";
+        return await SendRequestAsync<CreateSmartURLRequest, CreateSmartURLResponse>(HttpMethod.Post, endpoint,
+            request);
     }
 
-    public Task<GetPhoneNumberDataResponse> GetPhoneNumberDataAsync(GetPhoneNumberDataRequest request)
+    /// <summary>
+    /// Retrieves carrier information for one or more phone numbers.
+    /// </summary>
+    /// <param name="request">The request containing the list of phone numbers to look up.</param>
+    /// <returns>A response containing carrier information for each phone number.</returns>
+    public async Task<GetPhoneNumberDataResponse> GetPhoneNumberDataAsync(GetPhoneNumberDataRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/phonenumbers-data?msisdn={string.Join(",", request.Msisdn)}";
+        return await SendRequestAsync<GetPhoneNumberDataRequest, GetPhoneNumberDataResponse>(HttpMethod.Get, endpoint);
     }
 
-    public Task<AddKeywordResponse> AddKeywordAsync(AddKeywordRequest request)
+    /// <summary>
+    /// Adds a new subscriber to a brand.
+    /// </summary>
+    /// <param name="request">The request containing subscriber details and brand information.</param>
+    /// <returns>A response indicating the success or failure of the operation.</returns>
+    public async Task<AddBrandSubscriberResponse> AddBrandSubscriberAsync(AddBrandSubscriberRequest request)
     {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers";
+        return await SendRequestAsync<AddBrandSubscriberRequest, AddBrandSubscriberResponse>(HttpMethod.Post, endpoint,
+            request);
     }
 
-    public Task<GetKeywordsResponse> GetKeywordsAsync(GetKeywordsRequest request)
+    /// <summary>
+    /// Confirms a subscriber's opt-in for a brand using a PIN.
+    /// </summary>
+    /// <param name="request">The request containing the subscriber's phone number, brand ID, and PIN.</param>
+    /// <returns>A response indicating whether the confirmation was successful.</returns>
+    public async Task<ConfirmBrandSubscriberResponse> ConfirmBrandSubscriberAsync(ConfirmBrandSubscriberRequest request)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<RetrieveMMSResponse> RetrieveMMSAsync(RetrieveMMSRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DeleteMMSResponse> DeleteMMSAsync(DeleteMMSRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<AddBrandSubscriberResponse> AddBrandSubscriberAsync(AddBrandSubscriberRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<ConfirmBrandSubscriberResponse> ConfirmBrandSubscriberAsync(ConfirmBrandSubscriberRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<GetBrandSubscriberStatusResponse> GetBrandSubscriberStatusAsync(GetBrandSubscriberStatusRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<GetTemplatesResponse> GetTemplatesAsync(GetTemplatesRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<GetTemplateResponse> GetTemplateAsync(GetTemplateRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<RegisterWebhookResponse> RegisterWebhookAsync(RegisterWebhookRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<UpdateWebhookResponse> UpdateWebhookAsync(UpdateWebhookRequest request)
-    {
-        throw new NotImplementedException();
+        var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/{request.Msisdn}/verification";
+        return await SendRequestAsync<ConfirmBrandSubscriberRequest, ConfirmBrandSubscriberResponse>(HttpMethod.Post,
+            endpoint, request);
     }
 
     /// <summary>
@@ -222,7 +244,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                 if (httpResponse.IsSuccessStatusCode)
                     return httpResponse;
 
-                if (httpResponse.StatusCode is System.Net.HttpStatusCode.Unauthorized or System.Net.HttpStatusCode.Forbidden)
+                if (httpResponse.StatusCode is System.Net.HttpStatusCode.Unauthorized
+                    or System.Net.HttpStatusCode.Forbidden)
                 {
                     throw new ApiException((int)httpResponse.StatusCode, "Authentication failed");
                 }
@@ -248,6 +271,4 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             throw new ApiException(500, $"An error occurred while sending the request: {ex.Message}");
         }
     }
-}
-
 }
