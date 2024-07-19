@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Requests
 {
@@ -11,44 +13,57 @@ namespace SolutionsByText.NET.Models.Requests
     {
         /// <summary>
         /// The ID of the template to be used for the message.
+        /// This parameter is optional if templateName is provisioned.
         /// </summary>
         [JsonPropertyName("templateId")]
         public string TemplateId { get; set; }
 
         /// <summary>
+        /// Gets or sets the unique identifier of the brand.
+        /// This parameter is required.
+        /// </summary>
+        [JsonPropertyName("groupId")]
+        public string GroupId { get; set; } 
+
+        /// <summary>
         /// The name of the template to be used for the message.
+        /// This parameter is considered only when templateId is not provided.
         /// </summary>
         [JsonPropertyName("templateName")]
-        public string TemplateName { get; set; }
+        public string? TemplateName { get; set; }
 
         /// <summary>
         /// The date and time when the message is scheduled to be sent.
         /// </summary>
-        [JsonPropertyName("ScheduleDateTime")]
-        public DateTime ScheduleDateTime { get; set; }
+        [JsonPropertyName("scheduleDateTime")]
+        public DateTime ScheduleDateTime { get; set; } 
 
         /// <summary>
         /// The list of subscribers to whom the message will be sent.
+        /// This can be null if no subscribers are provided.
         /// </summary>
         [JsonPropertyName("subscribers")]
-        public List<Subscriber> Subscribers { get; set; }
+        public List<Subscriber>? Subscribers { get; set; } 
 
         /// <summary>
         /// The list of variables to be used in the message.
+        /// This can be null if no variables are provided.
         /// </summary>
         [JsonPropertyName("variables")]
-        public List<Variable> Variables { get; set; }
+        public List<Variable>? Variables { get; set; } 
 
         /// <summary>
         /// The reference ID associated with the message.
+        /// This can be null if no reference ID is provided.
         /// </summary>
         [JsonPropertyName("referenceId")]
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; } 
 
         /// <summary>
         /// The media content (if any) to be included in the message.
+        /// This can be null if no media is provided.
         /// </summary>
         [JsonPropertyName("media")]
-        public string Media { get; set; }
+        public string? Media { get; set; } 
     }
 }

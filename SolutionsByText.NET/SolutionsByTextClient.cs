@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using System.Text.RegularExpressions;
 using Polly;
 using Polly.Retry;
 using SolutionsByText.NET.Models.Exceptions;
@@ -282,5 +283,134 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         {
             throw new ApiException("An unexpected error occurred", ex.Message);
         }
+    }
+
+    public async Task<ScheduleTemplateMessageResponse?> ScheduleTemplateMessageAsync(ScheduleTemplateMessageRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/schedule-template-messages";
+        return await SendRequestAsync<ScheduleTemplateMessageRequest, ScheduleTemplateMessageResponse?>(HttpMethod.Post,
+            endpoint, request);
+    }
+
+    public async Task<GetDeactivationEventsResponse?> GetDeactivationEventsAsync(GetDeactivationEventsRequest request)
+    {
+        var endpoint =
+            $"{_baseUrl}/accounts/deactevents?EventDate={request.EventDate}&EventType={request.EventType}&CountryCode={request.CountryCode}";
+
+        if (request.PageNumber.HasValue)
+        {
+            endpoint += $"&pageNumber={request.PageNumber}";
+        }
+
+        if (request.PageSize.HasValue)
+        {
+            endpoint += $"&pageSize={request.PageSize}";
+        }
+
+        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get,
+            endpoint);
+    }
+
+    public async Task<UpdateSmartURLResponse?> UpdateSmartURLAsync(UpdateSmartURLRequest request)
+    {
+        var endpoint =
+                $"{_baseUrl}/groups/{request.GroupId}/shortUrls/{request.ShortUrl}";
+
+        return await SendRequestAsync<UpdateSmartURLRequest, UpdateSmartURLResponse?>(HttpMethod.Patch,
+            endpoint,request);
+    }
+
+    public async Task<AddKeywordResponse?> AddKeywordAsync(AddKeywordRequest request)
+    {
+         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
+
+        return await SendRequestAsync<AddKeywordRequest, AddKeywordResponse?>(HttpMethod.Post,
+            endpoint, request);
+    }
+
+    public async Task<GetKeywordsResponse?> GetKeywordsAsync(GetKeywordsRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
+
+        var queryParameters = new List<string>();
+
+        if (!string.IsNullOrEmpty(request.Filter))
+        {
+            queryParameters.Add($"filter={request.Filter}");
+        }
+
+        if (request.PageNumber.HasValue)
+        {
+            queryParameters.Add($"pageNumber={request.PageNumber}");
+        }
+
+        if (request.PageSize.HasValue)
+        {
+            queryParameters.Add($"pageSize={request.PageSize}");
+        }
+
+        if (queryParameters.Any())
+        {
+            endpoint += "?" + string.Join("&", queryParameters);
+        }
+
+        return await SendRequestAsync<GetKeywordsRequest, GetKeywordsResponse?>(HttpMethod.Get, endpoint, request);
+    }
+
+
+    public async Task<RetrieveMMSResponse?> RetrieveMMSAsync(RetrieveMMSRequest request)
+    {
+          var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
+
+        return await SendRequestAsync<RetrieveMMSRequest, RetrieveMMSResponse?>(HttpMethod.Get,
+            endpoint);
+    }
+
+    public async Task<DeleteMMSResponse?> DeleteMMSAsync(DeleteMMSRequest request)
+    {
+         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
+
+        return await SendRequestAsync<DeleteMMSRequest, DeleteMMSResponse?>(HttpMethod.Delete,
+            endpoint);
+    }
+
+    public async Task<GetBrandSubscriberStatusResponse?> GetBrandSubscriberStatusAsync(GetBrandSubscriberStatusRequest request)
+    {
+        var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/status?msisdn={request.Msisdn}";
+        return await SendRequestAsync<GetBrandSubscriberStatusRequest, GetBrandSubscriberStatusResponse?>(HttpMethod.Get, endpoint);
+    }
+
+    public async Task<GetTemplatesResponse?> GetTemplatesAsync(GetTemplatesRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates";
+        var queryParams = new List<string>();
+
+        if (!string.IsNullOrEmpty(request.Search))
+        {
+            queryParams.Add($"search={Uri.EscapeDataString(request.Search)}");
+        }
+
+        if (request.PageNumber > 0)
+        {
+            queryParams.Add($"pageNumber={request.PageNumber}");
+        }
+
+        if (request.PageSize > 0)
+        {
+            queryParams.Add($"pageSize={request.PageSize}");
+        }
+
+        if (queryParams.Count > 0)
+        {
+            endpoint += "?" + string.Join("&", queryParams);
+        }
+
+        return await SendRequestAsync<GetTemplatesRequest, GetTemplatesResponse?>(HttpMethod.Get, endpoint);
+    }
+
+    public async Task<GetTemplateResponse?> GetTemplateAsync(GetTemplateRequest request)
+    {
+       var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
+        return await SendRequestAsync<GetTemplateRequest, GetTemplateResponse?>(HttpMethod.Get, endpoint);
     }
 }
