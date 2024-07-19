@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Responses
+namespace SolutionsByText.NET.Models
 {
     /// <summary>
     /// Represents the pagination details for a paginated response.
