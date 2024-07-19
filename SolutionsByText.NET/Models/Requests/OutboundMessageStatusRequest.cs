@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Requests
 {
-    
     /// <summary>
-    /// Represents the payload for outbound message status webhooks.
+    /// Represents the payload for outbound message status webhooks, extending the base webhook payload.
     /// </summary>
     public class OutboundMessageStatusRequest : WebhookPayload
     {
+        /// <summary>
+        /// Gets or sets the payload containing the status data for the outbound message.
+        /// </summary>
         [JsonPropertyName("Payload")]
         public OutboundMessageStatusData Payload { get; set; }
     }

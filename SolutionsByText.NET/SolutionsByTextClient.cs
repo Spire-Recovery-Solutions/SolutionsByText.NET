@@ -284,5 +284,3 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
     }
 }
-
-}
