@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using SolutionsByText.NET.Models.Responses;
+using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Requests
 {
     /// <summary>
     /// Represents a request to retrieve deactivation events.
     /// </summary>
-    public class GetDeactivationEventsRequest
+    public class GetDeactivationEventsRequest : PaginationData
     {
         /// <summary>
         /// Gets or sets the date of the event.
@@ -24,19 +25,5 @@ namespace SolutionsByText.NET.Models.Requests
         /// </summary>
         [JsonPropertyName("countryCode")]
         public string CountryCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the page number for pagination purposes.
-        /// This is optional and can be null.
-        /// </summary>
-        [JsonPropertyName("pageNumber")]
-        public int? PageNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of the page for pagination purposes.
-        /// This is optional and can be null.
-        /// </summary>
-        [JsonPropertyName("pageSize")]
-        public int? PageSize { get; set; }
     }
 }

@@ -3,29 +3,35 @@ using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
 using SolutionsByText.NET.Models.Requests.Enums;
 
-var client = new SolutionsByTextClient("https://api.solutionsbytext.com", "your-api-key");
-
-var request = new SendMessageRequest
+class Program
 {
-    GroupId = "your-group-id",
-    Message = "Hello, World!",
-    MessageType = MessageType.Unicast,
-    Subscribers = new List<Subscriber>
+    static async Task Main(string[] args)
     {
-        new Subscriber { Msisdn = "1234567890" }
-    }
-};
+        var client = new SolutionsByTextClient("https://api.solutionsbytext.com", "your-api-key");
 
-try
-{
-    var response = await client.SendMessageAsync(request);
-    Console.WriteLine($"Message sent successfully. Message ID: {response.MessageId}");
-}
-catch (ApiException ex)
-{
-    Console.WriteLine($"API error {ex.AppCode}: {ex.Message}");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
+        var request = new SendMessageRequest
+        {
+            GroupId = "your-group-id",
+            Message = "Hello, World!",
+            MessageType = MessageType.Unicast,
+            Subscribers = new List<Subscriber>
+            {
+                new Subscriber { Msisdn = "1234567890" }
+            }
+        };
+
+        try
+        {
+            var response = await client.SendMessageAsync(request);
+            Console.WriteLine($"Message sent successfully. Message ID: {response.MessageId}");
+        }
+        catch (ApiException ex)
+        {
+            Console.WriteLine($"API error {ex.AppCode}: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
 }

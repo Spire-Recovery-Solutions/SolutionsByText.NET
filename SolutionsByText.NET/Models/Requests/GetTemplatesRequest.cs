@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using SolutionsByText.NET.Models.Responses;
+using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Requests
 {
-    public class GetTemplatesRequest
+    public class GetTemplatesRequest : PaginationData
     {
         /// <summary>
     /// The unique identifier for the group.
@@ -14,18 +15,6 @@ namespace SolutionsByText.NET.Models.Requests
     /// The search term to filter results.
     /// </summary>
     [JsonPropertyName("search")]
-    public string Search { get; set; }
-
-    /// <summary>
-    /// The page number for pagination.
-    /// </summary>
-    [JsonPropertyName("pageNumber")]
-    public int PageNumber { get; set; }
-
-    /// <summary>
-    /// The number of items to return per page.
-    /// </summary>
-    [JsonPropertyName("pageSize")]
-    public int PageSize { get; set; }
+    public string? Search { get; set; }
     }
 }

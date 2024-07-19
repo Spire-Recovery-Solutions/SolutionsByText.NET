@@ -390,12 +390,12 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             queryParams.Add($"search={Uri.EscapeDataString(request.Search)}");
         }
 
-        if (request.PageNumber > 0)
+        if (request.PageNumber.HasValue)
         {
             queryParams.Add($"pageNumber={request.PageNumber}");
         }
 
-        if (request.PageSize > 0)
+        if (request.PageSize.HasValue)
         {
             queryParams.Add($"pageSize={request.PageSize}");
         }

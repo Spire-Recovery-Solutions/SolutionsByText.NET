@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SolutionsByText.NET.Models.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Requests
 {
-    public class GetKeywordsRequest
+    public class GetKeywordsRequest : PaginationData
     {
         /// <summary>
         /// The unique identifier for the group.
@@ -20,17 +21,5 @@ namespace SolutionsByText.NET.Models.Requests
         /// </summary>
         [JsonPropertyName("filter")]
         public string? Filter { get; set; }
-
-        /// <summary>
-        /// The page number for pagination.
-        /// </summary>
-        [JsonPropertyName("pageNumber")]
-        public int? PageNumber { get; set; }
-
-        /// <summary>
-        /// The number of items to return per page.
-        /// </summary>
-        [JsonPropertyName("pageSize")]
-        public int? PageSize { get; set; }
     }
 }
