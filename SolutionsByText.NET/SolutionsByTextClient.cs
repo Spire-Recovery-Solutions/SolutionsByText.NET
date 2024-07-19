@@ -194,7 +194,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing the subscriber's phone number, brand ID, and PIN.</param>
     /// <returns>A response indicating whether the confirmation was successful.</returns>
-    public async Task<ConfirmBrandSubscriberResponse?> ConfirmBrandSubscriberAsync(ConfirmBrandSubscriberRequest request)
+    public async Task<ConfirmBrandSubscriberResponse?> ConfirmBrandSubscriberAsync(
+        ConfirmBrandSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/{request.Msisdn}/verification";
         return await SendRequestAsync<ConfirmBrandSubscriberRequest, ConfirmBrandSubscriberResponse?>(HttpMethod.Post,
@@ -285,13 +286,24 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
     }
 
-    public async Task<ScheduleTemplateMessageResponse?> ScheduleTemplateMessageAsync(ScheduleTemplateMessageRequest request)
+    /// <summary>
+    /// Schedules a template message to be sent at a future time.
+    /// </summary>
+    /// <param name="request">The request containing the template message details and scheduling information.</param>
+    /// <returns>A response containing the scheduled template message details.</returns>
+    public async Task<ScheduleTemplateMessageResponse?> ScheduleTemplateMessageAsync(
+        ScheduleTemplateMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/schedule-template-messages";
         return await SendRequestAsync<ScheduleTemplateMessageRequest, ScheduleTemplateMessageResponse?>(HttpMethod.Post,
             endpoint, request);
     }
 
+    /// <summary>
+    /// Retrieves deactivation events for an account.
+    /// </summary>
+    /// <param name="request">The request containing filter criteria for deactivation events.</param>
+    /// <returns>A response containing the deactivation events matching the criteria.</returns>
     public async Task<GetDeactivationEventsResponse?> GetDeactivationEventsAsync(GetDeactivationEventsRequest request)
     {
         var endpoint =
@@ -311,23 +323,38 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             endpoint);
     }
 
+    /// <summary>
+    /// Updates an existing SmartURL for a group.
+    /// </summary>
+    /// <param name="request">The request containing the updated SmartURL information.</param>
+    /// <returns>A response indicating the success of the SmartURL update.</returns>
     public async Task<UpdateSmartURLResponse?> UpdateSmartURLAsync(UpdateSmartURLRequest request)
     {
         var endpoint =
-                $"{_baseUrl}/groups/{request.GroupId}/shortUrls/{request.ShortUrl}";
+            $"{_baseUrl}/groups/{request.GroupId}/shortUrls/{request.ShortUrl}";
 
         return await SendRequestAsync<UpdateSmartURLRequest, UpdateSmartURLResponse?>(HttpMethod.Patch,
-            endpoint,request);
+            endpoint, request);
     }
 
+    /// <summary>
+    /// Adds a new keyword to a group.
+    /// </summary>
+    /// <param name="request">The request containing the new keyword information.</param>
+    /// <returns>A response indicating the success of adding the keyword.</returns>
     public async Task<AddKeywordResponse?> AddKeywordAsync(AddKeywordRequest request)
     {
-         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
 
         return await SendRequestAsync<AddKeywordRequest, AddKeywordResponse?>(HttpMethod.Post,
             endpoint, request);
     }
 
+    /// <summary>
+    /// Retrieves keywords for a group.
+    /// </summary>
+    /// <param name="request">The request containing filter criteria for keywords.</param>
+    /// <returns>A response containing the keywords matching the criteria.</returns>
     public async Task<GetKeywordsResponse?> GetKeywordsAsync(GetKeywordsRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
@@ -357,29 +384,50 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         return await SendRequestAsync<GetKeywordsRequest, GetKeywordsResponse?>(HttpMethod.Get, endpoint, request);
     }
 
-
+    /// <summary>
+    /// Retrieves an MMS file for a specific message.
+    /// </summary>
+    /// <param name="request">The request containing the message and file identifiers.</param>
+    /// <returns>A response containing the MMS file data.</returns>
     public async Task<RetrieveMMSResponse?> RetrieveMMSAsync(RetrieveMMSRequest request)
     {
-          var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
 
         return await SendRequestAsync<RetrieveMMSRequest, RetrieveMMSResponse?>(HttpMethod.Get,
             endpoint);
     }
 
+    /// <summary>
+    /// Deletes an MMS file for a specific message.
+    /// </summary>
+    /// <param name="request">The request containing the message and file identifiers.</param>
+    /// <returns>A response indicating the success of deleting the MMS file.</returns>
     public async Task<DeleteMMSResponse?> DeleteMMSAsync(DeleteMMSRequest request)
     {
-         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
 
         return await SendRequestAsync<DeleteMMSRequest, DeleteMMSResponse?>(HttpMethod.Delete,
             endpoint);
     }
 
-    public async Task<GetBrandSubscriberStatusResponse?> GetBrandSubscriberStatusAsync(GetBrandSubscriberStatusRequest request)
+    /// <summary>
+    /// Retrieves the status of a subscriber for a specific brand.
+    /// </summary>
+    /// <param name="request">The request containing the brand and subscriber identifiers.</param>
+    /// <returns>A response containing the subscriber's status for the brand.</returns>
+    public async Task<GetBrandSubscriberStatusResponse?> GetBrandSubscriberStatusAsync(
+        GetBrandSubscriberStatusRequest request)
     {
         var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/status?msisdn={request.Msisdn}";
-        return await SendRequestAsync<GetBrandSubscriberStatusRequest, GetBrandSubscriberStatusResponse?>(HttpMethod.Get, endpoint);
+        return await SendRequestAsync<GetBrandSubscriberStatusRequest, GetBrandSubscriberStatusResponse?>(
+            HttpMethod.Get, endpoint);
     }
 
+    /// <summary>
+    /// Retrieves templates for a group.
+    /// </summary>
+    /// <param name="request">The request containing filter criteria for templates.</param>
+    /// <returns>A response containing the templates matching the criteria.</returns>
     public async Task<GetTemplatesResponse?> GetTemplatesAsync(GetTemplatesRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates";
@@ -408,9 +456,14 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         return await SendRequestAsync<GetTemplatesRequest, GetTemplatesResponse?>(HttpMethod.Get, endpoint);
     }
 
+    /// <summary>
+    /// Retrieves a specific template for a group.
+    /// </summary>
+    /// <param name="request">The request containing the group and template identifiers.</param>
+    /// <returns>A response containing the requested template details.</returns>
     public async Task<GetTemplateResponse?> GetTemplateAsync(GetTemplateRequest request)
     {
-       var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
         return await SendRequestAsync<GetTemplateRequest, GetTemplateResponse?>(HttpMethod.Get, endpoint);
     }
 }
