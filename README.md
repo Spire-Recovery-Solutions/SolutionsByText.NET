@@ -1,7 +1,7 @@
 # Solutions By Text .NET SDK
 
 <p align="center">
-  <img src="https://solutionsbytext.com/wp-content/uploads/sbt-logo-1.svg" alt="Solutions By Text Logo" width="200"/>
+    <a href="https://solutionsbytext.com/"><img src="https://solutionsbytext.com/wp-content/uploads/sbt-logo-1.svg" alt="Solutions By Text Logo" width="200"/></a>
 </p>
 
 <p align="center">
