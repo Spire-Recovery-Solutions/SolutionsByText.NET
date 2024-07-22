@@ -1,13 +1,11 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
-using System.Text.RegularExpressions;
-using Polly;
+﻿using Polly;
 using Polly.Retry;
 using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
 using SolutionsByText.NET.Models.Responses;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 namespace SolutionsByText.NET;
 
@@ -80,10 +78,12 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <returns>A response containing the status of the requested subscribers.</returns>
     public async Task<GetSubscriberStatusResponse?> GetSubscriberStatusAsync(GetSubscriberStatusRequest request)
     {
-        var endpoint =
-            $"{_baseUrl}/groups/{request.GroupId}/subscribers/status?msisdn={string.Join(",", request.Msisdn)}";
-        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse?>(HttpMethod.Get,
-            endpoint);
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "msisdn", string.Join(",", request.Msisdn) }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status", queryParams);
+        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse?>(HttpMethod.Get, endpoint);
     }
 
     /// <summary>
@@ -306,22 +306,18 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <returns>A response containing the deactivation events matching the criteria.</returns>
     public async Task<GetDeactivationEventsResponse?> GetDeactivationEventsAsync(GetDeactivationEventsRequest request)
     {
-        var endpoint =
-            $"{_baseUrl}/accounts/deactevents?EventDate={request.EventDate}&EventType={request.EventType}&CountryCode={request.CountryCode}";
-
-        if (request.PageNumber.HasValue)
+        var queryParams = new Dictionary<string, string?>
         {
-            endpoint += $"&pageNumber={request.PageNumber}";
-        }
-
-        if (request.PageSize.HasValue)
-        {
-            endpoint += $"&pageSize={request.PageSize}";
-        }
-
-        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get,
-            endpoint);
+            { "EventDate", request.EventDate.ToString() },
+            { "EventType", request.EventType },
+            { "CountryCode", request.CountryCode },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/accounts/deactevents", queryParams);
+        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get, endpoint);
     }
+
 
     /// <summary>
     /// Updates an existing SmartURL for a group.
@@ -357,30 +353,13 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <returns>A response containing the keywords matching the criteria.</returns>
     public async Task<GetKeywordsResponse?> GetKeywordsAsync(GetKeywordsRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
-
-        var queryParameters = new List<string>();
-
-        if (!string.IsNullOrEmpty(request.Filter))
+        var queryParams = new Dictionary<string, string?>
         {
-            queryParameters.Add($"filter={request.Filter}");
-        }
-
-        if (request.PageNumber.HasValue)
-        {
-            queryParameters.Add($"pageNumber={request.PageNumber}");
-        }
-
-        if (request.PageSize.HasValue)
-        {
-            queryParameters.Add($"pageSize={request.PageSize}");
-        }
-
-        if (queryParameters.Any())
-        {
-            endpoint += "?" + string.Join("&", queryParameters);
-        }
-
+            { "filter", request.Filter },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/keywords", queryParams);
         return await SendRequestAsync<GetKeywordsRequest, GetKeywordsResponse?>(HttpMethod.Get, endpoint, request);
     }
 
@@ -430,29 +409,13 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <returns>A response containing the templates matching the criteria.</returns>
     public async Task<GetTemplatesResponse?> GetTemplatesAsync(GetTemplatesRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates";
-        var queryParams = new List<string>();
-
-        if (!string.IsNullOrEmpty(request.Search))
+        var queryParams = new Dictionary<string, string?>
         {
-            queryParams.Add($"search={Uri.EscapeDataString(request.Search)}");
-        }
-
-        if (request.PageNumber.HasValue)
-        {
-            queryParams.Add($"pageNumber={request.PageNumber}");
-        }
-
-        if (request.PageSize.HasValue)
-        {
-            queryParams.Add($"pageSize={request.PageSize}");
-        }
-
-        if (queryParams.Count > 0)
-        {
-            endpoint += "?" + string.Join("&", queryParams);
-        }
-
+            { "search", request.Search },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/templates", queryParams);
         return await SendRequestAsync<GetTemplatesRequest, GetTemplatesResponse?>(HttpMethod.Get, endpoint);
     }
 
