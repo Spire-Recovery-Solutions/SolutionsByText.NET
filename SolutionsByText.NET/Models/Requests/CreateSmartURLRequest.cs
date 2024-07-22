@@ -19,5 +19,17 @@ namespace SolutionsByText.NET.Models.Requests
         /// </summary>
         [JsonPropertyName("longUrl")]
         public string LongUrl { get; set; }
+
+         /// <summary>
+        /// Gets or sets the URL suffix for the message.
+        /// </summary>
+        [JsonPropertyName("UrlSuffix")]
+        public string UrlSuffix { get; set; }
+
+        /// <summary>
+        /// Gets or sets the domain for the message.
+        /// </summary>
+        [JsonPropertyName("domain")]
+        public string Domain { get; set; }
     }
 }

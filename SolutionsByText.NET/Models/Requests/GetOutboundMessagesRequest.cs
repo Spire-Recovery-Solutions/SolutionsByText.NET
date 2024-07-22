@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using SolutionsByText.NET.Models.Requests.Enums;
+using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Requests
 {
     /// <summary>
     /// Represents a request to get details of outbound messages for a specific group.
     /// </summary>
-    public class GetOutboundMessagesRequest
+    public class GetOutboundMessagesRequest : PaginationData
     {
         /// <summary>
         /// Gets or sets the unique identifier of the group.
@@ -14,15 +15,40 @@ namespace SolutionsByText.NET.Models.Requests
         public string GroupId { get; set; }
 
         /// <summary>
-        /// Gets or sets the start date for the report.
+        /// Gets or sets the message identifier for tracking the message.
         /// </summary>
-        [JsonPropertyName("fromDate")]
-        public DateTime FromDate { get; set; }
+        [JsonPropertyName("messageId")]
+        public string? MessageId { get; set; }
 
         /// <summary>
-        /// Gets or sets the end date for the report.
+        /// Gets or sets the reference identifier for tracking.
+        /// </summary>
+        [JsonPropertyName("referenceId")]
+        public string? ReferenceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start date for the report in mm/dd/yyyy hh:mm:ss format.
+        /// </summary>
+        [JsonPropertyName("fromDate")]
+        public DateTime? FromDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end date for the report in mm/dd/yyyy hh:mm:ss format.
         /// </summary>
         [JsonPropertyName("toDate")]
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timezone offset.
+        /// </summary>
+        [JsonPropertyName("timeZoneOffset")]
+        public string? TimeZoneOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of message.
+        /// </summary>
+        [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public OutboundMessageType? Type { get; set; }
     }
 }

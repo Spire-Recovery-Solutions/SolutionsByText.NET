@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses
 {
-    public class GetKeywordsResponse : ApiResponse<KeywordPaginatedData>
+    public class PaginatedEventData : PaginationData
     {
+         [JsonPropertyName("data")]
+        public List<EventData> Data { get; set; }
     }
 }

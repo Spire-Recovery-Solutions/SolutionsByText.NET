@@ -5,7 +5,7 @@ namespace SolutionsByText.NET.Models.Requests
     /// <summary>
     /// Represents the request structure for an inbound message containing the message payload.
     /// </summary>
-    public class InboundMessageRequest
+    public class InboundMessageRequest : WebhookPayload
     {
         /// <summary>
         /// Gets or sets the payload containing the details of the inbound message.

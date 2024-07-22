@@ -6,12 +6,7 @@ namespace SolutionsByText.NET.Models.Responses
     /// <summary>
     /// Represents the response received after creating a SmartURL.
     /// </summary>
-    public class CreateSmartURLResponse
+    public class CreateSmartURLResponse : ApiResponse<string>
     {
-        /// <summary>
-        /// Gets or sets the shortened URL.
-        /// </summary>
-        [JsonPropertyName("shortUrl")]
-        public string ShortUrl { get; set; }
     }
 }
