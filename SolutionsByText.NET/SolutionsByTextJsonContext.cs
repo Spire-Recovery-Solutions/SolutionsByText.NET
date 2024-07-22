@@ -92,7 +92,6 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(ErrorCode))]
 [JsonSerializable(typeof(StatusCode))]
 
-[JsonSerializable(typeof(ApiResponse<SendMessageResponse>))]
 [JsonSerializable(typeof(ApiResponse<List<ConsentItem>>))]
 [JsonSerializable(typeof(ApiResponse<AddKeywordResponse>))]
 [JsonSerializable(typeof(ApiResponse<GetDeactivationEventsResponse>))]
