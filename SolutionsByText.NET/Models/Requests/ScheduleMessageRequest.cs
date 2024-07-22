@@ -10,10 +10,16 @@ namespace SolutionsByText.NET.Models.Requests
     public class ScheduleMessageRequest
     {
         /// <summary>
+        /// Gets or sets the unique identifier of the group to send the message to.
+        /// </summary>
+        [JsonPropertyName("groupId")]
+        public string GroupId { get; set; }
+
+        /// <summary>
         /// The sender of the message.
         /// </summary>
         [JsonPropertyName("from")]
-        public string From { get; set; }
+        public string? From { get; set; }
 
         /// <summary>
         /// The content of the message.
@@ -25,32 +31,30 @@ namespace SolutionsByText.NET.Models.Requests
         /// The date and time when the message is scheduled to be sent.
         /// </summary>
         [JsonPropertyName("ScheduleDateTime")]
-        public DateTime ScheduleDateTime { get; set; }
+        public DateTime? ScheduleDateTime { get; set; }
 
         /// <summary>
         /// The list of subscribers to whom the message will be sent.
         /// </summary>
         [JsonPropertyName("subscribers")]
-        public List<Subscriber> Subscribers { get; set; }
+        public List<Subscriber>? Subscribers { get; set; }
 
         /// <summary>
         /// The list of variables to be used in the message.
         /// </summary>
         [JsonPropertyName("variables")]
-        public List<Variable> Variables { get; set; }
+        public List<Variable>? Variables { get; set; }
 
         /// <summary>
         /// The reference ID associated with the message.
         /// </summary>
         [JsonPropertyName("referenceId")]
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
 
         /// <summary>
         /// The media content (if any) to be included in the message.
         /// </summary>
         [JsonPropertyName("media")]
-        public string Media { get; set; }
-
-        public string GroupId { get; set; }
+        public string? Media { get; set; }
     }
 }
