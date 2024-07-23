@@ -1,30 +1,46 @@
-﻿using SolutionsByText.NET;
-using SolutionsByText.NET.Models.Exceptions;
-using SolutionsByText.NET.Models.Requests;
+﻿using SolutionsByText.NET.Models.Exceptions;
+using SolutionsByText.NET.Service;
 
-var client = new SolutionsByTextClient("https://api.solutionsbytext.com", "your-api-key");
-
-var request = new SendMessageRequest
+class Program
 {
-    GroupId = "your-group-id",
-    Message = "Hello, World!",
-    MessageType = MessageType.Unicast,
-    Subscribers = new List<Subscriber>
+    static async Task Main(string[] args)
     {
-        new Subscriber { Msisdn = "1234567890" }
-    }
-};
+        var service = new SolutionsByTextService("https://api.solutionsbytext.com", "your-api-key");
 
-try
-{
-    var response = await client.SendMessageAsync(request);
-    Console.WriteLine($"Message sent successfully. Message ID: {response.MessageId}");
-}
-catch (ApiException ex)
-{
-    Console.WriteLine($"API error {ex.StatusCode}: {ex.Message}");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
+        try
+        {
+            await service.SendMessageAsync();
+            await service.SendTemplateMessageAsync();
+            await service.ScheduleMessageAsync();
+            await service.GetSubscriberStatusAsync();
+            await service.AddSubscriberAsync();
+            await service.ConfirmSubscriberAsync();
+            await service.DeleteSubscriberAsync();
+            await service.GetGroupInfoAsync();
+            await service.GetOutboundMessagesAsync();
+            await service.GetInboundMessagesAsync();
+            await service.GetDeactivationEventsAsync();
+            await service.CreateSmartURLAsync();
+            await service.GetPhoneNumberDataAsync();
+            await service.AddBrandSubscriberAsync();
+            await service.ConfirmBrandSubscriberAsync();
+            await service.ScheduleTemplateMessageAsync();
+            await service.UpdateSmartURLAsync();
+            await service.AddKeywordAsync();
+            await service.GetKeywordsAsync();
+            await service.RetrieveMMSKeywordAsync();
+            await service.DeleteMMSKeywordAsync();
+            await service.GetBrandSubscriberStatusAsync();
+            await service.GetTemplatesAsync();
+            await service.GetTemplateByIdAsync();
+        }
+        catch (ApiException ex)
+        {
+            Console.WriteLine($"API error {ex.AppCode}: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
 }
