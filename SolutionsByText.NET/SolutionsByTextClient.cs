@@ -203,90 +203,6 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <summary>
-    /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
-    /// </summary>
-    /// <typeparam name="TRequest">The type of the request body.</typeparam>
-    /// <typeparam name="TResponse">The type of the response data.</typeparam>
-    /// <param name="method">The HTTP method to use for the request.</param>
-    /// <param name="endpoint">The API endpoint to send the request to.</param>
-    /// <param name="request">The request body (optional).</param>
-    /// <returns>The deserialized response data.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
-    /// <exception cref="NotSupportedException">Thrown when an unsupported HTTP method is used.</exception>
-    /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
-    private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
-        TRequest request = default)
-    {
-        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
-        var responseInfo =
-            SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>)) as
-                JsonTypeInfo<ApiResponse<TResponse?>>;
-
-        if (requestInfo == null || responseInfo == null)
-        {
-            throw new InvalidOperationException(
-                $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse?>)} is not registered in SolutionsByTextJsonContext.");
-        }
-
-        var content = request != null
-            ? new StringContent(JsonSerializer.Serialize(request, requestInfo), System.Text.Encoding.UTF8,
-                "application/json")
-            : null;
-
-        try
-        {
-            var response = await _retryPolicy.ExecuteAsync(async () =>
-            {
-                var httpResponse = method switch
-                {
-                    var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
-                    var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
-                    var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
-                    var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
-                    _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
-                };
-
-                return httpResponse;
-            });
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode)
-            {
-                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
-                if (apiResponse == null || apiResponse.Data == null)
-                {
-                    throw new ApiException("Failed to deserialize the response.");
-                }
-
-                return apiResponse.Data;
-            }
-            else
-            {
-                var errorResponse = JsonSerializer.Deserialize(responseContent,
-                    SolutionsByTextJsonContext.Default.ErrorResponse);
-
-                if (errorResponse != null)
-                {
-                    throw new ApiException(errorResponse.AppCode, errorResponse.Message);
-                }
-                else
-                {
-                    throw new ApiException(response.StatusCode.ToString(), responseContent);
-                }
-            }
-        }
-        catch (ApiException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw new ApiException("An unexpected error occurred", ex.Message);
-        }
-    }
-
-    /// <summary>
     /// Schedules a template message to be sent at a future time.
     /// </summary>
     /// <param name="request">The request containing the template message details and scheduling information.</param>
@@ -428,5 +344,89 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
         return await SendRequestAsync<GetTemplateRequest, GetTemplateResponse?>(HttpMethod.Get, endpoint);
+    }
+
+    /// <summary>
+    /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
+    /// </summary>
+    /// <typeparam name="TRequest">The type of the request body.</typeparam>
+    /// <typeparam name="TResponse">The type of the response data.</typeparam>
+    /// <param name="method">The HTTP method to use for the request.</param>
+    /// <param name="endpoint">The API endpoint to send the request to.</param>
+    /// <param name="request">The request body (optional).</param>
+    /// <returns>The deserialized response data.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
+    /// <exception cref="NotSupportedException">Thrown when an unsupported HTTP method is used.</exception>
+    /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
+    private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
+        TRequest request = default)
+    {
+        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
+        var responseInfo =
+            SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>)) as
+                JsonTypeInfo<ApiResponse<TResponse?>>;
+
+        if (requestInfo == null || responseInfo == null)
+        {
+            throw new InvalidOperationException(
+                $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse?>)} is not registered in SolutionsByTextJsonContext.");
+        }
+
+        var content = request != null
+            ? new StringContent(JsonSerializer.Serialize(request, requestInfo), System.Text.Encoding.UTF8,
+                "application/json")
+            : null;
+
+        try
+        {
+            var response = await _retryPolicy.ExecuteAsync(async () =>
+            {
+                var httpResponse = method switch
+                {
+                    var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
+                    var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
+                    var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
+                    var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
+                    _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
+                };
+
+                return httpResponse;
+            });
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
+                if (apiResponse == null || apiResponse.Data == null)
+                {
+                    throw new ApiException("Failed to deserialize the response.");
+                }
+
+                return apiResponse.Data;
+            }
+            else
+            {
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
+
+                if (errorResponse != null)
+                {
+                    throw new ApiException(errorResponse.AppCode, errorResponse.Message);
+                }
+                else
+                {
+                    throw new ApiException(response.StatusCode.ToString(), responseContent);
+                }
+            }
+        }
+        catch (ApiException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new ApiException("An unexpected error occurred", ex.Message);
+        }
     }
 }
