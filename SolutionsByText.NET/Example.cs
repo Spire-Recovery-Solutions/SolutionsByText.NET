@@ -33,6 +33,12 @@ class Program
             await service.GetBrandSubscriberStatusAsync();
             await service.GetTemplatesAsync();
             await service.GetTemplateByIdAsync();
+            await service.UpdateSubscribersBrandAsync();
+            await service.GetNumberDeactivateEventsAsync();
+            await service.GetAllSmartUrl();
+            await service.GetSmartUrlClickReportAsync();
+            await service.GetSmartUrlDetailClickReportAsync();
+
         }
         catch (ApiException ex)
         {

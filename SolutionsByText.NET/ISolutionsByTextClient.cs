@@ -41,6 +41,15 @@ public interface ISolutionsByTextClient
 
     #endregion
 
+    #region Groups&Brands
+    /// <summary>
+    /// Asynchronously updates the brand information for subscribers based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for updating the subscribers' brand information.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the updated subscribers' brand information or null.</returns>
+    Task<UpdateSubscribersBrandResponse?> UpdateSubscribersBrand(UpdateSubscribersBrandRequest request);
+    #endregion
+
     #region Messaging
 
     /// <summary>
@@ -106,6 +115,34 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the account ID and optional filters.</param>
     /// <returns>A response containing a list of deactivation events.</returns>
     Task<GetDeactivationEventsResponse?> GetDeactivationEventsAsync(GetDeactivationEventsRequest request);
+
+    /// <summary>
+    /// Retrieves deactivation events for an Single Number.
+    /// </summary>
+    /// <param name="request">The request containing the account ID and optional filters.</param>
+    /// <returns>A response containing a list of deactivation events.</returns>
+    Task<GetNumberDeactivateEventsResponse?> GetNumberDeactivationEventsAsync(GetNumberDeactivateEventsRequest request);
+    
+    /// <summary>
+    /// Asynchronously retrieves all Smart URLs based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching Smart URLs.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with all Smart URLs or null.</returns>
+    Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAync(GetAllSmartUrlRequest request);
+
+    /// <summary>
+    /// Asynchronously retrieves the click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the Smart URL click report or null.</returns>
+    Task<GetSmartUrlClickReportResponse?> GetSmartUrlClickReportAync(GetSmartUrlReportRequest request);
+
+    /// <summary>
+    /// Asynchronously retrieves the detailed click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the detailed Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the detailed Smart URL click report or null.</returns>
+    Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAync(GetSmartUrlReportRequest request);
 
     #endregion
 

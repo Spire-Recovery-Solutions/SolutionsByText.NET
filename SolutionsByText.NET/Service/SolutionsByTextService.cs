@@ -135,7 +135,50 @@ namespace SolutionsByText.NET.Service
                 EventType = "Opt-Out",
                 CountryCode = "USA"
             });
-            Console.WriteLine($"Deactivation events retrieved. Number of events: {response}");
+            Console.WriteLine($"Deactivation events retrieved. response: {response}");
+        }
+
+         // Retrieves deactivation events for a specific phone number
+        public async Task GetNumberDeactivateEventsAsync()
+        {
+            var response = await _client.GetNumberDeactivationEventsAsync(new GetNumberDeactivateEventsRequest
+            {
+                 GroupId = "your-group-id",
+                 Msisdn = "1234567890",
+                 CountryCode = "USA"
+            });
+            Console.WriteLine($"Deactivation events retrieved for a number. response: {response}");
+        }
+
+          // Retrieves deactivation events for a specific phone number
+        public async Task GetAllSmartUrl()
+        {
+            var response = await _client.GetAllSmartUrlsAync(new GetAllSmartUrlRequest
+            {
+                 GroupId = "your-group-id"
+            });
+            Console.WriteLine($"Get All The Smart Urls. response: {response}");
+        }
+
+       
+        // Retrieves Smart Url Click Report events for a specific brand
+        public async Task GetSmartUrlClickReportAsync()
+        {
+            var response = await _client.GetSmartUrlClickReportAync(new GetSmartUrlReportRequest
+            {
+                 BrandId = "your-brand-id",
+            });
+            Console.WriteLine($"Get Smart Urls Click Report. response: {response}");
+        }
+
+           // Retrieves Smart Url Detail Click Report events for a specific brand
+        public async Task GetSmartUrlDetailClickReportAsync()
+        {
+            var response = await _client.GetSmartUrlDetailedClickReportAync(new GetSmartUrlReportRequest
+            {
+                 BrandId = "your-brand-id",
+            });
+            Console.WriteLine($"Get Smart Urls Detail Click Report. response: {response}");
         }
 
         // Creates a Smart URL for a group
@@ -170,15 +213,28 @@ namespace SolutionsByText.NET.Service
             Console.WriteLine($"Added Brand Subscriber. Response: {response}");
         }
 
-        // Confirms a brand subscriber's registration
+        // Confirms a brand subscriber's with pin registration
         public async Task ConfirmBrandSubscriberAsync()
         {
             var response = await _client.ConfirmBrandSubscriberAsync(new ConfirmBrandSubscriberRequest
             {
                 BrandId = "your-brand-id",
-                Msisdn = "1234567890"
+                Msisdn = "1234567890",
+                Pin = "your-pin"
             });
             Console.WriteLine($"Confirmed Brand Subscriber. Response: {response}");
+        }
+
+        // Updates an existing Smart URL
+        public async Task UpdateSmartURLAsync()
+        {
+            var response = await _client.UpdateSmartURLAsync(new UpdateSmartURLRequest
+            {
+                GroupId = "your-group-id",
+                ShortUrl = "short-url-id",
+                LongUrl = "long-url-id"
+            });
+            Console.WriteLine($"SmartURL updated. Response: {response?.Message}");
         }
 
         // Schedules a template message to be sent later
@@ -192,16 +248,15 @@ namespace SolutionsByText.NET.Service
             Console.WriteLine($"Scheduled Template Message. Response: {response}");
         }
 
-        // Updates an existing Smart URL
-        public async Task UpdateSmartURLAsync()
+        // Updates an existing Subscriber Brand
+        public async Task UpdateSubscribersBrandAsync()
         {
-            var response = await _client.UpdateSmartURLAsync(new UpdateSmartURLRequest
+            var response = await _client.UpdateSubscribersBrand(new UpdateSubscribersBrandRequest
             {
                 GroupId = "your-group-id",
-                ShortUrl = "short-url-id",
-                LongUrl = "long-url-id"
+                Msisdn = "msi-id"
             });
-            Console.WriteLine($"SmartURL updated. Response: {response?.Message}");
+            Console.WriteLine($"Subscriber Brand updated. Response: {response}");
         }
 
         // Adds a keyword to a specified group

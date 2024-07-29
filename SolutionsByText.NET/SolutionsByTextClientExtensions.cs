@@ -27,7 +27,7 @@ namespace SolutionsByText.NET
 
         /// <summary>
         /// Constructs a complete endpoint URL with the specified query parameters.
-        /// </summary>
+        /// </summaryGetSubscriberStatusAsync
         /// <param name="client">The ISolutionsByTextClient instance used to construct the URL.</param>
         /// <param name="baseUrl">The base URL of the API.</param>
         /// <param name="path">The specific path to append to the base URL.</param>

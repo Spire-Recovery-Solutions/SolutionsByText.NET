@@ -82,8 +82,11 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         {
             { "msisdn", string.Join(",", request.Msisdn) }
         };
-        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status", queryParams);
-        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse?>(HttpMethod.Get, endpoint);
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status",
+                queryParams);
+        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse?>(HttpMethod.Get,
+            endpoint);
     }
 
     /// <summary>
@@ -173,7 +176,11 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <returns>A response containing carrier information for each phone number.</returns>
     public async Task<GetPhoneNumberDataResponse?> GetPhoneNumberDataAsync(GetPhoneNumberDataRequest request)
     {
-        var endpoint = $"{_baseUrl}/phonenumbers-data?msisdn={string.Join(",", request.Msisdn)}";
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "msisdn", string.Join(",", request.Msisdn) }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/phonenumbers-data", queryParams);
         return await SendRequestAsync<GetPhoneNumberDataRequest, GetPhoneNumberDataResponse?>(HttpMethod.Get, endpoint);
     }
 
@@ -231,7 +238,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageSize", request.PageSize?.ToString() }
         };
         var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/accounts/deactevents", queryParams);
-        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get, endpoint);
+        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get,
+            endpoint);
     }
 
 
@@ -275,7 +283,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
         };
-        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/keywords", queryParams);
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/keywords", queryParams);
         return await SendRequestAsync<GetKeywordsRequest, GetKeywordsResponse?>(HttpMethod.Get, endpoint, request);
     }
 
@@ -313,8 +322,43 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     public async Task<GetBrandSubscriberStatusResponse?> GetBrandSubscriberStatusAsync(
         GetBrandSubscriberStatusRequest request)
     {
-        var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/status?msisdn={request.Msisdn}";
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "msisdn", request.Msisdn }
+        };
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/subscribers/status",
+                queryParams);
         return await SendRequestAsync<GetBrandSubscriberStatusRequest, GetBrandSubscriberStatusResponse?>(
+            HttpMethod.Get, endpoint);
+    }
+
+
+
+    public async Task<UpdateSubscribersBrandResponse?> UpdateSubscribersBrand(UpdateSubscribersBrandRequest request)
+    {
+        var endpoint =
+            $"{_baseUrl}/groups/{request.GroupId}/subscribers";
+
+        return await SendRequestAsync<UpdateSubscribersBrandRequest?, UpdateSubscribersBrandResponse?>(HttpMethod.Patch,
+            endpoint, request);
+    }
+
+    public async Task<GetNumberDeactivateEventsResponse?> GetNumberDeactivationEventsAsync(
+        GetNumberDeactivateEventsRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "CountryCode", request.CountryCode },
+            { "fromDate", request.FromDate?.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl,
+            $"/groups/{request.GroupId}/phonenumbers/{request.Msisdn}/events", queryParams);
+
+        return await SendRequestAsync<GetNumberDeactivateEventsRequest, GetNumberDeactivateEventsResponse?>(
             HttpMethod.Get, endpoint);
     }
 
@@ -331,7 +375,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
         };
-        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/templates", queryParams);
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/templates", queryParams);
         return await SendRequestAsync<GetTemplatesRequest, GetTemplatesResponse?>(HttpMethod.Get, endpoint);
     }
 
@@ -344,6 +389,81 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
         return await SendRequestAsync<GetTemplateRequest, GetTemplateResponse?>(HttpMethod.Get, endpoint);
+    }
+
+
+    /// <summary>
+    /// Asynchronously retrieves all Smart URLs based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching Smart URLs.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with all Smart URLs or null.</returns>
+    public async Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAync(GetAllSmartUrlRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "fromDate", request.FromDate.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "search", request.Search?.ToString() },
+            { "shortUrl", request.ShortUrl },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"{_baseUrl}/groups/{request.GroupId}/shorturls",
+                queryParams);
+
+        return await SendRequestAsync<GetAllSmartUrlRequest, GetAllSmartUrlResponse?>(HttpMethod.Get, endpoint);
+    }
+
+    /// <summary>
+    /// Asynchronously retrieves the click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the Smart URL click report or null.</returns>
+    public async Task<GetSmartUrlClickReportResponse?> GetSmartUrlClickReportAync(GetSmartUrlReportRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "fromDate", request.FromDate.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "isCustomSuffix", request.IsCustomSuffix?.ToString() },
+            { "timeZoneOffset", request.TimeZoneOffset?.ToString() },
+            { "shortUrl", request.ShortUrl },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"{_baseUrl}/brands/{request.BrandId}/shorturl-clicks",
+                queryParams);
+
+        return await SendRequestAsync<GetSmartUrlReportRequest, GetSmartUrlClickReportResponse?>(HttpMethod.Get,
+            endpoint);
+    }
+
+    /// <summary>
+    /// Asynchronously retrieves the detailed click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the detailed Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the detailed Smart URL click report or null.</returns>
+    public async Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAync(
+        GetSmartUrlReportRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "fromDate", request.FromDate.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "isCustomSuffix", request.IsCustomSuffix?.ToString() },
+            { "timeZoneOffset", request.TimeZoneOffset?.ToString() },
+            { "shortUrl", request.ShortUrl },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"{_baseUrl}/brands/{request.BrandId}/shorturl-clicks",
+                queryParams);
+
+        return await SendRequestAsync<GetSmartUrlReportRequest?, GetSmartUrlDetailClickReportResponse?>(HttpMethod.Get,
+            endpoint);
     }
 
     /// <summary>
