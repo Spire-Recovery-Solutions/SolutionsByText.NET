@@ -3,6 +3,8 @@ using Polly.Retry;
 using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
 using SolutionsByText.NET.Models.Responses;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
@@ -13,30 +15,42 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 {
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
-    private readonly string _apiKey;
+    private readonly string _clientId;
+    private readonly string _clientSecret;
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
+    private string _accessToken;
+    private int _tokenExpiresIn;
+    private readonly Stopwatch _tokenStopwatch;
+   private readonly int _tokenRefreshMargin;
 
-    public SolutionsByTextClient(string baseUrl, string apiKey)
+    public SolutionsByTextClient(string baseUrl, string clientId, string clientSecret)
     {
         _baseUrl = baseUrl;
-        _apiKey = apiKey;
+        _clientId = clientId;
+        _clientSecret = clientSecret;
         _httpClient = new HttpClient();
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+        _tokenStopwatch = new Stopwatch();
+        _tokenRefreshMargin = 300;
         // Define the retry policy
         _retryPolicy = Policy
             .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+            .OrResult(r => r.StatusCode == HttpStatusCode.Unauthorized)
             .WaitAndRetryAsync(
                 3,
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                onRetry: (outcome, timespan, retryAttempt, context) =>
+                onRetry: async (outcome, timespan, retryAttempt, context) =>
                 {
                     Console.WriteLine(
                         $"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
+                    if (outcome.Result?.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        await RefreshTokenAsync();
+                    }
                 }
             );
     }
 
-   /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<SendMessageResponse?> SendMessageAsync(SendMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/messages";
@@ -77,7 +91,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     public async Task<AddSubscriberResponse?> AddGroupSubscriberAsync(AddGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers";
-        return await SendRequestAsync<AddGroupSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint, request);
+        return await SendRequestAsync<AddGroupSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint,
+            request);
     }
 
     /// <inheritdoc />
@@ -88,7 +103,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             request);
     }
 
-   /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<DeleteSubscriberResponse?> DeleteSubscriberAsync(DeleteSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}";
@@ -102,7 +117,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         return await SendRequestAsync<GetGroupRequest, GetGroupResponse?>(HttpMethod.Get, endpoint);
     }
 
-   /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<GetOutboundMessagesResponse?> GetOutboundMessagesAsync(GetOutboundMessagesRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/outbound-messages";
@@ -220,7 +235,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             endpoint);
     }
 
-   /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<DeleteMMSResponse?> DeleteMMSAsync(DeleteMMSRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
@@ -295,14 +310,14 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
 
-   /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAync(GetAllSmartUrlRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
             { "fromDate", request.FromDate.ToString() },
             { "toDate", request.ToDate?.ToString() },
-            { "search", request.Search},
+            { "search", request.Search },
             { "shortUrl", request.ShortUrl },
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
@@ -344,7 +359,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "fromDate", request.FromDate.ToString() },
             { "toDate", request.ToDate?.ToString() },
             { "isCustomSuffix", request.IsCustomSuffix?.ToString() },
-            { "timeZoneOffset", request.TimeZoneOffset},
+            { "timeZoneOffset", request.TimeZoneOffset },
             { "shortUrl", request.ShortUrl },
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
@@ -357,13 +372,13 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             endpoint);
     }
 
-     /// <inheritdoc />
+    /// <inheritdoc />
     public async Task<GetBrandVbtMessageResponse?> GetBrandVbtOutboundMessageAsync(
         GetBrandVbtOutboundMessageRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "brandId", request.BrandId},
+            { "brandId", request.BrandId },
             { "messageId", request.MessageId },
             { "referenceId", request.ReferenceId },
             { "fromDate", request.FromDate?.ToString() },
@@ -387,12 +402,12 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "brandId", request.BrandId},
+            { "brandId", request.BrandId },
             { "referenceId", request.ReferenceId },
             { "fromDate", request.FromDate?.ToString() },
             { "toDate", request.ToDate?.ToString() },
             { "type", request.Type?.ToString() },
-            { "timeZoneOffset", request.TimeZoneOffset},
+            { "timeZoneOffset", request.TimeZoneOffset },
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
         };
@@ -419,10 +434,12 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
         TRequest request = default)
     {
+        await EnsureValidTokenAsync();
+
         var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
-        var responseInfo =
-            SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>)) as
-                JsonTypeInfo<ApiResponse<TResponse?>>;
+
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>))
+            as JsonTypeInfo<ApiResponse<TResponse?>>;
 
         if (requestInfo == null || responseInfo == null)
         {
@@ -463,6 +480,11 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 
                 return apiResponse.Data;
             }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                await RefreshTokenAsync();
+                return await SendRequestAsync<TRequest, TResponse>(method, endpoint, request);
+            }
             else
             {
                 var errorResponse = JsonSerializer.Deserialize(responseContent,
@@ -485,6 +507,74 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         catch (Exception ex)
         {
             throw new ApiException("An unexpected error occurred", ex.Message);
+        }
+    }
+
+    private async Task ObtainBearerTokenAsync()
+    {
+        var tokenEndpoint = "https://login-stage.solutionsbytext.com/connect/token";
+        var content = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("client_id", _clientId),
+            new KeyValuePair<string, string>("client_secret", _clientSecret),
+            new KeyValuePair<string, string>("grant_type", "client_credentials")
+        });
+
+        var response = await _httpClient.PostAsync(tokenEndpoint, content);
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(jsonResponse);
+
+            if (tokenResponse != null)
+            {
+                _accessToken = tokenResponse.AccessToken;
+                _tokenExpiresIn = tokenResponse.ExpiresIn;
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(tokenResponse.TokenType, _accessToken);
+                _tokenStopwatch.Restart();
+            }
+            else
+            {
+                throw new ApiException("Failed to deserialize the token response.");
+            }
+        }
+        else
+        {
+            throw new ApiException("Failed to obtain access token", response.StatusCode.ToString());
+        }
+    }
+
+    private async Task EnsureValidTokenAsync()
+    {
+        await _retryPolicy.ExecuteAsync(async () =>
+        {
+            if (IsTokenExpiredOrMissing())
+            {
+                await RefreshTokenAsync();
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        });
+    }
+
+    private bool IsTokenExpiredOrMissing()
+    {
+        return string.IsNullOrEmpty(_accessToken) ||
+               _tokenStopwatch.Elapsed.TotalSeconds > (_tokenExpiresIn - _tokenRefreshMargin);
+    }
+
+    private async Task RefreshTokenAsync()
+    {
+        try
+        {
+            await ObtainBearerTokenAsync();
+            Console.WriteLine("Token refreshed successfully.");
+        }
+        catch (ApiException ex)
+        {
+            Console.WriteLine($"Failed to refresh token: {ex.Message}");
+            throw;
         }
     }
 }
