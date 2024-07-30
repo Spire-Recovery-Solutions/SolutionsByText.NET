@@ -25,7 +25,7 @@ namespace SolutionsByText.NET.Service
                     new Subscriber { Msisdn = "1234567890" }
                 }
             });
-            Console.WriteLine($"Message sent. Message ID: {response?.MessageId}");
+            Console.WriteLine($"Message sent. Message ID: {response?.Data.MessageId}");
         }
 
         // Sends a template message to a group
@@ -63,9 +63,9 @@ namespace SolutionsByText.NET.Service
         }
 
         // Adds a new subscriber to a group
-        public async Task AddSubscriberAsync()
+        public async Task AddGroupSubscriberAsync()
         {
-            var response = await _client.AddSubscriberAsync(new AddSubscriberRequest
+            var response = await _client.AddGroupSubscriberAsync(new AddGroupSubscriberRequest
             {
                 GroupId = "your-group-id",
                 Msisdn = "1234567890"

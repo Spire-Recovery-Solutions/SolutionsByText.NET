@@ -74,10 +74,10 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<AddSubscriberResponse?> AddSubscriberAsync(AddSubscriberRequest request)
+    public async Task<AddSubscriberResponse?> AddGroupSubscriberAsync(AddGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers";
-        return await SendRequestAsync<AddSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint, request);
+        return await SendRequestAsync<AddGroupSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint, request);
     }
 
     /// <inheritdoc />
@@ -137,10 +137,10 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<AddBrandSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request)
+    public async Task<AddSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers";
-        return await SendRequestAsync<AddBrandSubscriberRequest, AddBrandSubscriberResponse?>(HttpMethod.Post, endpoint,
+        return await SendRequestAsync<AddBrandSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint,
             request);
     }
 

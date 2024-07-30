@@ -23,7 +23,7 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing subscriber details and group information.</param>
     /// <returns>A response indicating the success or failure of the operation.</returns>
-    Task<AddSubscriberResponse?> AddSubscriberAsync(AddSubscriberRequest request);
+    Task<AddSubscriberResponse?> AddGroupSubscriberAsync(AddGroupSubscriberRequest request);
 
     /// <summary>
     /// Confirms a subscriber's opt-in using a PIN.
@@ -232,7 +232,7 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing subscriber details and brand information.</param>
     /// <returns>A response indicating the success or failure of the operation.</returns>
-    Task<AddBrandSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request);
+    Task<AddSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request);
 
     /// <summary>
     /// Confirms a subscriber's opt-in for a brand using a PIN.

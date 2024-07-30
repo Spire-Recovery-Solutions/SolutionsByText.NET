@@ -4,13 +4,8 @@ namespace SolutionsByText.NET.Models.Responses
     /// <summary>
     /// Represents the response received after requesting subscriber status.
     /// </summary>
-    public class GetSubscriberStatusResponse
+    public class GetSubscriberStatusResponse : ApiResponse<SubscriberStatus>
     {
-        /// <summary>
-        /// Gets or sets the list of subscriber statuses.
-        /// </summary>
-        [JsonPropertyName("subscribers")]
-        public List<SubscriberStatus> Subscribers { get; set; }
     }
 
 }

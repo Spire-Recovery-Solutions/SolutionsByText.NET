@@ -9,11 +9,12 @@ class Program
 
         try
         {
+            await service.AddGroupSubscriberAsync();
+            await service.GetSubscriberStatusAsync();
             await service.SendMessageAsync();
             await service.SendTemplateMessageAsync();
             await service.ScheduleMessageAsync();
-            await service.GetSubscriberStatusAsync();
-            await service.AddSubscriberAsync();
+            await service.AddBrandSubscriberAsync();
             await service.ConfirmSubscriberAsync();
             await service.DeleteSubscriberAsync();
             await service.GetGroupInfoAsync();
@@ -22,7 +23,6 @@ class Program
             await service.GetDeactivationEventsAsync();
             await service.CreateSmartURLAsync();
             await service.GetPhoneNumberDataAsync();
-            await service.AddBrandSubscriberAsync();
             await service.ConfirmBrandSubscriberAsync();
             await service.ScheduleTemplateMessageAsync();
             await service.UpdateSmartURLAsync();

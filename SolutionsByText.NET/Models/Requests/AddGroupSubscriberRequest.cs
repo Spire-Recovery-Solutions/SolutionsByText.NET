@@ -7,7 +7,7 @@ namespace SolutionsByText.NET.Models.Requests
     /// <summary>
     /// Represents a request to add a new subscriber to a group.
     /// </summary>
-    public class AddSubscriberRequest
+    public class AddGroupSubscriberRequest
     {
         /// <summary>
         /// Gets or sets the unique identifier of the group to add the subscriber to.
