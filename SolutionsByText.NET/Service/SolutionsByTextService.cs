@@ -138,47 +138,69 @@ namespace SolutionsByText.NET.Service
             Console.WriteLine($"Deactivation events retrieved. response: {response}");
         }
 
-         // Retrieves deactivation events for a specific phone number
+        // Retrieves deactivation events for a specific phone number
         public async Task GetNumberDeactivateEventsAsync()
         {
             var response = await _client.GetNumberDeactivationEventsAsync(new GetNumberDeactivateEventsRequest
             {
-                 GroupId = "your-group-id",
-                 Msisdn = "1234567890",
-                 CountryCode = "USA"
+                GroupId = "your-group-id",
+                Msisdn = "1234567890",
+                CountryCode = "USA"
             });
             Console.WriteLine($"Deactivation events retrieved for a number. response: {response}");
         }
 
-          // Retrieves deactivation events for a specific phone number
+        // Retrieves deactivation events for a specific phone number
         public async Task GetAllSmartUrl()
         {
             var response = await _client.GetAllSmartUrlsAync(new GetAllSmartUrlRequest
             {
-                 GroupId = "your-group-id"
+                GroupId = "your-group-id"
             });
             Console.WriteLine($"Get All The Smart Urls. response: {response}");
         }
 
-       
+
         // Retrieves Smart Url Click Report events for a specific brand
         public async Task GetSmartUrlClickReportAsync()
         {
             var response = await _client.GetSmartUrlClickReportAync(new GetSmartUrlReportRequest
             {
-                 BrandId = "your-brand-id",
+                BrandId = "your-brand-id",
             });
             Console.WriteLine($"Get Smart Urls Click Report. response: {response}");
         }
 
-           // Retrieves Smart Url Detail Click Report events for a specific brand
+        // Retrieves Smart Url Detail Click Report events for a specific brand
         public async Task GetSmartUrlDetailClickReportAsync()
         {
             var response = await _client.GetSmartUrlDetailedClickReportAync(new GetSmartUrlReportRequest
             {
-                 BrandId = "your-brand-id",
+                BrandId = "your-brand-id",
             });
             Console.WriteLine($"Get Smart Urls Detail Click Report. response: {response}");
+        }
+
+        //  Generates a report of messages that were sent to subscribers during brand-level opt-ins.
+        public async Task GetBrandVbtOutboundMessagesAsync()
+        {
+            var response = await _client.GetBrandVbtOutboundMessageAsync(new GetBrandVbtOutboundMessageRequest
+            {
+                BrandId = "your-brand-id",
+            });
+            Console.WriteLine(
+                $"Generated a report of messages that were sent to subscribers during  vbt message outbound. response: {response}");
+        }
+
+        //  Generates a report of messages that were sent to subscribers during brand-level opt-ins.
+        public async Task GetBrandVbtInboundMessagesAsync()
+        {
+            var response = await _client.GetBrandVbtInboundMessageAsync(new GetBrandVbtInboundMessageRequest
+            {
+                BrandId = "your-brand-id",
+            });
+            Console.WriteLine(
+                $"Generated a report of messages that were sent to subscribers during  vbt message inbound. response: {response}");
         }
 
         // Creates a Smart URL for a group

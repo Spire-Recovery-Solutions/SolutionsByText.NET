@@ -38,6 +38,8 @@ class Program
             await service.GetAllSmartUrl();
             await service.GetSmartUrlClickReportAsync();
             await service.GetSmartUrlDetailClickReportAsync();
+            await service.GetBrandVbtOutboundMessagesAsync();
+            await service.GetBrandVbtInboundMessagesAsync();
 
         }
         catch (ApiException ex)

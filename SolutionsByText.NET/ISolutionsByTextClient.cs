@@ -122,7 +122,7 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the account ID and optional filters.</param>
     /// <returns>A response containing a list of deactivation events.</returns>
     Task<GetNumberDeactivateEventsResponse?> GetNumberDeactivationEventsAsync(GetNumberDeactivateEventsRequest request);
-    
+
     /// <summary>
     /// Asynchronously retrieves all Smart URLs based on the provided request parameters.
     /// </summary>
@@ -143,6 +143,20 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing parameters for fetching the detailed Smart URL click report.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response with the detailed Smart URL click report or null.</returns>
     Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAync(GetSmartUrlReportRequest request);
+
+    /// <summary>
+    /// Fetches outbound VBT (Voice and Brand Text) messages for a specified brand.
+    /// </summary>
+    /// <param name="request">The request object containing the parameters for the API call, such as brandId, messageId, referenceId, date range, message type, timezone offset, and pagination details.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a response with the outbound VBT messages.</returns>
+    Task<GetBrandVbtMessageResponse?> GetBrandVbtOutboundMessageAsync(GetBrandVbtOutboundMessageRequest request);
+
+    /// <summary>
+    /// Fetches inbound VBT (Voice and Brand Text) messages for a specified brand.
+    /// </summary>
+    /// <param name="request">The request object containing the parameters for the API call, such as brandId, referenceId, date range, message type, timezone offset, and pagination details.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a response with the inbound VBT messages.</returns>
+    Task<GetBrandVbtMessageResponse?> GetBrandVbtInboundMessageAsync(GetBrandVbtInboundMessageRequest request);
 
     #endregion
 

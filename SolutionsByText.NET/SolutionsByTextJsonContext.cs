@@ -51,6 +51,7 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(GetAllSmartUrlRequest))]
 [JsonSerializable(typeof(GetSmartUrlReportRequest))]
 [JsonSerializable(typeof(SmartUrlItem))]
+[JsonSerializable(typeof(GetBrandVbtOutboundMessageRequest))]
 [JsonSerializable(typeof(MessageType))]
 [JsonSerializable(typeof(OutboundMessageType))]
 [JsonSerializable(typeof(InboundMessageType))]
@@ -108,6 +109,8 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(SmartUrlBaseItem))]
 [JsonSerializable(typeof(GetSmartUrlDetailClickReportResponse))]
 [JsonSerializable(typeof(SmartUrlDetailClickReport))]
+[JsonSerializable(typeof(GetBrandVbtMessageResponse))]
+[JsonSerializable(typeof(BrandVbtMessage))]
 [JsonSerializable(typeof(MessageStatus))]
 [JsonSerializable(typeof(ScheduleStatus))]
 [JsonSerializable(typeof(SubscriptionStatus))]
@@ -126,6 +129,7 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(ApiResponse<TemplateItem>))]
 [JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlReport>))]
 [JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlDetailClickReport>))]
+[JsonSerializable(typeof(ApiResponse<PaginatedBrandVbtMessage>))]
 [JsonSerializable(typeof(ErrorResponse))]
 
 [JsonSourceGenerationOptions(
