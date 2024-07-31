@@ -6,6 +6,7 @@ using SolutionsByText.NET.Models.Responses;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -19,9 +20,9 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private readonly string _clientSecret;
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
     private string _accessToken;
-    private int _tokenExpiresIn;
+    private TimeSpan _tokenExpiresIn;
     private readonly Stopwatch _tokenStopwatch;
-    private readonly int _tokenRefreshMargin;
+    private readonly TimeSpan _tokenRefreshMargin;
 
     public SolutionsByTextClient(string baseUrl, string clientId, string clientSecret)
     {
@@ -30,7 +31,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         _clientSecret = clientSecret;
         _httpClient = new HttpClient();
         _tokenStopwatch = new Stopwatch();
-        _tokenRefreshMargin = 300;
+        _tokenRefreshMargin = TimeSpan.FromSeconds(300);
         // Define the retry policy
         _retryPolicy = Policy
             .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
@@ -414,7 +415,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             endpoint);
     }
 
-    /// <summary>
+     /// <summary>
     /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
     /// </summary>
     /// <typeparam name="TRequest">The type of the request body.</typeparam>
@@ -429,28 +430,32 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
         TRequest request = default)
     {
+        // Ensure that the access token is valid before making the request.
         await EnsureValidTokenAsync();
 
+        // Get the type information for serialization/deserialization.
         var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
-
         var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>))
             as JsonTypeInfo<ApiResponse<TResponse?>>;
 
+        // Validate that the types are registered in the JSON context.
         if (requestInfo == null || responseInfo == null)
         {
             throw new InvalidOperationException(
                 $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse?>)} is not registered in SolutionsByTextJsonContext.");
         }
 
+        // Serialize the request body if it's provided.
         var content = request != null
-            ? new StringContent(JsonSerializer.Serialize(request, requestInfo), System.Text.Encoding.UTF8,
-                "application/json")
+            ? new StringContent(JsonSerializer.Serialize(request, requestInfo), Encoding.UTF8, "application/json")
             : null;
 
         try
         {
-             var response = await _retryPolicy.ExecuteAsync(async () =>
+            // Execute the HTTP request with retry policy.
+            var response = await _retryPolicy.ExecuteAsync(async () =>
             {
+                // Switch based on the HTTP method to determine the appropriate request.
                 var httpResponse = method switch
                 {
                     var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
@@ -460,28 +465,34 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                     _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
                 };
 
-                return httpResponse;
+                return httpResponse; // Return the HTTP response.
             });
 
+            // Read the response content as a string.
             var responseContent = await response.Content.ReadAsStringAsync();
 
+            // Check if the response indicates success.
             if (response.IsSuccessStatusCode)
             {
+                // Deserialize the response into the expected type.
                 var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
                 if (apiResponse == null || apiResponse.Data == null)
                 {
                     throw new ApiException("Failed to deserialize the response.");
                 }
 
-                return apiResponse.Data;
+                return apiResponse.Data; // Return the successful response data.
             }
+            ///execute refresh token, incase we miss the timer.
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
+                // If unauthorized, refresh the token and retry the request.
                 await RefreshTokenAsync();
                 return await SendRequestAsync<TRequest, TResponse>(method, endpoint, request);
             }
             else
             {
+                // Handle error responses from the API.
                 var errorResponse = JsonSerializer.Deserialize(responseContent,
                     SolutionsByTextJsonContext.Default.ErrorResponse);
 
@@ -501,6 +512,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
         catch (Exception ex)
         {
+            // Wrap unexpected exceptions in an ApiException.
             throw new ApiException("An unexpected error occurred", ex.Message);
         }
     }
@@ -508,26 +520,32 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private async Task ObtainBearerTokenAsync()
     {
         var tokenEndpoint = "https://login-stage.solutionsbytext.com/connect/token";
-        var content = new FormUrlEncodedContent(new[]
-        {
-            new KeyValuePair<string, string>("client_id", _clientId),
-            new KeyValuePair<string, string>("client_secret", _clientSecret),
-            new KeyValuePair<string, string>("grant_type", "client_credentials")
-        });
 
+        // Prepare the request content for obtaining the bearer token (used x-www-form-urlencoded). 
+        var contentString = $@"client_id={Uri.EscapeDataString(_clientId)}&" +
+                            $"client_secret={Uri.EscapeDataString(_clientSecret)}&" +
+                            $"grant_type={Uri.EscapeDataString("client_credentials")}";
+
+        var content = new StringContent(contentString, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+        // Send the request to obtain the token.
         var response = await _httpClient.PostAsync(tokenEndpoint, content);
+
         if (response.IsSuccessStatusCode)
         {
+            // Read and deserialize the token response.
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(jsonResponse);
+            var tokenResponse =
+                JsonSerializer.Deserialize(jsonResponse, SolutionsByTextJsonContext.Default.TokenResponse);
 
             if (tokenResponse != null)
             {
+                // Set the access token and its expiration.
                 _accessToken = tokenResponse.AccessToken;
-                _tokenExpiresIn = tokenResponse.ExpiresIn;
+                _tokenExpiresIn = TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
                 _httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue(tokenResponse.TokenType, _accessToken);
-                _tokenStopwatch.Restart();
+                _tokenStopwatch.Restart(); // Start the stopwatch for token expiration tracking.
             }
             else
             {
@@ -540,30 +558,34 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
     }
 
+
+    //Responsible for Refreshing a token incase its missing or Expired
     private async Task EnsureValidTokenAsync()
     {
+        // Execute the retry policy to ensure the token is valid.
         await _retryPolicy.ExecuteAsync(async () =>
         {
             if (IsTokenExpiredOrMissing())
             {
-                await RefreshTokenAsync();
+                await RefreshTokenAsync(); // Refresh the token if it's expired or missing.
             }
 
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return new HttpResponseMessage(HttpStatusCode.OK); // Return a successful response.
         });
     }
 
     private bool IsTokenExpiredOrMissing()
     {
+        // Check if the token is either missing or has expired, used margin to refresh before it expired 
         return string.IsNullOrEmpty(_accessToken) ||
-               _tokenStopwatch.Elapsed.TotalSeconds > (_tokenExpiresIn - _tokenRefreshMargin);
+               _tokenStopwatch.Elapsed > (_tokenExpiresIn - _tokenRefreshMargin);
     }
 
     private async Task RefreshTokenAsync()
     {
         try
         {
-            await ObtainBearerTokenAsync();
+            await ObtainBearerTokenAsync(); // Obtain a new bearer token.
             Console.WriteLine("Token refreshed successfully.");
         }
         catch (ApiException ex)
