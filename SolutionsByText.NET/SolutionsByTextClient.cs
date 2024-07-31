@@ -517,6 +517,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
     }
 
+    //Get the bearer token and start the stopwatch
     private async Task ObtainBearerTokenAsync()
     {
         var tokenEndpoint = "https://login-stage.solutionsbytext.com/connect/token";
