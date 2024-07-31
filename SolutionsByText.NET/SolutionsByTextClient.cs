@@ -449,7 +449,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 
         try
         {
-            var response = await _retryPolicy.ExecuteAsync(async () =>
+             var response = await _retryPolicy.ExecuteAsync(async () =>
             {
                 var httpResponse = method switch
                 {
@@ -459,18 +459,6 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                     var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
                     _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
                 };
-                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    await RefreshTokenAsync();
-                    httpResponse = method switch
-                    {
-                        var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
-                        var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
-                        var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
-                        var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
-                        _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
-                    };
-                }
 
                 return httpResponse;
             });
