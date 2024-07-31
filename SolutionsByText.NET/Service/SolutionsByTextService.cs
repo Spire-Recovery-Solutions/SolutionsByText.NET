@@ -7,9 +7,9 @@ namespace SolutionsByText.NET.Service
     {
         private readonly SolutionsByTextClient _client;
 
-        public SolutionsByTextService(string apiUrl, string clientId, string clientSecret)
+        public SolutionsByTextService(string apiUrl, string tokenUrl,string clientId, string clientSecret)
         {
-            _client = new SolutionsByTextClient(apiUrl, clientId, clientSecret);
+            _client = new SolutionsByTextClient(apiUrl, tokenUrl,clientId, clientSecret);
         }
 
         // Sends a unicast message to a specific subscriber

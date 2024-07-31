@@ -16,17 +16,20 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 {
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
+    private readonly string _tokenUrl;
     private readonly string _clientId;
     private readonly string _clientSecret;
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
+    private readonly AsyncPolicy<HttpResponseMessage> _unauthorizedPolicy;
     private string _accessToken;
     private TimeSpan _tokenExpiresIn;
     private readonly Stopwatch _tokenStopwatch;
     private readonly TimeSpan _tokenRefreshMargin;
 
-    public SolutionsByTextClient(string baseUrl, string clientId, string clientSecret)
+    public SolutionsByTextClient(string baseUrl,string tokenUrl,string clientId, string clientSecret)
     {
         _baseUrl = baseUrl;
+        _tokenUrl = tokenUrl;
         _clientId = clientId;
         _clientSecret = clientSecret;
         _httpClient = new HttpClient();
@@ -44,6 +47,14 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                         $"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
                 }
             );
+        _unauthorizedPolicy = Policy
+            .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.Unauthorized)
+            .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),async (outcome, retryAttempt , context) =>
+            {
+                Console.WriteLine(
+                    $"Unauthorized response. Refreshing token and retrying request. Attempt {retryAttempt}");
+                await RefreshTokenAsync();
+            });
     }
 
     /// <inheritdoc />
@@ -415,7 +426,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             endpoint);
     }
 
-     /// <summary>
+    /// <summary>
     /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
     /// </summary>
     /// <typeparam name="TRequest">The type of the request body.</typeparam>
@@ -452,29 +463,26 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 
         try
         {
-            // Execute the HTTP request with retry policy.
-            var response = await _retryPolicy.ExecuteAsync(async () =>
-            {
-                // Switch based on the HTTP method to determine the appropriate request.
-                var httpResponse = method switch
+            // Execute the HTTP request with retry and unauthorized policies combined.
+            var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
+                .ExecuteAsync(async () =>
                 {
-                    var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
-                    var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
-                    var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
-                    var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
-                    _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
-                };
+                    var httpResponse = method switch
+                    {
+                        var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
+                        var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
+                        var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
+                        var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
+                        _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
+                    };
 
-                return httpResponse; // Return the HTTP response.
-            });
+                    return httpResponse;
+                });
 
-            // Read the response content as a string.
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            // Check if the response indicates success.
             if (response.IsSuccessStatusCode)
             {
-                // Deserialize the response into the expected type.
                 var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
                 if (apiResponse == null || apiResponse.Data == null)
                 {
@@ -482,13 +490,6 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                 }
 
                 return apiResponse.Data; // Return the successful response data.
-            }
-            ///execute refresh token, incase we miss the timer.
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                // If unauthorized, refresh the token and retry the request.
-                await RefreshTokenAsync();
-                return await SendRequestAsync<TRequest, TResponse>(method, endpoint, request);
             }
             else
             {
@@ -512,7 +513,6 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         }
         catch (Exception ex)
         {
-            // Wrap unexpected exceptions in an ApiException.
             throw new ApiException("An unexpected error occurred", ex.Message);
         }
     }
@@ -520,7 +520,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     //Get the bearer token and start the stopwatch
     private async Task ObtainBearerTokenAsync()
     {
-        var tokenEndpoint = "https://login-stage.solutionsbytext.com/connect/token";
+         var tokenEndpoint = $"{_tokenUrl}/connect/token";
 
         // Prepare the request content for obtaining the bearer token (used x-www-form-urlencoded). 
         var contentString = $@"client_id={Uri.EscapeDataString(_clientId)}&" +

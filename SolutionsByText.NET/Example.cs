@@ -5,7 +5,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var service = new SolutionsByTextService("https://api.solutionsbytext.com", "endter client Id", "endter client secret");
+        var service = new SolutionsByTextService("https://api.solutionsbytext.com", "https://login-stage.solutionsbytext.com","enter client Id", "enter client secret");
 
         try
         {
