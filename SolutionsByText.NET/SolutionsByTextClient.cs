@@ -438,26 +438,26 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
     /// <exception cref="NotSupportedException">Thrown when an unsupported HTTP method is used.</exception>
     /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
-    private async Task<TResponse?> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
-        TRequest request = default)
+    private async Task<TResponse> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
+        TRequest? request = default)
     {
         // Ensure that the access token is valid before making the request.
         await EnsureValidTokenAsync();
 
         // Get the type information for serialization/deserialization.
         var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
-        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse?>))
-            as JsonTypeInfo<ApiResponse<TResponse?>>;
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse>))
+            as JsonTypeInfo<ApiResponse<TResponse>>;
 
         // Validate that the types are registered in the JSON context.
         if (requestInfo == null || responseInfo == null)
         {
             throw new InvalidOperationException(
-                $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse?>)} is not registered in SolutionsByTextJsonContext.");
+                $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse>)} is not registered in SolutionsByTextJsonContext.");
         }
 
         // Serialize the request body if it's provided.
-        var content = request != null
+        using var content = request != null
             ? new StringContent(JsonSerializer.Serialize(request, requestInfo), Encoding.UTF8, "application/json")
             : null;
 
@@ -467,52 +467,47 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
                 .ExecuteAsync(async () =>
                 {
-                    var httpResponse = method switch
+                    return method switch
                     {
-                        var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
-                        var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
-                        var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
-                        var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
+                        { } m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
+                        { } m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
+                        { } m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
+                        { } m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
                         _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
                     };
-
-                    return httpResponse;
                 });
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
+                // Deserialize the successful response
                 var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
                 if (apiResponse == null || apiResponse.Data == null)
                 {
-                    throw new ApiException("Failed to deserialize the response.");
+                    throw new ApiException("Failed to deserialize the response or response data is null.");
                 }
 
-                return apiResponse.Data; // Return the successful response data.
+                return apiResponse.Data;
             }
-            else
-            {
-                // Handle error responses from the API.
-                var errorResponse = JsonSerializer.Deserialize(responseContent,
-                    SolutionsByTextJsonContext.Default.ErrorResponse);
 
-                if (errorResponse != null)
-                {
-                    throw new ApiException(errorResponse.AppCode, errorResponse.Message);
-                }
-                else
-                {
-                    throw new ApiException(response.StatusCode.ToString(), responseContent);
-                }
-            }
+            // Handle error responses from the API
+            var errorResponse = JsonSerializer.Deserialize(responseContent,
+                SolutionsByTextJsonContext.Default.ErrorResponse);
+
+            // Throw an ApiException with appropriate error details
+            throw errorResponse != null
+                ? new ApiException(errorResponse.AppCode, errorResponse.Message)
+                : new ApiException(response.StatusCode.ToString(), responseContent);
         }
         catch (ApiException)
         {
+            // Re-throw ApiExceptions without wrapping
             throw;
         }
         catch (Exception ex)
         {
+            // Wrap any other exceptions in an ApiException
             throw new ApiException("An unexpected error occurred", ex.Message);
         }
     }
