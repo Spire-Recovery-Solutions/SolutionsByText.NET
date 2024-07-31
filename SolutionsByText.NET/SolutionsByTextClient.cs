@@ -21,7 +21,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private string _accessToken;
     private int _tokenExpiresIn;
     private readonly Stopwatch _tokenStopwatch;
-   private readonly int _tokenRefreshMargin;
+    private readonly int _tokenRefreshMargin;
 
     public SolutionsByTextClient(string baseUrl, string clientId, string clientSecret)
     {
@@ -34,18 +34,13 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         // Define the retry policy
         _retryPolicy = Policy
             .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-            .OrResult(r => r.StatusCode == HttpStatusCode.Unauthorized)
             .WaitAndRetryAsync(
                 3,
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                onRetry: async (outcome, timespan, retryAttempt, context) =>
+                onRetry: (outcome, timespan, retryAttempt, context) =>
                 {
                     Console.WriteLine(
                         $"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
-                    if (outcome.Result?.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        await RefreshTokenAsync();
-                    }
                 }
             );
     }
@@ -464,6 +459,18 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                     var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
                     _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
                 };
+                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    await RefreshTokenAsync();
+                    httpResponse = method switch
+                    {
+                        var m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
+                        var m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
+                        var m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
+                        var m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
+                        _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
+                    };
+                }
 
                 return httpResponse;
             });
