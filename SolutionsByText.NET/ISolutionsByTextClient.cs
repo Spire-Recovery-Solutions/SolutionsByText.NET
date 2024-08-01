@@ -1,6 +1,21 @@
 ﻿using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Keywords;
+using SolutionsByText.NET.Models.Requests.Messages;
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+using SolutionsByText.NET.Models.Requests.Reports;
+using SolutionsByText.NET.Models.Requests.SmartUrl;
+using SolutionsByText.NET.Models.Requests.Subscription;
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Templates;
 using SolutionsByText.NET.Models.Responses;
+using SolutionsByText.NET.Models.Responses.Keywords;
+using SolutionsByText.NET.Models.Responses.Messages;
+using SolutionsByText.NET.Models.Responses.PhoneNumbers;
+using SolutionsByText.NET.Models.Responses.Reports;
+using SolutionsByText.NET.Models.Responses.SmartUrl;
+using SolutionsByText.NET.Models.Responses.Subscriptions;
+using SolutionsByText.NET.Models.Responses.Templates;
 
 namespace SolutionsByText.NET;
 
@@ -16,7 +31,7 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing group ID and list of phone numbers.</param>
     /// <returns>A response containing the status of the requested subscribers.</returns>
-    Task<GetSubscriberStatusResponse?> GetSubscriberStatusAsync(GetSubscriberStatusRequest request);
+    Task<GetGroupSubscriberStatusResponse?> GetGroupSubscriberStatusAsync(GetGroupSubscriberStatusRequest request);
 
     /// <summary>
     /// Adds a new subscriber to a specified group.
@@ -30,7 +45,7 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing the subscriber's phone number, group ID, and PIN.</param>
     /// <returns>A response indicating whether the confirmation was successful.</returns>
-    Task<ConfirmSubscriberResponse?> ConfirmSubscriberAsync(ConfirmSubscriberRequest request);
+    Task<ConfirmGroupSubscriberResponse?> ConfirmSubscriberAsync(ConfirmGroupSubscriberRequest request);
 
     /// <summary>
     /// Removes a subscriber from a specified group.
@@ -39,15 +54,18 @@ public interface ISolutionsByTextClient
     /// <returns>A response indicating the success or failure of the operation.</returns>
     Task<DeleteSubscriberResponse?> DeleteSubscriberAsync(DeleteSubscriberRequest request);
 
+
     #endregion
 
     #region Groups&Brands
+
     /// <summary>
     /// Asynchronously updates the brand information for subscribers based on the provided request parameters.
     /// </summary>
     /// <param name="request">The request containing parameters for updating the subscribers' brand information.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response with the updated subscribers' brand information or null.</returns>
     Task<UpdateSubscribersBrandResponse?> UpdateSubscribersBrand(UpdateSubscribersBrandRequest request);
+
     #endregion
 
     #region Messaging
@@ -91,9 +109,22 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the group ID.</param>
     /// <returns>A response containing detailed information about the group.</returns>
     Task<GetGroupResponse?> GetGroupAsync(GetGroupRequest request);
+
     #endregion
 
     #region Reporting
+
+    /// <summary>
+    /// Asynchronously retrieves a paginated list of all subscribers within a specified group based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">
+    /// The request object containing parameters for filtering, sorting, and pagination.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation, containing the response with the paginated list of subscribers,
+    /// or null if the operation fails.
+    /// </returns>
+    Task<GetAllSubscribersGroupResponse?> GetAllSubscribersGroupAsync(GetAllSubscribersGroupRequest request);
 
     /// <summary>
     /// Retrieves details of outbound messages for a specific group.

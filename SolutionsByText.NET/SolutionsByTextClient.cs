@@ -2,7 +2,22 @@
 using Polly.Retry;
 using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Keywords;
+using SolutionsByText.NET.Models.Requests.Messages;
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+using SolutionsByText.NET.Models.Requests.Reports;
+using SolutionsByText.NET.Models.Requests.SmartUrl;
+using SolutionsByText.NET.Models.Requests.Subscription;
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Templates;
 using SolutionsByText.NET.Models.Responses;
+using SolutionsByText.NET.Models.Responses.Keywords;
+using SolutionsByText.NET.Models.Responses.Messages;
+using SolutionsByText.NET.Models.Responses.PhoneNumbers;
+using SolutionsByText.NET.Models.Responses.Reports;
+using SolutionsByText.NET.Models.Responses.SmartUrl;
+using SolutionsByText.NET.Models.Responses.Subscriptions;
+using SolutionsByText.NET.Models.Responses.Templates;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
@@ -81,7 +96,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<GetSubscriberStatusResponse?> GetSubscriberStatusAsync(GetSubscriberStatusRequest request)
+    public async Task<GetGroupSubscriberStatusResponse?> GetGroupSubscriberStatusAsync(GetGroupSubscriberStatusRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
@@ -90,7 +105,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status",
                 queryParams);
-        return await SendRequestAsync<GetSubscriberStatusRequest, GetSubscriberStatusResponse?>(HttpMethod.Get,
+        return await SendRequestAsync<GetGroupSubscriberStatusRequest, GetGroupSubscriberStatusResponse?>(HttpMethod.Get,
             endpoint);
     }
 
@@ -103,10 +118,10 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<ConfirmSubscriberResponse?> ConfirmSubscriberAsync(ConfirmSubscriberRequest request)
+    public async Task<ConfirmGroupSubscriberResponse?> ConfirmSubscriberAsync(ConfirmGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/verification";
-        return await SendRequestAsync<ConfirmSubscriberRequest, ConfirmSubscriberResponse?>(HttpMethod.Post, endpoint,
+        return await SendRequestAsync<ConfirmGroupSubscriberRequest, ConfirmGroupSubscriberResponse?>(HttpMethod.Post, endpoint,
             request);
     }
 
@@ -372,7 +387,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageSize", request.PageSize?.ToString() }
         };
         var endpoint =
-            this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/shorturl-clicks",
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/shorturl-clicks-details",
                 queryParams);
 
         return await SendRequestAsync<GetSmartUrlReportRequest, GetSmartUrlDetailClickReportResponse?>(HttpMethod.Get,
@@ -423,6 +438,26 @@ public class SolutionsByTextClient : ISolutionsByTextClient
                 queryParams);
 
         return await SendRequestAsync<GetBrandVbtOutboundMessageRequest, GetBrandVbtMessageResponse?>(HttpMethod.Get,
+            endpoint);
+    }
+
+    /// <inheritdoc />
+    public async Task<GetAllSubscribersGroupResponse?> GetAllSubscribersGroupAsync(GetAllSubscribersGroupRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "startsWith", request.StartsWith },
+            { "search", request.Search },
+            { "from", request.From },
+            { "to", request.To },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint =
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers",
+                queryParams);
+
+        return await SendRequestAsync<GetAllSubscribersGroupRequest, GetAllSubscribersGroupResponse?>(HttpMethod.Get,
             endpoint);
     }
 

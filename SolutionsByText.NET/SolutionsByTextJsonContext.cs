@@ -1,9 +1,25 @@
-﻿using System.Text.Json.Serialization;
-using SolutionsByText.NET.Models;
+﻿using SolutionsByText.NET.Models;
 using SolutionsByText.NET.Models.Requests;
 using SolutionsByText.NET.Models.Requests.Enums;
+using SolutionsByText.NET.Models.Requests.Keywords;
+using SolutionsByText.NET.Models.Requests.Messages;
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+using SolutionsByText.NET.Models.Requests.Reports;
+using SolutionsByText.NET.Models.Requests.SmartUrl;
+using SolutionsByText.NET.Models.Requests.Subscription;
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Templates;
+using SolutionsByText.NET.Models.Requests.Webhooks;
 using SolutionsByText.NET.Models.Responses;
 using SolutionsByText.NET.Models.Responses.Enums;
+using SolutionsByText.NET.Models.Responses.Keywords;
+using SolutionsByText.NET.Models.Responses.Messages;
+using SolutionsByText.NET.Models.Responses.PhoneNumbers;
+using SolutionsByText.NET.Models.Responses.Reports;
+using SolutionsByText.NET.Models.Responses.SmartUrl;
+using SolutionsByText.NET.Models.Responses.Subscriptions;
+using SolutionsByText.NET.Models.Responses.Templates;
+using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET;
 
@@ -11,9 +27,9 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(SendMessageRequest))]
 [JsonSerializable(typeof(SendTemplateMessageRequest))]
 [JsonSerializable(typeof(ScheduleMessageRequest))]
-[JsonSerializable(typeof(GetSubscriberStatusRequest))]
+[JsonSerializable(typeof(GetGroupSubscriberStatusRequest))]
 [JsonSerializable(typeof(AddGroupSubscriberRequest))]
-[JsonSerializable(typeof(ConfirmSubscriberRequest))]
+[JsonSerializable(typeof(ConfirmGroupSubscriberRequest))]
 [JsonSerializable(typeof(Relation))]
 [JsonSerializable(typeof(DeleteSubscriberRequest))]
 [JsonSerializable(typeof(GetGroupRequest))]
@@ -52,6 +68,7 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(GetSmartUrlReportRequest))]
 [JsonSerializable(typeof(SmartUrlItem))]
 [JsonSerializable(typeof(GetBrandVbtOutboundMessageRequest))]
+[JsonSerializable(typeof(GetAllSubscribersGroupRequest))]
 [JsonSerializable(typeof(MessageType))]
 [JsonSerializable(typeof(OutboundMessageType))]
 [JsonSerializable(typeof(InboundMessageType))]
@@ -62,10 +79,10 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(SendMessageResponse))]
 [JsonSerializable(typeof(SendTemplateMessageResponse))]
 [JsonSerializable(typeof(ScheduleMessageResponse))]
-[JsonSerializable(typeof(GetSubscriberStatusResponse))]
+[JsonSerializable(typeof(GetGroupSubscriberStatusResponse))]
 [JsonSerializable(typeof(AddSubscriberResponse))]
 [JsonSerializable(typeof(AddSubscriber))]
-[JsonSerializable(typeof(ConfirmSubscriberResponse))]
+[JsonSerializable(typeof(ConfirmGroupSubscriberResponse))]
 [JsonSerializable(typeof(DeleteSubscriberResponse))]
 [JsonSerializable(typeof(GetGroupResponse))]
 [JsonSerializable(typeof(GetInboundMessagesResponse))]
@@ -95,13 +112,12 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(TemplateItem))]
 [JsonSerializable(typeof(UpdateSmartURLResponse))]
 [JsonSerializable(typeof(User))]
-[JsonSerializable(typeof(OutboundMessageData))]
-[JsonSerializable(typeof(InboundMessagesData))]
+[JsonSerializable(typeof(InboundOutboundMessagesData))]
 [JsonSerializable(typeof(MediaDetails))]
 [JsonSerializable(typeof(MediaPath))]
-[JsonSerializable(typeof(PaginatedEventData))]
 [JsonSerializable(typeof(GetBrandSubscriberStatusResponse))]
 [JsonSerializable(typeof(GetNumberDeactivateEventsResponse))]
+[JsonSerializable(typeof(PaginatedNumberDeactivateEvents))]
 [JsonSerializable(typeof(CarrierChange))]
 [JsonSerializable(typeof(GetAllSmartUrlResponse))]
 [JsonSerializable(typeof(GetSmartUrlClickReportResponse))]
@@ -113,6 +129,17 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(BrandVbtMessage))]
 [JsonSerializable(typeof(TokenResponse))]
 [JsonSerializable(typeof(MessageData))]
+[JsonSerializable(typeof(GetAllSubscribersGroupResponse))]
+[JsonSerializable(typeof(AllSubscriberGroup))]
+[JsonSerializable(typeof(ConfirmBrandSubscriber))]
+[JsonSerializable(typeof(PaginatedSmartUrlResponse))]
+[JsonSerializable(typeof(PaginatedEventData))]
+[JsonSerializable(typeof(PaginatedSmartUrlClickReport))]
+[JsonSerializable(typeof(PaginatedSmartUrlDetailClickReport))]
+[JsonSerializable(typeof(PaginatedBrandVbtMessage))]
+[JsonSerializable(typeof(PaginatedAllSubscribersGroup))]
+[JsonSerializable(typeof(ConfirmGroupSubscriber))]
+[JsonSerializable(typeof(TemplateMessage))]
 [JsonSerializable(typeof(MessageStatus))]
 [JsonSerializable(typeof(ScheduleStatus))]
 [JsonSerializable(typeof(OperationStatus))]
@@ -129,15 +156,35 @@ namespace SolutionsByText.NET;
 [JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlResponse>))]
 [JsonSerializable(typeof(ApiResponse<PaginatedEventData>))]
 [JsonSerializable(typeof(ApiResponse<KeywordPaginatedData>))]
-[JsonSerializable(typeof(ApiResponse<InboundMessagesData>))]
+[JsonSerializable(typeof(ApiResponse<InboundOutboundMessagesData>))]
 [JsonSerializable(typeof(ApiResponse<TemplateItem>))]
-[JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlReport>))]
+[JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlClickReport>))]
 [JsonSerializable(typeof(ApiResponse<SubscriberStatus>))]
 [JsonSerializable(typeof(ApiResponse<PaginatedSmartUrlDetailClickReport>))]
 [JsonSerializable(typeof(ApiResponse<SendMessageResponse>))]
 [JsonSerializable(typeof(ApiResponse<MessageData>))]
-[JsonSerializable(typeof(ApiResponse<GetSubscriberStatusResponse>))]
+[JsonSerializable(typeof(ApiResponse<PhoneNumberData>))]
+[JsonSerializable(typeof(ApiResponse<GetPhoneNumberDataResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetGroupSubscriberStatusResponse>))]
 [JsonSerializable(typeof(ApiResponse<PaginatedBrandVbtMessage>))]
+[JsonSerializable(typeof(ApiResponse<PaginatedAllSubscribersGroup>))]
+[JsonSerializable(typeof(ApiResponse<GetAllSubscribersGroupResponse>))]
+[JsonSerializable(typeof(ApiResponse<ConfirmGroupSubscriber>))]
+[JsonSerializable(typeof(ApiResponse<ConfirmGroupSubscriberResponse>))]
+[JsonSerializable(typeof(ApiResponse<ConfirmBrandSubscriberResponse>))]
+[JsonSerializable(typeof(ApiResponse<ConfirmBrandSubscriber>))]
+[JsonSerializable(typeof(ApiResponse<GetDeactivationEventsResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetNumberDeactivateEventsResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetAllSmartUrlResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetSmartUrlClickReportResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetSmartUrlDetailClickReportResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetOutboundMessagesResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetBrandVbtMessageResponse>))]
+[JsonSerializable(typeof(ApiResponse<GetTemplatesResponse>))]
+[JsonSerializable(typeof(ApiResponse<List<TemplateItem>>))]
+[JsonSerializable(typeof(ApiResponse<GetInboundMessagesResponse>))]
+[JsonSerializable(typeof(ApiResponse<SendTemplateMessageResponse>))]
+[JsonSerializable(typeof(ApiResponse<TemplateMessage>))]
 [JsonSerializable(typeof(ErrorResponse))]
 
 [JsonSourceGenerationOptions(

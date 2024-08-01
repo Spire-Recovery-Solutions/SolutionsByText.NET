@@ -1,5 +1,13 @@
 ﻿using SolutionsByText.NET.Models.Requests;
 using SolutionsByText.NET.Models.Requests.Enums;
+using SolutionsByText.NET.Models.Requests.Keywords;
+using SolutionsByText.NET.Models.Requests.Messages;
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+using SolutionsByText.NET.Models.Requests.Reports;
+using SolutionsByText.NET.Models.Requests.SmartUrl;
+using SolutionsByText.NET.Models.Requests.Subscription;
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Templates;
 
 namespace SolutionsByText.NET.Service
 {
@@ -37,7 +45,7 @@ namespace SolutionsByText.NET.Service
                 TemplateId = "your-template-id",
                 MessageType = MessageType.Multicast
             });
-            Console.WriteLine($"Template message sent. Message ID: {response?.MessageId}");
+            Console.WriteLine($"Template message sent. Message ID: {response?.Data.MessageId}");
         }
 
         // Schedules a message to be sent later
@@ -52,9 +60,9 @@ namespace SolutionsByText.NET.Service
         }
 
         // Retrieves the status of a subscriber
-        public async Task GetSubscriberStatusAsync()
+        public async Task GetGroupSubscriberStatusAsync()
         {
-            var response = await _client.GetSubscriberStatusAsync(new GetSubscriberStatusRequest
+            var response = await _client.GetGroupSubscriberStatusAsync(new GetGroupSubscriberStatusRequest
             {
                 GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = new List<string> { "1234567890" }
@@ -76,7 +84,7 @@ namespace SolutionsByText.NET.Service
         // Confirms a subscriber's registration using a PIN
         public async Task ConfirmSubscriberAsync()
         {
-            var response = await _client.ConfirmSubscriberAsync(new ConfirmSubscriberRequest
+            var response = await _client.ConfirmSubscriberAsync(new ConfirmGroupSubscriberRequest
             {
                 GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = "1234567890",
@@ -201,6 +209,17 @@ namespace SolutionsByText.NET.Service
             });
             Console.WriteLine(
                 $"Generated a report of messages that were sent to subscribers during  vbt message inbound. response: {response}");
+        }
+
+         //  Generates a report of messages that were sent to subscribers during brand-level opt-ins.
+        public async Task GetAllSubscribersGroupAsync()
+        {
+            var response = await _client.GetAllSubscribersGroupAsync(new GetAllSubscribersGroupRequest
+            {
+                GroupId =  "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
+            });
+            Console.WriteLine(
+                $"Get the all subscriber in a group : response {response}");
         }
 
         // Creates a Smart URL for a group
