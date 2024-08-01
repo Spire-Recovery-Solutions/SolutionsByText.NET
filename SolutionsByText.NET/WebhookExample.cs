@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Webhooks;
 
 namespace SolutionsByText.NET
 {

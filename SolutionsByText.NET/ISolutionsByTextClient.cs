@@ -1,6 +1,21 @@
 ﻿using SolutionsByText.NET.Models.Exceptions;
 using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Requests.Keywords;
+using SolutionsByText.NET.Models.Requests.Messages;
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+using SolutionsByText.NET.Models.Requests.Reports;
+using SolutionsByText.NET.Models.Requests.SmartUrl;
+using SolutionsByText.NET.Models.Requests.Subscription;
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Templates;
 using SolutionsByText.NET.Models.Responses;
+using SolutionsByText.NET.Models.Responses.Keywords;
+using SolutionsByText.NET.Models.Responses.Messages;
+using SolutionsByText.NET.Models.Responses.PhoneNumbers;
+using SolutionsByText.NET.Models.Responses.Reports;
+using SolutionsByText.NET.Models.Responses.SmartUrl;
+using SolutionsByText.NET.Models.Responses.Subscriptions;
+using SolutionsByText.NET.Models.Responses.Templates;
 
 namespace SolutionsByText.NET;
 
@@ -16,21 +31,21 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing group ID and list of phone numbers.</param>
     /// <returns>A response containing the status of the requested subscribers.</returns>
-    Task<GetSubscriberStatusResponse?> GetSubscriberStatusAsync(GetSubscriberStatusRequest request);
+    Task<GetGroupSubscriberStatusResponse?> GetGroupSubscriberStatusAsync(GetGroupSubscriberStatusRequest request);
 
     /// <summary>
     /// Adds a new subscriber to a specified group.
     /// </summary>
     /// <param name="request">The request containing subscriber details and group information.</param>
     /// <returns>A response indicating the success or failure of the operation.</returns>
-    Task<AddSubscriberResponse?> AddSubscriberAsync(AddSubscriberRequest request);
+    Task<AddSubscriberResponse?> AddGroupSubscriberAsync(AddGroupSubscriberRequest request);
 
     /// <summary>
     /// Confirms a subscriber's opt-in using a PIN.
     /// </summary>
     /// <param name="request">The request containing the subscriber's phone number, group ID, and PIN.</param>
     /// <returns>A response indicating whether the confirmation was successful.</returns>
-    Task<ConfirmSubscriberResponse?> ConfirmSubscriberAsync(ConfirmSubscriberRequest request);
+    Task<ConfirmGroupSubscriberResponse?> ConfirmSubscriberAsync(ConfirmGroupSubscriberRequest request);
 
     /// <summary>
     /// Removes a subscriber from a specified group.
@@ -38,6 +53,18 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the subscriber's phone number and group ID.</param>
     /// <returns>A response indicating the success or failure of the operation.</returns>
     Task<DeleteSubscriberResponse?> DeleteSubscriberAsync(DeleteSubscriberRequest request);
+
+
+    #endregion
+
+    #region Groups&Brands
+
+    /// <summary>
+    /// Asynchronously updates the brand information for subscribers based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for updating the subscribers' brand information.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the updated subscribers' brand information or null.</returns>
+    Task<UpdateSubscribersBrandResponse?> UpdateSubscribersBrand(UpdateSubscribersBrandRequest request);
 
     #endregion
 
@@ -82,9 +109,22 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the group ID.</param>
     /// <returns>A response containing detailed information about the group.</returns>
     Task<GetGroupResponse?> GetGroupAsync(GetGroupRequest request);
+
     #endregion
 
     #region Reporting
+
+    /// <summary>
+    /// Asynchronously retrieves a paginated list of all subscribers within a specified group based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">
+    /// The request object containing parameters for filtering, sorting, and pagination.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation, containing the response with the paginated list of subscribers,
+    /// or null if the operation fails.
+    /// </returns>
+    Task<GetAllSubscribersGroupResponse?> GetAllSubscribersGroupAsync(GetAllSubscribersGroupRequest request);
 
     /// <summary>
     /// Retrieves details of outbound messages for a specific group.
@@ -106,6 +146,48 @@ public interface ISolutionsByTextClient
     /// <param name="request">The request containing the account ID and optional filters.</param>
     /// <returns>A response containing a list of deactivation events.</returns>
     Task<GetDeactivationEventsResponse?> GetDeactivationEventsAsync(GetDeactivationEventsRequest request);
+
+    /// <summary>
+    /// Retrieves deactivation events for an Single Number.
+    /// </summary>
+    /// <param name="request">The request containing the account ID and optional filters.</param>
+    /// <returns>A response containing a list of deactivation events.</returns>
+    Task<GetNumberDeactivateEventsResponse?> GetNumberDeactivationEventsAsync(GetNumberDeactivateEventsRequest request);
+
+    /// <summary>
+    /// Asynchronously retrieves all Smart URLs based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching Smart URLs.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with all Smart URLs or null.</returns>
+    Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAync(GetAllSmartUrlRequest request);
+
+    /// <summary>
+    /// Asynchronously retrieves the click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the Smart URL click report or null.</returns>
+    Task<GetSmartUrlClickReportResponse?> GetSmartUrlClickReportAync(GetSmartUrlReportRequest request);
+
+    /// <summary>
+    /// Asynchronously retrieves the detailed click report for a specific Smart URL based on the provided request parameters.
+    /// </summary>
+    /// <param name="request">The request containing parameters for fetching the detailed Smart URL click report.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response with the detailed Smart URL click report or null.</returns>
+    Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAync(GetSmartUrlReportRequest request);
+
+    /// <summary>
+    /// Fetches outbound VBT (Voice and Brand Text) messages for a specified brand.
+    /// </summary>
+    /// <param name="request">The request object containing the parameters for the API call, such as brandId, messageId, referenceId, date range, message type, timezone offset, and pagination details.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a response with the outbound VBT messages.</returns>
+    Task<GetBrandVbtMessageResponse?> GetBrandVbtOutboundMessageAsync(GetBrandVbtOutboundMessageRequest request);
+
+    /// <summary>
+    /// Fetches inbound VBT (Voice and Brand Text) messages for a specified brand.
+    /// </summary>
+    /// <param name="request">The request object containing the parameters for the API call, such as brandId, referenceId, date range, message type, timezone offset, and pagination details.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a response with the inbound VBT messages.</returns>
+    Task<GetBrandVbtMessageResponse?> GetBrandVbtInboundMessageAsync(GetBrandVbtInboundMessageRequest request);
 
     #endregion
 
@@ -181,7 +263,7 @@ public interface ISolutionsByTextClient
     /// </summary>
     /// <param name="request">The request containing subscriber details and brand information.</param>
     /// <returns>A response indicating the success or failure of the operation.</returns>
-    Task<AddBrandSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request);
+    Task<AddSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request);
 
     /// <summary>
     /// Confirms a subscriber's opt-in for a brand using a PIN.

@@ -5,15 +5,17 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var service = new SolutionsByTextService("https://api.solutionsbytext.com", "your-api-key");
+         var service = new SolutionsByTextService("https://api.solutionsbytext.com", "https://login-stage.solutionsbytext.com","enter client Id", "enter client secret");
 
         try
         {
+            await service.AddGroupSubscriberAsync();
+            await service.GetGroupSubscriberStatusAsync();
             await service.SendMessageAsync();
             await service.SendTemplateMessageAsync();
+            await service.GetAllSubscribersGroupAsync();
             await service.ScheduleMessageAsync();
-            await service.GetSubscriberStatusAsync();
-            await service.AddSubscriberAsync();
+            await service.AddBrandSubscriberAsync();
             await service.ConfirmSubscriberAsync();
             await service.DeleteSubscriberAsync();
             await service.GetGroupInfoAsync();
@@ -22,7 +24,6 @@ class Program
             await service.GetDeactivationEventsAsync();
             await service.CreateSmartURLAsync();
             await service.GetPhoneNumberDataAsync();
-            await service.AddBrandSubscriberAsync();
             await service.ConfirmBrandSubscriberAsync();
             await service.ScheduleTemplateMessageAsync();
             await service.UpdateSmartURLAsync();
@@ -33,6 +34,14 @@ class Program
             await service.GetBrandSubscriberStatusAsync();
             await service.GetTemplatesAsync();
             await service.GetTemplateByIdAsync();
+            await service.UpdateSubscribersBrandAsync();
+            await service.GetNumberDeactivateEventsAsync();
+            await service.GetAllSmartUrl();
+            await service.GetSmartUrlClickReportAsync();
+            await service.GetSmartUrlDetailClickReportAsync();
+            await service.GetBrandVbtOutboundMessagesAsync();
+            await service.GetBrandVbtInboundMessagesAsync();
+
         }
         catch (ApiException ex)
         {
