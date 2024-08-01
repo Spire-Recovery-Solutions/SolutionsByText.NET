@@ -7,9 +7,9 @@ namespace SolutionsByText.NET.Service
     {
         private readonly SolutionsByTextClient _client;
 
-        public SolutionsByTextService(string apiUrl, string apiKey)
+        public SolutionsByTextService(string apiUrl, string tokenUrl,string clientId, string clientSecret)
         {
-            _client = new SolutionsByTextClient(apiUrl, apiKey);
+            _client = new SolutionsByTextClient(apiUrl, tokenUrl,clientId, clientSecret);
         }
 
         // Sends a unicast message to a specific subscriber
@@ -17,9 +17,9 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.SendMessageAsync(new SendMessageRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Message = "Hello, World!",
-                MessageType = MessageType.Unicast,
+                MessageType = MessageType.Multicast,
                 Subscribers = new List<Subscriber>
                 {
                     new Subscriber { Msisdn = "1234567890" }
@@ -33,7 +33,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.SendTemplateMessageAsync(new SendTemplateMessageRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 TemplateId = "your-template-id",
                 MessageType = MessageType.Multicast
             });
@@ -45,7 +45,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.ScheduleMessageAsync(new ScheduleMessageRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Message = "Scheduled Message"
             });
             Console.WriteLine($"Message scheduled. Scheduled Message ID: {response}");
@@ -56,7 +56,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetSubscriberStatusAsync(new GetSubscriberStatusRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = new List<string> { "1234567890" }
             });
             Console.WriteLine($"Subscriber status retrieved. Status: {response}");
@@ -67,8 +67,8 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.AddGroupSubscriberAsync(new AddGroupSubscriberRequest
             {
-                GroupId = "your-group-id",
-                Msisdn = "1234567890"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
+                Msisdn = "12345678901"
             });
             Console.WriteLine($"Subscriber added. Response: {response}");
         }
@@ -78,7 +78,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.ConfirmSubscriberAsync(new ConfirmSubscriberRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = "1234567890",
                 Pin = "1234"
             });
@@ -90,7 +90,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.DeleteSubscriberAsync(new DeleteSubscriberRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = "1234567890"
             });
             Console.WriteLine($"Subscriber deleted. Response: {response}");
@@ -101,7 +101,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetGroupAsync(new GetGroupRequest
             {
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Group information retrieved. Group Name: {response.Name}");
         }
@@ -111,7 +111,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetOutboundMessagesAsync(new GetOutboundMessagesRequest
             {
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Outbound Message retrieved. Total Count : {response.Data.TotalCount}");
         }
@@ -121,7 +121,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetInboundMessagesAsync(new GetInboundMessagesRequest
             {
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Inbound Message retrieved. Total Count : {response.Data.TotalCount}");
         }
@@ -143,7 +143,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetNumberDeactivationEventsAsync(new GetNumberDeactivateEventsRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = "1234567890",
                 CountryCode = "USA"
             });
@@ -155,7 +155,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetAllSmartUrlsAync(new GetAllSmartUrlRequest
             {
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Get All The Smart Urls. response: {response}");
         }
@@ -166,7 +166,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetSmartUrlClickReportAync(new GetSmartUrlReportRequest
             {
-                BrandId = "your-brand-id",
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
             });
             Console.WriteLine($"Get Smart Urls Click Report. response: {response}");
         }
@@ -176,7 +176,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetSmartUrlDetailedClickReportAync(new GetSmartUrlReportRequest
             {
-                BrandId = "your-brand-id",
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
             });
             Console.WriteLine($"Get Smart Urls Detail Click Report. response: {response}");
         }
@@ -186,7 +186,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetBrandVbtOutboundMessageAsync(new GetBrandVbtOutboundMessageRequest
             {
-                BrandId = "your-brand-id",
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
             });
             Console.WriteLine(
                 $"Generated a report of messages that were sent to subscribers during  vbt message outbound. response: {response}");
@@ -197,7 +197,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetBrandVbtInboundMessageAsync(new GetBrandVbtInboundMessageRequest
             {
-                BrandId = "your-brand-id",
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
             });
             Console.WriteLine(
                 $"Generated a report of messages that were sent to subscribers during  vbt message inbound. response: {response}");
@@ -208,7 +208,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.CreateSmartURLAsync(new CreateSmartURLRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 LongUrl = "https://example.com"
             });
             Console.WriteLine($"SmartURL created. Smart URL: {response}");
@@ -229,8 +229,8 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.AddBrandSubscriberAsync(new AddBrandSubscriberRequest
             {
-                BrandId = "your-brand-id",
-                Msisdn = "1234567890"
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
+                Msisdn = "12345678901"
             });
             Console.WriteLine($"Added Brand Subscriber. Response: {response}");
         }
@@ -240,7 +240,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.ConfirmBrandSubscriberAsync(new ConfirmBrandSubscriberRequest
             {
-                BrandId = "your-brand-id",
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae",
                 Msisdn = "1234567890",
                 Pin = "your-pin"
             });
@@ -252,7 +252,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.UpdateSmartURLAsync(new UpdateSmartURLRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 ShortUrl = "short-url-id",
                 LongUrl = "long-url-id"
             });
@@ -265,7 +265,7 @@ namespace SolutionsByText.NET.Service
             var response = await _client.ScheduleTemplateMessageAsync(new ScheduleTemplateMessageRequest
             {
                 TemplateId = "your-template-id",
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Scheduled Template Message. Response: {response}");
         }
@@ -275,7 +275,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.UpdateSubscribersBrand(new UpdateSubscribersBrandRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Msisdn = "msi-id"
             });
             Console.WriteLine($"Subscriber Brand updated. Response: {response}");
@@ -286,7 +286,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.AddKeywordAsync(new AddKeywordRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Name = "Test Name",
                 UserId = "12345"
             });
@@ -298,7 +298,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetKeywordsAsync(new GetKeywordsRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 Filter = "keyword-filter"
             });
             Console.WriteLine($"Keywords retrieved. Number of keywords: {response}");
@@ -309,7 +309,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.RetrieveMMSAsync(new RetrieveMMSRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 MessageId = "12345",
                 FileId = "test file Id"
             });
@@ -321,7 +321,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.DeleteMMSAsync(new DeleteMMSRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 MessageId = "12345",
                 FileId = "test file Id"
             });
@@ -333,7 +333,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetBrandSubscriberStatusAsync(new GetBrandSubscriberStatusRequest
             {
-                BrandId = "your-brand-id"
+                BrandId = "3cb12083-17a0-428f-98a1-499ff531cdae"
             });
             Console.WriteLine($"Brand Subscriber Status Retrieved. Response: {response}");
         }
@@ -343,7 +343,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetTemplatesAsync(new GetTemplatesRequest
             {
-                GroupId = "your-group-id"
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
             Console.WriteLine($"Templates Retrieved. Response: {response}");
         }
@@ -353,7 +353,7 @@ namespace SolutionsByText.NET.Service
         {
             var response = await _client.GetTemplateAsync(new GetTemplateRequest
             {
-                GroupId = "your-group-id",
+                GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb",
                 TemplateId = "your-template-id"
             });
             Console.WriteLine($"Template Retrieved. Response: {response}");
