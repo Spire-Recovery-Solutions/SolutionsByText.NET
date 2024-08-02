@@ -13,6 +13,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Gets or sets the list of detailed click reports for SmartURLs.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<SmartUrlDetailClickReport> SmartUrlDetailClickReport { get; set; }
+        public List<SmartUrlDetailClickReport>? SmartUrlDetailClickReport { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace SolutionsByText.NET.Models.Responses.Messages
         /// Gets or sets the unique identifier for the sent message.
         /// </summary>
         [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        public string? MessageId { get; set; }
     }
 }

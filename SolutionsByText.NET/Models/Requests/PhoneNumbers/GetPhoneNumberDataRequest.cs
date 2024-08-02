@@ -12,6 +12,6 @@ namespace SolutionsByText.NET.Models.Requests.PhoneNumbers
         /// Gets or sets the list of phone numbers to look up.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public List<string> Msisdn { get; set; }
+        public required List<string> Msisdn { get; set; }
     }
 }

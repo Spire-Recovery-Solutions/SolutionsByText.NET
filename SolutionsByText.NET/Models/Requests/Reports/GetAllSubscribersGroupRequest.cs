@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The group ID. This is a required parameter.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// A string that the search results should start with. This is an optional parameter.

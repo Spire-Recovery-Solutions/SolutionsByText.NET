@@ -19,43 +19,43 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The ID of the old carrier.
         /// </summary>
         [JsonPropertyName("oldCarrierId")]
-        public string OldCarrierId { get; set; }
+        public string? OldCarrierId { get; set; }
 
         /// <summary>
         /// The name of the old carrier.
         /// </summary>
         [JsonPropertyName("oldCarrierName")]
-        public string OldCarrierName { get; set; }
+        public string? OldCarrierName { get; set; }
 
         /// <summary>
         /// The ID of the new carrier.
         /// </summary>
         [JsonPropertyName("newCarrierId")]
-        public string NewCarrierId { get; set; }
+        public string? NewCarrierId { get; set; }
 
         /// <summary>
         /// The country code.
         /// </summary>
         [JsonPropertyName("countryCode")]
-        public string CountryCode { get; set; }
+        public string? CountryCode { get; set; }
 
         /// <summary>
         /// The name of the new carrier.
         /// </summary>
         [JsonPropertyName("newCarrierName")]
-        public string NewCarrierName { get; set; }
+        public string? NewCarrierName { get; set; }
 
         /// <summary>
         /// The mobile status.
         /// </summary>
         [JsonPropertyName("mobileStatus")]
-        public string MobileStatus { get; set; }
+        public string? MobileStatus { get; set; }
 
         /// <summary>
         /// The event description.
         /// </summary>
         [JsonPropertyName("event")]
-        public string Event { get; set; }
+        public string? Event { get; set; }
 
         /// <summary>
         /// The date of the event.

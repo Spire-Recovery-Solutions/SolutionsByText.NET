@@ -13,6 +13,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// All Subs Group Details
         /// </summary>
         [JsonPropertyName("data")]
-        public List<AllSubscriberGroup> Items { get; set; }
+        public List<AllSubscriberGroup>? Items { get; set; }
     }
 }

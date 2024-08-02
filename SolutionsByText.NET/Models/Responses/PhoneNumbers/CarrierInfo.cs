@@ -12,7 +12,7 @@ namespace SolutionsByText.NET.Models.Responses.PhoneNumbers
         /// Gets or sets the name of the carrier.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the carrier.

@@ -5,7 +5,7 @@ namespace SolutionsByText.NET.Models.Requests.Enums
     /// <summary>
     /// Defines the types of inbound messages that can be processed by the Solutions By Text system.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<InboundMessageType>))]
     public enum InboundMessageType
     {
         /// <summary>

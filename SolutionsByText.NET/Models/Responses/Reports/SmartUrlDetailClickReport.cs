@@ -37,18 +37,18 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The IP address of the user who clicked the link.
         /// </summary>
         [JsonPropertyName("ip")]
-        public string Ip { get; set; }
+        public string? Ip { get; set; }
 
         /// <summary>
         /// The operating system of the device used to click the link.
         /// </summary>
         [JsonPropertyName("os")]
-        public string Os { get; set; }
+        public string? Os { get; set; }
 
         /// <summary>
         /// Information about the device used to click the link.
         /// </summary>
         [JsonPropertyName("deviceInfo")]
-        public string DeviceInfo { get; set; }
+        public string? DeviceInfo { get; set; }
     }
 }

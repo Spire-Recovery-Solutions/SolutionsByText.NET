@@ -5,7 +5,7 @@ namespace SolutionsByText.NET.Models.Requests.Enums
     /// <summary>
     /// Defines the types of messages that can be included in message reports.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<MessageReportType>))]
     public enum MessageReportType
     {
         /// <summary>

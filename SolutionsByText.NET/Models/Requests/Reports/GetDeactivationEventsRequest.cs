@@ -18,12 +18,12 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the type of the event (e.g., "UserDeactivation").
         /// </summary>
         [JsonPropertyName("eventType")]
-        public string EventType { get; set; }
+        public required string EventType { get; set; }
 
         /// <summary>
         /// Gets or sets the country code where the event occurred (e.g., "US").
         /// </summary>
         [JsonPropertyName("countryCode")]
-        public string CountryCode { get; set; }
+        public required string CountryCode { get; set; }
     }
 }

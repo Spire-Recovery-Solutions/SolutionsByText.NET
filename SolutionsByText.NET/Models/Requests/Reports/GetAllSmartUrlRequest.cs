@@ -12,7 +12,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The unique identifier for the SmartURL.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The creation date of the SmartURL.

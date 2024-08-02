@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the payload containing the data related to the SmartURL click event.
         /// </summary>
         [JsonPropertyName("Payload")]
-        public SmartUrlClickData Payload { get; set; }
+        public SmartUrlClickData? Payload { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace SolutionsByText.NET.Models.Requests.Enums
     /// <summary>
     /// Defines the types of events that can trigger a deactivation report.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<DeactivationEventType>))]
     public enum DeactivationEventType
     {
         /// <summary>

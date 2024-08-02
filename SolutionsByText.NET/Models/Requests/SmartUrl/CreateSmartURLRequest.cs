@@ -12,13 +12,13 @@ namespace SolutionsByText.NET.Models.Requests.SmartUrl
         /// Gets or sets the unique identifier of the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the long URL to be shortened.
         /// </summary>
         [JsonPropertyName("longUrl")]
-        public string LongUrl { get; set; }
+        public required string LongUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the URL suffix for the message.

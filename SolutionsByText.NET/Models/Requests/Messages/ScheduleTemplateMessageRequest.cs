@@ -16,14 +16,14 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// This parameter is optional if templateName is provisioned.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public string TemplateId { get; set; }
+        public required string TemplateId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique identifier of the brand.
         /// This parameter is required.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The name of the template to be used for the message.

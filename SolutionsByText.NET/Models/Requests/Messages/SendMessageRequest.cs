@@ -12,7 +12,7 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the unique identifier of the group to send the message to.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the sender of the message.
@@ -24,13 +24,13 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the content of the message to be sent.
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public required string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the type of message being sent (e.g., broadcast, unicast, multicast).
         /// </summary>
         [JsonPropertyName("messageType")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<MessageType>))]
         public MessageType MessageType { get; set; }
 
         /// <summary>

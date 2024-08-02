@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Responses.Keywords
         /// Gets or sets the collection of keyword items.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<KeywordItem> Items { get; set; }
+        public List<KeywordItem>? Items { get; set; }
     }
 }

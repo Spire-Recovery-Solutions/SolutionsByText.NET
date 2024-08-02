@@ -9,7 +9,7 @@ namespace SolutionsByText.NET.Models.Requests.Templates
         /// The unique identifier for the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The search term to filter results.

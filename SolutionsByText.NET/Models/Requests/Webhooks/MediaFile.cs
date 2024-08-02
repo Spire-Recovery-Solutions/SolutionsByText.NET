@@ -11,12 +11,12 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the unique identifier for the media file.
         /// </summary>
         [JsonPropertyName("Id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the media file.
         /// </summary>
         [JsonPropertyName("Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -11,37 +11,37 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the consent category.
         /// </summary>
         [JsonPropertyName("consentCategory")]
-        public string ConsentCategory { get; set; }
+        public string? ConsentCategory { get; set; }
 
         /// <summary>
         /// Gets or sets the group IDs associated with the consent item.
         /// </summary>
         [JsonPropertyName("groupIds")]
-        public List<string> GroupIds { get; set; }
+        public List<string>? GroupIds { get; set; }
 
         /// <summary>
         /// Gets or sets the status of the consent item.
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the mobile subscriber number.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public string? Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the carrier.
         /// </summary>
         [JsonPropertyName("carrierName")]
-        public string CarrierName { get; set; }
+        public string? CarrierName { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the carrier.
         /// </summary>
         [JsonPropertyName("carrierId")]
-        public string CarrierId { get; set; }
+        public string? CarrierId { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time of the first opt-in.
@@ -65,18 +65,18 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the type of opt-in.
         /// </summary>
         [JsonPropertyName("optinType")]
-        public string OptinType { get; set; }
+        public string? OptinType { get; set; }
 
         /// <summary>
         /// Gets or sets the type of opt-out.
         /// </summary>
         [JsonPropertyName("optoutType")]
-        public string OptoutType { get; set; }
+        public string? OptoutType { get; set; }
 
         /// <summary>
         /// Gets or sets the properties associated with the consent item.
         /// </summary>
         [JsonPropertyName("properties")]
-        public List<Property> Properties { get; set; }
+        public List<Property>? Properties { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// The unique identifier for the brand.
         /// </summary>
         [JsonPropertyName("brandId")]
-        public string BrandId { get; set; }
+        public required string BrandId { get; set; }
 
         /// <summary>
         /// Mobile number with dialing code (11 digits with no +; ex: 1##########).

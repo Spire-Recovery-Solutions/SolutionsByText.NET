@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests
         /// The group ID of the subscriber.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The first name of the subscriber.
@@ -37,7 +37,7 @@ namespace SolutionsByText.NET.Models.Requests
         /// The mobile number of the subscriber (11 digits with dialing code).
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public required string Msisdn { get; set; }
 
         /// <summary>
         /// The landline number of the subscriber.

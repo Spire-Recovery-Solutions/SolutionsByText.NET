@@ -36,12 +36,12 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private readonly string _clientSecret;
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
     private readonly AsyncPolicy<HttpResponseMessage> _unauthorizedPolicy;
-    private string _accessToken;
+    private string? _accessToken;
     private TimeSpan _tokenExpiresIn;
     private readonly Stopwatch _tokenStopwatch;
     private readonly TimeSpan _tokenRefreshMargin;
 
-    public SolutionsByTextClient(string baseUrl,string tokenUrl,string clientId, string clientSecret)
+    public SolutionsByTextClient(string baseUrl, string tokenUrl, string clientId, string clientSecret)
     {
         _baseUrl = baseUrl;
         _tokenUrl = tokenUrl;
@@ -64,12 +64,13 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             );
         _unauthorizedPolicy = Policy
             .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.Unauthorized)
-            .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),async (outcome, retryAttempt , context) =>
-            {
-                Console.WriteLine(
-                    $"Unauthorized response. Refreshing token and retrying request. Attempt {retryAttempt}");
-                await RefreshTokenAsync();
-            });
+            .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                async (outcome, retryAttempt, context) =>
+                {
+                    Console.WriteLine(
+                        $"Unauthorized response. Refreshing token and retrying request. Attempt {retryAttempt}");
+                    await RefreshTokenAsync();
+                });
     }
 
     /// <inheritdoc />
@@ -96,16 +97,19 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<GetGroupSubscriberStatusResponse?> GetGroupSubscriberStatusAsync(GetGroupSubscriberStatusRequest request)
+    public async Task<GetGroupSubscriberStatusResponse?> GetGroupSubscriberStatusAsync(
+        GetGroupSubscriberStatusRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "msisdn", string.Join(",", request.Msisdn) }
+            { "msisdn", request.Msisdn != null ? string.Join(",", request.Msisdn) : string.Empty }
         };
+
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status",
                 queryParams);
-        return await SendRequestAsync<GetGroupSubscriberStatusRequest, GetGroupSubscriberStatusResponse?>(HttpMethod.Get,
+        return await SendRequestAsync<GetGroupSubscriberStatusRequest, GetGroupSubscriberStatusResponse?>(
+            HttpMethod.Get,
             endpoint);
     }
 
@@ -121,7 +125,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     public async Task<ConfirmGroupSubscriberResponse?> ConfirmSubscriberAsync(ConfirmGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/verification";
-        return await SendRequestAsync<ConfirmGroupSubscriberRequest, ConfirmGroupSubscriberResponse?>(HttpMethod.Post, endpoint,
+        return await SendRequestAsync<ConfirmGroupSubscriberRequest, ConfirmGroupSubscriberResponse?>(HttpMethod.Post,
+            endpoint,
             request);
     }
 
@@ -442,7 +447,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     }
 
     /// <inheritdoc />
-    public async Task<GetAllSubscribersGroupResponse?> GetAllSubscribersGroupAsync(GetAllSubscribersGroupRequest request)
+    public async Task<GetAllSubscribersGroupResponse?> GetAllSubscribersGroupAsync(
+        GetAllSubscribersGroupRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
@@ -532,8 +538,15 @@ public class SolutionsByTextClient : ISolutionsByTextClient
 
             // Throw an ApiException with appropriate error details
             throw errorResponse != null
-                ? new ApiException(errorResponse.AppCode, errorResponse.Message)
-                : new ApiException(response.StatusCode.ToString(), responseContent);
+                ? new ApiException(
+                    errorResponse.AppCode ?? "Unknown app code",
+                    errorResponse.Message ?? "Unknown error message"
+                )
+                : new ApiException(
+                    response.StatusCode.ToString(),
+                    responseContent ?? "No response content"
+                );
+
         }
         catch (ApiException)
         {
@@ -550,7 +563,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     //Get the bearer token and start the stopwatch
     private async Task ObtainBearerTokenAsync()
     {
-         var tokenEndpoint = $"{_tokenUrl}/connect/token";
+        var tokenEndpoint = $"{_tokenUrl}/connect/token";
 
         // Prepare the request content for obtaining the bearer token (used x-www-form-urlencoded). 
         var contentString = $@"client_id={Uri.EscapeDataString(_clientId)}&" +
@@ -572,11 +585,14 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             if (tokenResponse != null)
             {
                 // Set the access token and its expiration.
-                _accessToken = tokenResponse.AccessToken;
-                _tokenExpiresIn = TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue(tokenResponse.TokenType, _accessToken);
-                _tokenStopwatch.Restart(); // Start the stopwatch for token expiration tracking.
+                var tokenType = tokenResponse.TokenType ?? "Bearer";
+
+            // Set the access token and its expiration.
+            _accessToken = tokenResponse.AccessToken;
+            _tokenExpiresIn = TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(tokenType, _accessToken);
+            _tokenStopwatch.Restart();
             }
             else
             {

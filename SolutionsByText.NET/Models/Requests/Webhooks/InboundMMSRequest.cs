@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the list of media files associated with the MMS message.
         /// </summary>
         [JsonPropertyName("Files")]
-        public List<MediaFile> Files { get; set; }
+        public List<MediaFile>? Files { get; set; }
     }
 }

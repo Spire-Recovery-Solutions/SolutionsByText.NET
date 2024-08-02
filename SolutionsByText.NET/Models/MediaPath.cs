@@ -13,15 +13,15 @@ namespace SolutionsByText.NET.Models
     public class MediaPath
     {
         [JsonPropertyName("fileName")]
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
         [JsonPropertyName("extension")]
-        public string Extension { get; set; }
+        public string? Extension { get; set; }
 
         [JsonPropertyName("fileSaveId")]
-        public string FileSaveId { get; set; }
+        public string? FileSaveId { get; set; }
 
         [JsonPropertyName("mimetype")]
-        public string Mimetype { get; set; }
+        public string? Mimetype { get; set; }
     }
 }

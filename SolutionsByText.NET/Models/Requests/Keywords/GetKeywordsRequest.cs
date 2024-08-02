@@ -14,7 +14,7 @@ namespace SolutionsByText.NET.Models.Requests.Keywords
         /// The unique identifier for the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Optional filter to apply to the keywords.

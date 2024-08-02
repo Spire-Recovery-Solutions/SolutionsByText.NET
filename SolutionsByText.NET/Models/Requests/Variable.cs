@@ -12,12 +12,12 @@ namespace SolutionsByText.NET.Models.Requests
         /// The name of the variable.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The value of the variable.
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The list of event data.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<EventData> EventData { get; set; }
+        public List<EventData>? EventData { get; set; }
     }
 }

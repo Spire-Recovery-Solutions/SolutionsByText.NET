@@ -9,13 +9,13 @@ namespace SolutionsByText.NET.Models.Requests.Keywords
         /// This parameter is required.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         // <summary>
         /// The name of the subscriber.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// The contact information for the subscriber.
@@ -39,6 +39,6 @@ namespace SolutionsByText.NET.Models.Requests.Keywords
         /// The user ID associated with the subscriber.
         /// </summary>
         [JsonPropertyName("userId")]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
     }
 }

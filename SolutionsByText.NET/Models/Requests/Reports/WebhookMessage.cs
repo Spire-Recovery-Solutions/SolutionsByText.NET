@@ -13,55 +13,55 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the subscriber information.
         /// </summary>
         [JsonPropertyName("subscriber")]
-        public Subscriber Subscriber { get; set; }
+        public Subscriber? Subscriber { get; set; }
 
         /// <summary>
         /// Gets or sets the unique identifier of the message.
         /// </summary>
         [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        public string? MessageId { get; set; }
 
         /// <summary>
         /// Gets or sets the delivery status of the message.
         /// </summary>
         [JsonPropertyName("deliveryStatus")]
-        public string DeliveryStatus { get; set; }
+        public string? DeliveryStatus { get; set; }
 
         /// <summary>
         /// Gets or sets the delivery status code of the message.
         /// </summary>
         [JsonPropertyName("deliveryStatusCode")]
-        public string DeliveryStatusCode { get; set; }
+        public string? DeliveryStatusCode { get; set; }
 
         /// <summary>
         /// Gets or sets the content of the message.
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or sets the template identifier used for the message.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public string TemplateId { get; set; }
+        public string? TemplateId { get; set; }
 
         /// <summary>
         /// Gets or sets the direction of the message.
         /// </summary>
         [JsonPropertyName("direction")]
-        public string Direction { get; set; }
+        public string? Direction { get; set; }
 
         /// <summary>
         /// Gets or sets the reference ID for tracking the message.
         /// </summary>
         [JsonPropertyName("referenceId")]
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the communication code associated with the message.
         /// </summary>
         [JsonPropertyName("communicationCode")]
-        public string CommunicationCode { get; set; }
+        public string? CommunicationCode { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time when the message was sent.
@@ -91,7 +91,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the user information.
         /// </summary>
         [JsonPropertyName("user")]
-        public User User { get; set; }
+        public User? User { get; set; }
 
         /// <summary>
         /// Gets or sets the local time when the message was sent.
@@ -121,7 +121,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the media details associated with the message.
         /// </summary>
         [JsonPropertyName("mediaDetails")]
-        public MediaDetails MediaDetails { get; set; }
+        public MediaDetails? MediaDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the total number of message segments.
@@ -133,13 +133,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the mode of communication used.
         /// </summary>
         [JsonPropertyName("modeOfCommunication")]
-        public string ModeOfCommunication { get; set; }
+        public string? ModeOfCommunication { get; set; }
 
         /// <summary>
         /// Gets or sets the custom parameters for the subscriber.
         /// </summary>
         [JsonPropertyName("subscriberCustomParams")]
-        public List<CustomParam> SubscriberCustomParams { get; set; }
+        public List<CustomParam>? SubscriberCustomParams { get; set; }
     }
 
 }

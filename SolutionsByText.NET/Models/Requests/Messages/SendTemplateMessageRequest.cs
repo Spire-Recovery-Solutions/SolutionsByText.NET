@@ -12,13 +12,13 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the unique identifier of the group to send the message to.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique identifier of the template to use.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public string TemplateId { get; set; }
+        public required string TemplateId { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the template to use (if templateId is not provided).
@@ -30,7 +30,7 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the type of message being sent (e.g., broadcast, unicast, multicast).
         /// </summary>
         [JsonPropertyName("messageType")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<MessageType>))]
         public MessageType MessageType { get; set; }
 
         /// <summary>

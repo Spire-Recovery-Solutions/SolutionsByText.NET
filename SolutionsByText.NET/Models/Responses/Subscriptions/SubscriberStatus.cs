@@ -13,25 +13,25 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the status of the subscriber.
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public string? Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the carrier.
         /// </summary>
         [JsonPropertyName("carrierName")]
-        public string CarrierName { get; set; }
+        public string? CarrierName { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the carrier.
         /// </summary>
         [JsonPropertyName("carrierId")]
-        public string CarrierId { get; set; }
+        public string? CarrierId { get; set; }
 
         /// <summary>
         /// Gets or sets the first opt-in date.
@@ -55,18 +55,18 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the type of opt-in.
         /// </summary>
         [JsonPropertyName("optinType")]
-        public string OptinType { get; set; }
+        public string? OptinType { get; set; }
 
         /// <summary>
         /// Gets or sets the type of opt-out.
         /// </summary>
         [JsonPropertyName("optoutType")]
-        public string OptoutType { get; set; }
+        public string? OptoutType { get; set; }
 
         /// <summary>
         /// Gets or sets the list of additional properties.
         /// </summary>
         [JsonPropertyName("properties")]
-        public List<Property> Properties { get; set; }
+        public List<Property>? Properties { get; set; }
     }
 }

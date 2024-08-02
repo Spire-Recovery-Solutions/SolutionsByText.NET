@@ -10,12 +10,12 @@ namespace SolutionsByText.NET.Models.Responses.Enums
     /// <summary>
     /// Defines the possible statuses of a scheduled message.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<ScheduleStatus>))]
     public enum ScheduleStatus
     {
         /// <summary>
         /// The message has been successfully scheduled.
-        /// </summary>
+        /// </summary>  
         Scheduled,
 
         /// <summary>

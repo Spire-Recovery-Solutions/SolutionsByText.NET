@@ -6,7 +6,7 @@ namespace SolutionsByText.NET.Models.Requests.Enums
     /// <summary>
     /// Defines the types of carriers that can be returned in phone number lookups.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<CarrierType>))]
     public enum CarrierType
     {
         /// <summary>
