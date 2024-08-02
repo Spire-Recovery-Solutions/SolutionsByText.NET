@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the payload containing the status data for the outbound message.
         /// </summary>
         [JsonPropertyName("Payload")]
-        public OutboundMessageStatusData Payload { get; set; }
+        public OutboundMessageStatusData? Payload { get; set; }
     }
 }

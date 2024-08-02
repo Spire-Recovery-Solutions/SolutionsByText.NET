@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the payload containing the details of the inbound message.
         /// </summary>
         [JsonPropertyName("Payload")]
-        public InboundMessageData Payload { get; set; }
+        public InboundMessageData? Payload { get; set; }
     }
 }

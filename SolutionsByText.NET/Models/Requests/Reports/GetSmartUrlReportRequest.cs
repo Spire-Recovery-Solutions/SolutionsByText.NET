@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The unique identifier for the brand.
         /// </summary>
         [JsonPropertyName("brandId")]
-        public string BrandId { get; set; }
+        public required string BrandId { get; set; }
 
         /// <summary>
         /// Indicates if a custom suffix is used.

@@ -12,12 +12,12 @@ namespace SolutionsByText.NET.Models.Requests
         /// The MSISDN (mobile number) of the subscriber.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public required string Msisdn { get; set; }
 
         /// <summary>
         /// The list of variables associated with the subscriber.
         /// </summary>
         [JsonPropertyName("variables")]
-        public List<Variable> Variables { get; set; }
+        public List<Variable>? Variables { get; set; }
     }
 }

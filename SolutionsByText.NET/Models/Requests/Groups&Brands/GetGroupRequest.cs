@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests
         /// Gets or sets the unique identifier of the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
     }
 }

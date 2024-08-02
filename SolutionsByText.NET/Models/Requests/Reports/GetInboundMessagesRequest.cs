@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the unique identifier of the group. (Required)
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the reference identifier for tracking. (Optional)

@@ -5,7 +5,7 @@ namespace SolutionsByText.NET.Models.Requests.Enums
     /// <summary>
     /// Defines the types of verification that can be used for subscriber opt-in.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<VerificationType>))]
     public enum VerificationType
     {
         /// <summary>

@@ -8,13 +8,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The group ID of the subscriber.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The mobile number of the subscriber (msisdn).
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public required string Msisdn { get; set; }
 
         /// <summary>
         /// The start date for the request.
@@ -32,6 +32,6 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The country code of the subscriber.
         /// </summary>
         [JsonPropertyName("countryCode")]
-        public string CountryCode { get; set; }
+        public required string CountryCode { get; set; }
     }
 }

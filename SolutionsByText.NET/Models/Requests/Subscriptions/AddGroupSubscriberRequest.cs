@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// Gets or sets the unique identifier of the group to add the subscriber to.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the subscriber.
@@ -37,7 +37,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// Gets or sets the phone number of the subscriber with dialing code.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public required string Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the landline number of the subscriber.
@@ -85,7 +85,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// Gets or sets the verification details for the subscriber.
         /// </summary>
         [JsonPropertyName("verification")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<VerificationType>))]
         public VerificationType? Verification { get; set; }
 
         /// <summary>

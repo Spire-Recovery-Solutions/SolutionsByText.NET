@@ -13,12 +13,12 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The name of the custom parameter.
         /// </summary>
         [JsonPropertyName("Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The value of the custom parameter.
         /// </summary>
         [JsonPropertyName("Value")]
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }

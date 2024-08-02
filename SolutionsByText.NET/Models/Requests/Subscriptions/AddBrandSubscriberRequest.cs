@@ -12,13 +12,13 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// Gets or sets the unique identifier of the brand.
         /// </summary>
         [JsonPropertyName("brandId")]
-        public string BrandId { get; set; }
+        public required string BrandId { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public required string Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the subscriber.

@@ -11,6 +11,6 @@ namespace SolutionsByText.NET.Models.Requests.Webhooks
         /// Gets or sets the type of the webhook payload, indicating the specific event or data type.
         /// </summary>
         [JsonPropertyName("Type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
     }
 }

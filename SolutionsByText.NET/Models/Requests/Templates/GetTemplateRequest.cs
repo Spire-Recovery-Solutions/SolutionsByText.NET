@@ -8,12 +8,12 @@ namespace SolutionsByText.NET.Models.Requests.Templates
         /// The unique identifier for the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The unique identifier for the template.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public string TemplateId { get; set; }
+        public required string TemplateId { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace SolutionsByText.NET.Models.Requests.Reports
     public class GetBrandVbtInboundMessageRequest : PaginationData
     {
         // Required: The unique identifier for the brand
-        [JsonPropertyName("brandId")] public string BrandId { get; set; }
+        [JsonPropertyName("brandId")] 
+        public required string BrandId { get; set; }
 
         /// <summary>
         /// Tracking ID for reference notes.

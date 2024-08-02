@@ -8,6 +8,6 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the transaction ID.
         /// </summary>
         [JsonPropertyName("transactionId")]
-        public string TransactionId { get; set; }
+        public string? TransactionId { get; set; }
     }
 }

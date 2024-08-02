@@ -17,6 +17,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Gets or sets the list of inbound messages.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<WebhookMessage> Data { get; set; }
+        public List<WebhookMessage>? Data { get; set; }
     }
 }

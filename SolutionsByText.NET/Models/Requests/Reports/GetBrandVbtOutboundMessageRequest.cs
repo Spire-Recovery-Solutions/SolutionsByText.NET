@@ -12,7 +12,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
     {
         // Required: The unique identifier for the brand
         [JsonPropertyName("brandId")]
-        public string BrandId { get; set; }
+        public required string BrandId { get; set; }
 
         /// <summary>
         /// Tracking ID for the opt-in verification message.
@@ -48,7 +48,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Type of the message (Enum values).
         /// </summary>
         [JsonPropertyName("type")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<OutboundMessageType>))]
         public OutboundMessageType? Type { get; set; }
     }
 }

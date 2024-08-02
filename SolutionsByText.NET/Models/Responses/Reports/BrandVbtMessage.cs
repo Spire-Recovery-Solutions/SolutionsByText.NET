@@ -1,10 +1,5 @@
 ﻿using SolutionsByText.NET.Models.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses.Reports
 {
@@ -14,55 +9,55 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Subscriber details.
         /// </summary>
         [JsonPropertyName("subscriber")]
-        public Subscriber Subscriber { get; set; }
+        public Subscriber? Subscriber { get; set; }
 
         /// <summary>
         /// Unique identifier for the message.
         /// </summary>
         [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        public string? MessageId { get; set; }
 
         /// <summary>
         /// Delivery status of the message.
         /// </summary>
         [JsonPropertyName("deliveryStatus")]
-        public string DeliveryStatus { get; set; }
+        public string? DeliveryStatus { get; set; }
 
         /// <summary>
         /// Delivery status code.
         /// </summary>
         [JsonPropertyName("deliveryStatusCode")]
-        public string DeliveryStatusCode { get; set; }
+        public string? DeliveryStatusCode { get; set; }
 
         /// <summary>
         /// Message content.
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Template identifier.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public string TemplateId { get; set; }
+        public string? TemplateId { get; set; }
 
         /// <summary>
         /// Direction of the message (e.g., "Inbound", "Outbound", "Both").
         /// </summary>
         [JsonPropertyName("direction")]
-        public string Direction { get; set; }
+        public string? Direction { get; set; }
 
         /// <summary>
         /// Reference identifier for tracking.
         /// </summary>
         [JsonPropertyName("referenceId")]
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Communication code related to the message.
         /// </summary>
         [JsonPropertyName("communicationCode")]
-        public string CommunicationCode { get; set; }
+        public string? CommunicationCode { get; set; }
 
         /// <summary>
         /// Time the message was sent (UTC).
@@ -92,7 +87,7 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// User details related to the message.
         /// </summary>
         [JsonPropertyName("user")]
-        public User User { get; set; }
+        public User? User { get; set; }
 
         /// <summary>
         /// Sent time in local timezone.
@@ -122,7 +117,7 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Media details associated with the message.
         /// </summary>
         [JsonPropertyName("mediaDetails")]
-        public MediaDetails MediaDetails { get; set; }
+        public MediaDetails? MediaDetails { get; set; }
 
         /// <summary>
         /// Total number of message segments.
@@ -134,18 +129,18 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Category of the message (e.g., promotional, transactional).
         /// </summary>
         [JsonPropertyName("messageCategory")]
-        public string MessageCategory { get; set; }
+        public string? MessageCategory { get; set; }
 
         /// <summary>
         /// Mode of communication (e.g., SMS, Email).
         /// </summary>
         [JsonPropertyName("modeOfCommunication")]
-        public string ModeOfCommunication { get; set; }
+        public string? ModeOfCommunication { get; set; }
 
         /// <summary>
         /// Custom parameters for the subscriber.
         /// </summary>
         [JsonPropertyName("subscriberCustomParams")]
-        public List<CustomParam> SubscriberCustomParams { get; set; }
+        public List<CustomParam>? SubscriberCustomParams { get; set; }
     }
 }

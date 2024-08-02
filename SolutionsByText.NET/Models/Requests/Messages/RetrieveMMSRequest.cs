@@ -8,18 +8,18 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// The unique identifier for the group.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The unique identifier for the message.
         /// </summary>
         [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        public required string MessageId { get; set; }
 
         /// <summary>
         /// The unique identifier for the file.
         /// </summary>
         [JsonPropertyName("fileId")]
-        public string FileId { get; set; }
+        public required string FileId { get; set; }
     }
 }

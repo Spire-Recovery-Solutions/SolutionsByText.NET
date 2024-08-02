@@ -11,12 +11,12 @@ namespace SolutionsByText.NET.Models
         /// Gets or sets the name of the property.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }

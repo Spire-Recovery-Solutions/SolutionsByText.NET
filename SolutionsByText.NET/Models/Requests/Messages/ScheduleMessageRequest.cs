@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the unique identifier of the group to send the message to.
         /// </summary>
         [JsonPropertyName("groupId")]
-        public string GroupId { get; set; }
+        public required string GroupId { get; set; }
 
         /// <summary>
         /// The sender of the message.
@@ -25,7 +25,7 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// The content of the message.
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public required string Message { get; set; }
 
         /// <summary>
         /// The date and time when the message is scheduled to be sent.

@@ -11,12 +11,12 @@ namespace SolutionsByText.NET.Models.Responses.PhoneNumbers
         /// Gets or sets the phone number.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public string? Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the carrier information.
         /// </summary>
         [JsonPropertyName("carrier")]
-        public CarrierInfo Carrier { get; set; }
+        public CarrierInfo? Carrier { get; set; }
     }
 }

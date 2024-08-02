@@ -13,6 +13,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         ///  Brand Vbt Message Detials
         /// </summary>
         [JsonPropertyName("data")]
-        public List<BrandVbtMessage> Items { get; set; }
+        public List<BrandVbtMessage>? Items { get; set; }
     }
 }

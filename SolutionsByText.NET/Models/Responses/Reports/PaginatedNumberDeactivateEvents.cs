@@ -13,6 +13,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Gets or sets the collection of Carrier items.
         /// </summary>
         [JsonPropertyName("data")]
-        public List<CarrierChange> Items { get; set; }
+        public List<CarrierChange>? Items { get; set; }
     }
 }

@@ -13,6 +13,6 @@ namespace SolutionsByText.NET.Models
     public class MediaDetails
     {
         [JsonPropertyName("mediaPath")]
-        public List<MediaPath> MediaPath { get; set; }
+        public List<MediaPath>? MediaPath { get; set; }
     }
 }

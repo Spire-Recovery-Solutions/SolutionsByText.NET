@@ -33,7 +33,7 @@ namespace SolutionsByText.NET.Service
                     new Subscriber { Msisdn = "1234567890" }
                 }
             });
-            Console.WriteLine($"Message sent. Message ID: {response?.Data.MessageId}");
+            Console.WriteLine($"Message sent. Message ID: {response?.Data?.MessageId}");
         }
 
         // Sends a template message to a group
@@ -45,7 +45,7 @@ namespace SolutionsByText.NET.Service
                 TemplateId = "your-template-id",
                 MessageType = MessageType.Multicast
             });
-            Console.WriteLine($"Template message sent. Message ID: {response?.Data.MessageId}");
+            Console.WriteLine($"Template message sent. Message ID: {response?.Data?.MessageId}");
         }
 
         // Schedules a message to be sent later
@@ -111,7 +111,7 @@ namespace SolutionsByText.NET.Service
             {
                 GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
-            Console.WriteLine($"Group information retrieved. Group Name: {response.Name}");
+            Console.WriteLine($"Group information retrieved. Group Name: {response?.Name}");
         }
 
         // Retrieves outbound messages for a group
@@ -121,7 +121,7 @@ namespace SolutionsByText.NET.Service
             {
                 GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
-            Console.WriteLine($"Outbound Message retrieved. Total Count : {response.Data.TotalCount}");
+            Console.WriteLine($"Outbound Message retrieved. Total Count : {response?.Data?.TotalCount}");
         }
 
         // Retrieves inbound messages for a group
@@ -131,7 +131,7 @@ namespace SolutionsByText.NET.Service
             {
                 GroupId = "ad15c9f4-d349-4846-9a2b-ec9dc492b7bb"
             });
-            Console.WriteLine($"Inbound Message retrieved. Total Count : {response.Data.TotalCount}");
+            Console.WriteLine($"Inbound Message retrieved. Total Count : {response?.Data?.TotalCount}");
         }
 
         // Retrieves deactivation events for a specified date

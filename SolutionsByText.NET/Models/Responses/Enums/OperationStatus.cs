@@ -11,7 +11,7 @@ namespace SolutionsByText.NET.Models.Responses.Enums
     /// <summary>
     /// Defines the possible statuses of an operation.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<OperationStatus>))]
     public enum OperationStatus
     {
         /// <summary>

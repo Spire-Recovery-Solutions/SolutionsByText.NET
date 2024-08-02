@@ -13,18 +13,18 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the unique identifier assigned to the message.
         /// </summary>
         [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        public string? MessageId { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber.
         /// </summary>
         [JsonPropertyName("msisdn")]
-        public string Msisdn { get; set; }
+        public string? Msisdn { get; set; }
 
         /// <summary>
         /// Gets or sets the PIN for the subscriber.
         /// </summary>
         [JsonPropertyName("pin")]
-        public string Pin { get; set; }
+        public string? Pin { get; set; }
     }
 }
