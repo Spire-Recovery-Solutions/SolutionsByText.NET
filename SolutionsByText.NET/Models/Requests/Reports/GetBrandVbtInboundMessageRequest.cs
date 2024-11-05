@@ -42,7 +42,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Type of the message (Enum values).
         /// </summary>
         [JsonPropertyName("type")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(JsonStringEnumConverter<InboundMessageType>))]
         public InboundMessageType? Type { get; set; }
     }
 }
