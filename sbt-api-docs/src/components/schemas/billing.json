@@ -1,0 +1,142 @@
+{
+  "BillingContact": {
+    "required": [
+      "email"
+    ],
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "phone": {
+        "type": "string",
+        "format": "tel",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "notificationEmails": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Billing": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "addressLine1": {
+        "type": "string",
+        "nullable": true
+      },
+      "addressLine2": {
+        "type": "string",
+        "nullable": true
+      },
+      "city": {
+        "type": "string",
+        "nullable": true
+      },
+      "state": {
+        "type": "string",
+        "nullable": true
+      },
+      "zipCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BillingDetailsParam": {
+    "type": "object",
+    "properties": {
+      "billingAddress": {
+        "$ref": "#/components/schemas/Billing"
+      }
+    },
+    "additionalProperties": false
+  },
+  "BillingAccountDetails": {
+    "type": "object",
+    "properties": {
+      "billingCycle": {
+        "type": "string",
+        "nullable": true
+      },
+      "billingStartDate": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentType": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentDetails": {
+        "type": "string",
+        "nullable": true
+      },
+      "payableamount": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentExpiry": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetReplenishmentBillingDate": {
+    "type": "object",
+    "properties": {
+      "replenishmentBillingDate": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetReplenishmentBillingDateExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/GetReplenishmentBillingDate"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

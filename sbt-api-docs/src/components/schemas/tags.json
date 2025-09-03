@@ -1,0 +1,80 @@
+{
+  "Tags": {
+    "type": "object",
+    "properties": {
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "orgUnitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "tagName": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "TagsPaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64",
+        "readOnly": true
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Tags"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "TagsPaginatedResponse2ExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/TagsPaginatedResponse2"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

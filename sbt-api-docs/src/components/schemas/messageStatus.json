@@ -1,0 +1,144 @@
+{
+  "MessageStatusRequestPayload": {
+    "type": "object",
+    "properties": {
+      "Type": {
+        "type": "string",
+        "nullable": false,
+        "description": "MessageStatus"
+      },
+      "Payload": {
+        "$ref": "#/components/schemas/MessageStatusPayload"
+      }
+    },
+    "additionalProperties": false
+  },
+  "MessageStatusPayload": {
+    "type": "object",
+    "properties": {
+      "AccountId": {
+        "type": "string",
+        "description": "SBT customer account ID.",
+        "example": "271759e9-ca4f-4835-be61-0fe38d051559",
+        "nullable": true
+      },
+      "Message": {
+        "type": "string",
+        "description": "Message content.",
+        "example": "Hello! Your account is currently at $426. Contact us for more...",
+        "nullable": true
+      },
+      "Msisdn": {
+        "type": "string",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902",
+        "nullable": true
+      },
+      "GroupName": {
+        "type": "string",
+        "description": "Name of the messaging group from which the message was sent.",
+        "example": "Account Updates",
+        "nullable": true
+      },
+      "GroupId": {
+        "type": "string",
+        "description": "The identifier of the group from which the message was sent.",
+        "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+        "nullable": true
+      },
+      "BrandId": {
+        "type": "string",
+        "description": "The identifier of the brand from which the message was sent.",
+        "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+        "nullable": true
+      },
+      "CommunicationCode": {
+        "type": "string",
+        "description": "Short Code or 10DLC used to send the message.",
+        "example": "54321",
+        "nullable": true
+      },
+      "DeliveredTime": {
+        "type": "string",
+        "description": "Time the message was delivered to the handset.",
+        "example": "2023-11-11T15:01:11Z",
+        "format": "date-time"
+      },
+      "Properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PropertiesNew"
+        },
+        "nullable": true
+      },
+      "StatusCode": {
+        "type": "string",
+        "description": "Status code for the message. See the table below for codes and definitions.",
+        "example": "100",
+        "nullable": true
+      },
+      "StatusCodeDescription": {
+        "type": "string",
+        "description": "Status code definition for the message. See the table below for codes and definitions.",
+        "example": "Message was successfully delivered",
+        "nullable": true
+      },
+      "MessageId": {
+        "type": "string",
+        "description": "Message tracking ID number from SBT.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true
+      },
+      "ReferenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "Channel": {
+        "type": "string",
+        "description": "Message type (SMS, MMS, or RCS).",
+        "example": "SMS",
+        "nullable": true
+      },
+      "TotalMessageSegments": {
+        "type": "integer",
+        "description": "Number of message segments used by the message.",
+        "example": 2,
+        "nullable": true
+      },
+      "MessageType": {
+        "type": "string",
+        "enum": [
+          "TwoWay",
+          "Unicast",
+          "Vbt",
+          "Multicast"
+        ],
+        "example": "TwoWay",
+        "description": "Type of message sent.",
+        "nullable": true
+      },
+      "files": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MediaFile"
+        },
+        "nullable": true
+      },
+      "templateId": {
+        "type": "integer",
+        "example": 1,
+        "description": "Identifying number of the template.",
+        "nullable": true
+      },
+      "userName": {
+        "type": "string",
+        "example": "jdoe",
+        "description": "Name of the SBT platform user who sent the message.",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

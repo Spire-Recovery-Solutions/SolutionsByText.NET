@@ -7,19 +7,19 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// <summary>
         /// The unique identifier for the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The unique identifier for the message.
         /// </summary>
-        [JsonPropertyName("messageId")]
-        public required string MessageId { get; set; }
+        [JsonIgnore]
+        public string MessageId { get; set; } = string.Empty;
 
         /// <summary>
         /// The unique identifier for the file.
         /// </summary>
-        [JsonPropertyName("fileId")]
-        public required string FileId { get; set; }
+        [JsonIgnore]
+        public string FileId { get; set; } = string.Empty;
     }
 }

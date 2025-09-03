@@ -1,0 +1,170 @@
+{
+  "Outbound": {
+    "post": {
+      "summary": "Outbound Message Status",
+      "description": "**Description:** This webhook is triggered as a message sent by a Client progresses to a Subscriber.\n\nIt allows Clients to track the progress of sent messages. When the message is queued or delivered, or if a problem is encountered, Outbound Message Status will send the relevant Status Code to the Client's target URL.\n\nSee *Status Codes* below for a full list of codes.",
+      "operationId": "Outbound",
+      "tags": [
+        "Webhook"
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MessageStatusRequestPayload"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Inbound": {
+    "post": {
+      "summary": "Inbound Message Status",
+      "description": "**Description:** This webhook is triggered by receipt of a message to a Client’s SBT Account. Every message received sends the JSON payload to the Client's target URL.\n\n**Use Case:** The data can be used to alert agents that a message was received, to send automated responses, or for any other purpose required by the client.\n\n**Delete Subscriber Stop:** When the *Delete Subscriber* API is called, SBT posts a stop to this webhook.\n\n**OriginalMessage and Message Fields:** These fields will typically carry the same content, notably in the case of two-way chat. However, when a consumer sends in a reserved word, the *Message* field returns info on the keyword operation being executed—STOP, STOPALL, or HELP—while the Original Message will contain the verbatim message.",
+      "operationId": "Inbound",
+      "tags": [
+        "Webhook"
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InboundMessagesRequestPayload"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Inbound MMS": {
+    "post": {
+      "summary": "Inbound MMS Status",
+      "description": "**Description:** Sends the client alerts when inbound messages with MMS attachments are received, and includes the data required to retrieve and save the MMS images. \n\n**Use Case:** A Client wants to know when an MMS image is received as an inbound message so that they can retrieve the image and store it in their system.",
+      "operationId": "InboundMMS",
+      "tags": [
+        "Webhook"
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InboundMMSRequestPayload"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "SmartURL": {
+    "post": {
+      "summary": "SmartURL Click",
+      "description": "**Description:** The webhook acts as a trigger when a user clicks on a SmartURL. It then sends the click event details, to the Client's URL set up at the brand-level webhook configuration.\n\n**Use Case:** The SmartURL click event acts as a monitoring mechanism for the clients, alerting them as and when a SmartURL has been clicked with the details of the click event.",
+      "operationId": "SmartURL",
+      "tags": [
+        "Webhook"
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SmartUrlClickEventRequestPayload"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

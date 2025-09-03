@@ -8,13 +8,13 @@ namespace SolutionsByText.NET.Models.Requests.Templates
         /// <summary>
         /// The unique identifier for the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The search term to filter results.
         /// </summary>
-        [JsonPropertyName("search")]
+        [JsonIgnore]
         public string? Search { get; set; }
     }
 }

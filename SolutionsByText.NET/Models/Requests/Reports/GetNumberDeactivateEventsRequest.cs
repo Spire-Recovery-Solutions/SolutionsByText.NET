@@ -7,31 +7,31 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// <summary>
         /// The group ID of the subscriber.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The mobile number of the subscriber (msisdn).
         /// </summary>
-        [JsonPropertyName("msisdn")]
-        public required string Msisdn { get; set; }
+        [JsonIgnore]
+        public string Msisdn { get; set; } = string.Empty;
 
         /// <summary>
         /// The start date for the request.
         /// </summary>
-        [JsonPropertyName("fromDate")]
+        [JsonIgnore]
         public DateTime? FromDate { get; set; }
 
         /// <summary>
         /// The end date for the request.
         /// </summary>
-        [JsonPropertyName("toDate")]
+        [JsonIgnore]
         public DateTime? ToDate { get; set; }
 
         /// <summary>
         /// The country code of the subscriber.
         /// </summary>
-        [JsonPropertyName("countryCode")]
-        public required string CountryCode { get; set; }
+        [JsonIgnore]
+        public string CountryCode { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,76 @@
+{
+  "Aggregator": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "displayName": {
+        "type": "string",
+        "nullable": true
+      },
+      "type": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AggregatorListExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Aggregator"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "AggregatorStatus": {
+    "enum": [
+      "A",
+      "Active",
+      "Inactive",
+      "Temp"
+    ],
+    "type": "string"
+  },
+  "ApiRoleResponse": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "displayName": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "displayOrder": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "additionalProperties": false
+  }
+}

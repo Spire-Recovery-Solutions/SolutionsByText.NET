@@ -22,8 +22,8 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// Gets or sets the unique identifier of the brand.
         /// This parameter is required.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The name of the template to be used for the message.

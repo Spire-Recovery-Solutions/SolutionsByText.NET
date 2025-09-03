@@ -1,0 +1,405 @@
+{
+  "OrgunitIdResponse": {
+    "type": "object",
+    "properties": {
+      "orgunitId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitIdResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/OrgunitIdResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgUnitModel": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "groups": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/GroupModel"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgUnitModelBasicDetails": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "isDefault": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitParam": {
+    "required": [
+      "email",
+      "name"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "contactNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "website": {
+        "type": "string",
+        "nullable": true
+      },
+      "details": {
+        "type": "string",
+        "nullable": true
+      },
+      "groupQuota": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "groups": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "userIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitPatch": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "tenantKey": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "contactNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "website": {
+        "type": "string",
+        "nullable": true
+      },
+      "details": {
+        "type": "string",
+        "nullable": true
+      },
+      "groupQuota": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "groups": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "users": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "userIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "shortenEnabled": {
+        "type": "boolean",
+        "default": true
+      },
+      "shortenUrlLength": {
+        "type": "integer",
+        "format": "int32",
+        "default": 15
+      },
+      "urllist": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "sbtOrgunitId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "tenantKey": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "prefixCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "contactNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "website": {
+        "type": "string",
+        "nullable": true
+      },
+      "details": {
+        "type": "string",
+        "nullable": true
+      },
+      "groupQuota": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "groups": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        },
+        "nullable": true
+      },
+      "userIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "defaultBrand": {
+        "type": "boolean"
+      },
+      "shortenEnabled": {
+        "type": "boolean"
+      },
+      "shortenUrlLength": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "urllist": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "communicationCodes": {
+        "$ref": "#/components/schemas/CommunicationCodes"
+      },
+      "sbtOrgunitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "childGroups": {
+        "$ref": "#/components/schemas/GroupResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/OrgunitResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitResponseListPaginatedResponse": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "filterCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgunitResponse"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "OrgunitResponseListPaginatedResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/OrgunitResponseListPaginatedResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,737 @@
+{
+  "/groups/{groupId}/subscribers/status": {
+    "get": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Get Subscriber Status",
+      "description": "**Description:** Checks if a phone number is in a group or specific consent category. It allows clients to determine if a subscriber has opted in to receive Marketing or Non-Marketing messages. It can be used to check for the user’s status for a group within a brand.\n\n**Use Case:** Used when the client needs to determine if a user has opted in to receive messages, or to check the consent categories the user has opted into.\n\n**Usage Limits:** This call can check up to 50 numbers in a batch.\n\n**Query Format:** Add each phone number/MSISDN to the endpoint URL. Example:\n\n{Production or Staging Endpoint}/groups/{groupId}/subscribers/status?msisdn=12345678910\n&msisdn=13456789123&msisdn=14567891234&msisdn=15678912345&msisdn=16789123456",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group of which the subscriber is a member.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "query",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Message\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Message\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1139| Mobile numbers are required\nsub.1140| Maximum of 50 mobile numbers are allowed\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Message\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Message\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Add Subscriber to a Group",
+      "description": "**Description:** Adds a Subscriber to a messaging group. It adds one Subscriber per call; each Subscriber to be added requires a separate API call. It also initiates the process to obtain the opt-in consent as specified during the API call.\n\nConsent may be determined/specified by one of the following means:\n* A keyword response by a subscriber. The subscriber replies with a keyword selected by the client. The keyword can be as simple as YES.\n* A one-time PIN. The subscriber replies with a PIN code sent by the client, which can be entered by the subscriber into a web form or read to an agent. See Confirm Subscriber with PIN for the corresponding API call to confirm the PIN.\n* Opt-In. The subscriber is notified that they have been added to a group with the option to opt out by a replying with a STOP keyword.\n* Silent Opt-In. The subscriber is added to a group without any notification. However, the user is free to opt-out by replying with a STOP keyword.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the subscriber is being added.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SubscriberRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SubscriberRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/SubscriberRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Created",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusResponseExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Message\n----------------|---------\ngrp.1001 | GroupId is required\ngrp.1002 | Invalid GroupId\nsub.1013 | Mobile number is invalid\nsub.1143 | Verification type is not allowed\nsub.1144 | Mobile number is required\nsub.1148 | *customParams* name is mandatory\nmsg.1048 | Content URL is not accessible\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\ngrp.1403 | Access denied for On Demand Messaging Group\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "409": {
+          "x-summary": "Conflict",
+          "description": "App Code  | Description\n----------------|---------\nsub.1019 | Subscriber exists\nsub.1021 | msisdn already under verification\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\n----------------|---------\nsub.1019 | Subscriber exists\nsub.1021 | msisdn already under verification\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers/{msisdn}/verification": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Confirm Group Subscriber with PIN",
+      "description": "**Description:** The second half of the Add Subscriber workflow; it is implemented when a client is using a one-time PIN for opt-in consent from the user. The PIN can be entered by client personnel when read back by the customer during a voice call. The Client may also implement a web interface for the Subscriber to enter the PIN themselves.\n\n**Use Case:** Used if the client or their subscribers want an extra layer of security for the opt-in consent process.\n\n*Example:* A company modifies its enrollment process for new customers. They include a phone number field on their online portal’s enrollment form which allows new customers to enter a cell phone number. The portal then makes an Add Subscriber request with the PIN opt-in method, and the portal platform sends a PIN to the new customer.\n\nThe new customer enters the PIN back into the web portal. There are two possible outcomes:\n1. If the PIN entered by the new customer does not match the PIN generated in response to the Add Subscriber call, the portal should display an error and ask the customer to re-enter the PIN.\n2. If the PIN entered by the new customer matches the PIN generated in response to the Add Subscriber call, the portal should invoke the Confirm Subscriber with PIN API call to complete adding the new customer as a subscriber to the T2C platform. The T2C platform will then send an opt-in confirmation message to the subscriber.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the subscriber will be added.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusVerificationResponseExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\nsub.1142| Invalid or expired pin\nsub.1144| Mobile number is required\nsub.1145| PIN is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1004 | Group creation is not proper\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers?pageNumber={pageNumber}&pageSize={pageSize}": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get All Subscribers In a Group",
+      "description": "**Description:** Returns a list of subscribers in a group, including opt-in and opt-out status for each subscriber.\n\n**Use Case:** Clients can confirm existing subscriber numbers, or check for newly added subscriber numbers and compare with earlier lists—find the delta, in mathematical terms.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The identifier of the group being polled.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "startsWith",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "search",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "from",
+          "in": "query",
+          "required": false,
+          "description": "Start date of query. Default is first of the current month. Must include the *to* date (shown below) or omitted; an error will result otherwise.",
+          "example": "2024-05-13T00:00:00Z",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": false,
+          "description": "End date of query. Default is the current date. Must include the *from* date (shown above) or omitted; an error will result otherwise.",
+          "example": "2024-05-17T00:00:00Z",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each returned page.",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1147| Todate should be greater than fromdate\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse400ForGetAllSubcriberInGroup"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse403ForGetAllSubcriberInGroup"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse500ForGetAllSubcriberInGroup"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers/{msisdn}/reactivation-request": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Reactivate Subscriber",
+      "description": "**Description:** This API returns an inactive subscriber to *active* status. It has two use cases:\n\n**Use Case 1:** Re-opts-in a subscriber who had been opted out and is currently inactive. VBT type usage is as follows:\n* PIN and Reserved VBT: Used when the subscriber originally opted out via reserved word.\n* VBT Auto: Used when the subscriber originally opted out via a carrier event or client opt-outs.\n\n**Use Case 2:** Prompt an unverified subscriber who is in *under verification* status with another PIN or Reserved Word so that they may act and become an active subscriber.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the subscriber will be added.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReactivateSubscriber"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReactivateSubscriber"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReactivateSubscriber"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Created",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusResponseExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Message\n----------------|---------\ngrp.1001 | GroupId is required\ngrp.1002 | Invalid GroupId\nsub.1013 | Mobile number is invalid\nsub.1143 | Verification type is not allowed\nsub.1144 | Mobile number is required\nsub.1148 | *customParams* name is mandatory\nmsg.1048 | Content URL is not accessible\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\ngrp.1403 | Access denied for On Demand Messaging Group\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "409": {
+          "x-summary": "Conflict",
+          "description": "App Code  | Description\n----------------|---------\nsub.1019 | Subscriber exists\nsub.1021 | msisdn already under verification\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1003 | Consent category is not associated to group\ngrp.1004 | Group creation is not proper\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers/{msisdn}/": {
+    "delete": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Delete Subscriber",
+      "description": "**Description:** Removes a subscriber from receiving messages from any specified groups to which they have been subscribed. Clients must specify the group from which to remove the subscriber, and may remove one subscriber per call to this API.\n\n**Use Case:** Delete Subscriber may be used to remove a single subscriber upon request or when removing accounts during a regular rotation. Typical instances include customers leaving the organization, closing accounts, completing obligations, or if the customer decides that they no longer want to receive text messages.\n\n*Example:* A customer of an insurance company decides against renewing their policy. When the policy lapses, the company must archive the customer record in its CRM. Also, the customer may no longer want to receive text messages from the company. The CRM would invoke the Unsubscribe/Opt-Out API call to remove the customer from any relevant T2C groups.\n\n**Usage Limits:** Clients may remove one subscriber per call using this API.\n\n**Inbound Message Status Webhook Stop:** When this API is called, SBT posts a stop to the *Inbound Message Status* webhook.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which the subscriber will be deleted.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\nsub.1144| Mobile number is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\n----------------|---------\ngen.4404 | Resource Not Found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/subscribers/{msisdn}/subscription-cancellation": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Delete Subscriber (v2)",
+      "description": "**The previous version of this API will be deprecated; watch for an announcement from SBT for a date of effect.**\n\n**Description:** Removes a subscriber from receiving messages from any specified groups to which they have been subscribed. Clients must specify the group from which to remove the subscriber, and may remove one subscriber per call to this API.\n\n**Use Case:** Delete Subscriber may be used to remove a single subscriber upon request or when removing accounts during a regular rotation. Typical instances include customers leaving the organization, closing accounts, completing obligations, or if the customer decides that they no longer want to receive text messages.\n\n*Example:* A customer of an insurance company decides against renewing their policy. When the policy lapses, the company must archive the customer record in its CRM. Also, the customer may no longer want to receive text messages from the company. The CRM would invoke the Unsubscribe/Opt-Out API call to remove the customer from any relevant T2C groups.\n\n**Usage Limits:** Clients may remove one subscriber per call using this API.\n\n**Inbound Message Status Webhook Stop:** When this API is called, SBT posts a stop to the *Inbound Message Status* webhook.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which the subscriber will be deleted.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DeleteSubscriberSilent"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DeleteSubscriberSilent"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/DeleteSubscriberSilent"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\nsub.1144| Mobile number is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\ngrp.1403 | Access denied for On Demand Messaging Group\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\n----------------|---------\ngen.4404 | Resource Not Found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

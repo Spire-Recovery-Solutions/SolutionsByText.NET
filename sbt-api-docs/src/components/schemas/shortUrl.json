@@ -1,0 +1,565 @@
+{
+  "CreateShorturlsResponse": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateShorturlsResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CreateShorturlsResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetShortUrlDetailsResult": {
+    "type": "object",
+    "properties": {
+      "result": {
+        "type": "string",
+        "nullable": true
+      },
+      "errorCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "response": {
+        "$ref": "#/components/schemas/ResponseShortUrlDetails"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlsUpdateRequest": {
+    "required": [
+      "longUrl"
+    ],
+    "type": "object",
+    "properties": {
+      "longUrl": {
+        "type": "string",
+        "description": "The new long URL.",
+        "example": "https://example.com/directory/subdirectory/page.htm",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlRequest": {
+    "required": [
+      "longUrl"
+    ],
+    "type": "object",
+    "properties": {
+      "longUrl": {
+        "description": "The original long URL.",
+        "example": "https://example.com/directory/subdirectory/page.htm",
+        "nullable": true
+      },
+      "UrlSuffix": {
+        "type": "string",
+        "nullable": true
+      },
+      "domain": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ResponseShortUrlDetails": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "dateLog": {
+        "type": "string",
+        "nullable": true
+      },
+      "client_id": {
+        "type": "string",
+        "nullable": true
+      },
+      "urlString": {
+        "type": "string",
+        "nullable": true
+      },
+      "originalLink": {
+        "type": "string",
+        "nullable": true
+      },
+      "isCustomUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "totalClicks": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "interim_clicks": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateLongURLbyShortURLResponseDetails": {
+    "type": "object",
+    "properties": {
+      "LongUrl": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateLongURLbyShortURLExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "string",
+        "items": {
+          "$ref": "#/components/schemas/UpdateLongURLbyShortURLResponseDetails"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "Shorturlrules": {
+    "type": "object",
+    "properties": {
+      "externalReferenceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "parentOrgUnitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortenEnabled": {
+        "type": "boolean"
+      },
+      "urlLength": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "urllist": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlrulesExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/Shorturlrules"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlrulesResponse": {
+    "type": "object",
+    "properties": {
+      "shortenEnabled": {
+        "type": "boolean"
+      },
+      "urlLength": {
+        "type": "integer",
+        "format": "int32",
+        "default": 15
+      },
+      "urllist": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Shorturls": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "$ref": "#/components/schemas/ObjectId"
+      },
+      "externalReferenceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "orgunitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "longurl": {
+        "type": "string",
+        "nullable": true
+      },
+      "shorturl": {
+        "type": "string",
+        "nullable": true
+      },
+      "appId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlsPaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64",
+        "readOnly": true
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Shorturls"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlsPaginatedResponse2ExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ShorturlsPaginatedResponse2"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlsRequest": {
+    "type": "object",
+    "properties": {
+      "longUrls": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartClickShortUrlReport": {
+    "type": "object",
+    "properties": {
+      "getShortUrlDetailsResult": {
+        "$ref": "#/components/schemas/GetShortUrlDetailsResult"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartClickShortUrlReportExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SmartClickShortUrlReport"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlReport": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "description": "Total number of items in the query return.",
+        "example": 207,
+        "nullable": false
+      },
+      "totalPages": {
+        "type": "integer",
+        "description": "Number of pages in the query return.",
+        "example": 14,
+        "nullable": false
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ShorturlReportData"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlReportData": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "The SmartURL's identifier in the SBT system.",
+        "nullable": true
+      },
+      "longurl": {
+        "type": "string",
+        "example": "https://example.com/directory/subdirectory/page.htm",
+        "description": "The SmartURL's associated long URL.",
+        "nullable": true
+      },
+      "shorturl": {
+        "type": "string",
+        "description": "The SmartURL itself.",
+        "example": "https://s.s-url.pro/bDHpov",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "description": "Date the SmartURL was created.",
+        "example": "2023-08-05T05:03:40.23Z",
+        "nullable": true
+      },
+      "UpdatedOn": {
+        "type": "string",
+        "description": "Date the SmartURL was updated (if available).",
+        "example": "2024-04-05T07:37:51.20Z",
+        "nullable": true
+      },
+      "clickCount": {
+        "type": "string",
+        "description": "Number of times the SmartURL has been clicked by subscribers.",
+        "example": "11",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShorturlReportExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ShorturlReport"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShortUrlReportResponse": {
+    "type": "object",
+    "properties": {
+      "clickedDateTimeLocal": {
+        "type": "string",
+        "description": "Local time the subscriber clicked the SmartURL.",
+        "example": "2024-05-16T11:12:41.18Z",
+        "format": "date-time"
+      },
+      "clickedDateTime": {
+        "type": "string",
+        "description": "UTC time the subscriber clicked the SmartURL.",
+        "example": "2024-05-16T16:12:41.18Z",
+        "format": "date-time"
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date the SmartURL was created, in UTC.",
+        "example": "2023-08-05T016:03:40.23Z",
+        "nullable": true
+      },
+      "createdOnLocal": {
+        "type": "string",
+        "description": "Date the SmartURL was created, with the *TimeZoneOffset* included.",
+        "example": "2023-08-05T11:03:40.23Z",
+        "format": "date-time",
+        "nullable": true
+      },
+      "longUrl": {
+        "type": "string",
+        "description": "The original long URL.",
+        "example": "https://example.com/directory/subdirectory/page.htm",
+        "nullable": true
+      },
+      "shortUrl": {
+        "type": "string",
+        "description": "The SmartURL itself.",
+        "example": "https://s.s-url.pro/bDHpov",
+        "nullable": true
+      },
+      "isCustomSuffix": {
+        "description": "Yes/No if the SmartURL has a custom suffix.",
+        "example": "true *or* false",
+        "type": "boolean"
+      },
+      "ip": {
+        "type": "string",
+        "description": "IP address of the visiting device.",
+        "example": "192.168.1.66",
+        "nullable": true
+      },
+      "os": {
+        "type": "string",
+        "description": "Operating system of the visiting device.",
+        "example": "iOS",
+        "nullable": true
+      },
+      "deviceInfo": {
+        "type": "string",
+        "description": "Basic info for the visiting device.",
+        "example": "iPhone SE",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShortUrlReportResponsePaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ShortUrlReportResponse"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ShortUrlReportResponsePaginatedResponse2ExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ShortUrlReportResponsePaginatedResponse2"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "PasswordlessLoginTokenResponse": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string",
+        "nullable": true
+      },
+      "loginUrl": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PreVerifyTokenResponse": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PreVerifyTokenResponseGeneralResponse": {
+    "type": "object",
+    "properties": {
+      "statusCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "data": {
+        "$ref": "#/components/schemas/PreVerifyTokenResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "PreVerifyTokenResponseGeneralResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/PreVerifyTokenResponseGeneralResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

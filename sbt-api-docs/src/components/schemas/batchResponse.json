@@ -1,0 +1,33 @@
+{
+  "BatchResponse": {
+    "type": "object",
+    "properties": {
+      "batchId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BatchResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/BatchResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

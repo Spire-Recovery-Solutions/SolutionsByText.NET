@@ -1,19 +1,19 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Requests.Subscription
+namespace SolutionsByText.NET.Models.Requests.Subscriptions
 {
     public class GetBrandSubscriberStatusRequest
     {
         /// <summary>
         /// The unique identifier for the brand.
         /// </summary>
-        [JsonPropertyName("brandId")]
-        public required string BrandId { get; set; }
+        [JsonIgnore]
+        public string BrandId { get; set; } = string.Empty;
 
         /// <summary>
         /// Mobile number with dialing code (11 digits with no +; ex: 1##########).
         /// </summary>
-        [JsonPropertyName("msisdn")]
+        [JsonIgnore]
         public string? Msisdn { get; set; }
     }
 }

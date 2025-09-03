@@ -1,0 +1,126 @@
+{
+  "ObjectExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "nullable": true
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ObjectExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ObjectGeneralResponse": {
+    "type": "object",
+    "properties": {
+      "statusCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "data": {
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ObjectGeneralResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ObjectGeneralResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ObjectId": {
+    "type": "object",
+    "properties": {
+      "timestamp": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true
+      },
+      "machine": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true,
+        "deprecated": true
+      },
+      "pid": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true,
+        "deprecated": true
+      },
+      "increment": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true,
+        "deprecated": true
+      },
+      "creationTime": {
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "MessageResponse": {
+    "type": "object",
+    "properties": {
+      "messageId": {
+        "type": "string",
+        "description": "Message tracking ID number from SBT.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "MessageResponseODMPIN": {
+    "type": "object",
+    "properties": {
+      "validation": {
+        "type": "boolean",
+        "default": true
+      },
+      "msisdn": {
+        "type": "string",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902"
+      }
+    },
+    "additionalProperties": false
+  },
+  "MessageResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "MessageType": {
+    "enum": [
+      "Both",
+      "Inbound",
+      "Outbound"
+    ],
+    "description": "Type of message sent.",
+    "type": "string"
+  },
+  "ODMpayload": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "example": "1",
+        "description": "Identifying number of the template.",
+        "nullable": false
+      },
+      "templateName": {
+        "type": "string",
+        "example": "Account Status",
+        "description": "Only considered when *templateId* is not provided.",
+        "nullable": false
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "example": "12345678902",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      }
+    }
+  }
+}

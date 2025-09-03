@@ -1,0 +1,113 @@
+{
+  "CreateMfeAppRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "allowedOrigins": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateMfeAppResponse": {
+    "type": "object",
+    "properties": {
+      "appId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateMfeAppResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CreateMfeAppResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "MfeApp": {
+    "type": "object",
+    "properties": {
+      "appId": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "allowedOrigins": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "MfeAppIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MfeApp"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateMfeAppRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "allowedOrigins": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

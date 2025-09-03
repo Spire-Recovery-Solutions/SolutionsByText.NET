@@ -12,15 +12,15 @@ namespace SolutionsByText.NET.Models.Requests.SmartUrl
         /// Gets or sets the group ID.
         /// This parameter is required.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the short URL.
         /// This parameter is required and should be URL encoded.
         /// </summary>
-        [JsonPropertyName("shortUrl")]
-        public required string ShortUrl { get; set; }
+        [JsonIgnore]
+        public string ShortUrl { get; set; } = string.Empty;
 
         /// <summary>
         /// The long URL to be shortened.

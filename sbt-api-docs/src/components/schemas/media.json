@@ -1,0 +1,88 @@
+{
+  "MediaDetails": {
+    "type": "object",
+    "properties": {
+      "mediaPath": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MediaInfo"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "MediaInfo": {
+    "type": "object",
+    "properties": {
+      "fileName": {
+        "type": "string",
+        "description": "Name of the MMS file.",
+        "example": "image01",
+        "nullable": true
+      },
+      "extension": {
+        "type": "string",
+        "description": "MMS file type extension.",
+        "example": "",
+        "nullable": true
+      },
+      "fileSaveId": {
+        "type": "string",
+        "description": "",
+        "example": "",
+        "nullable": true
+      },
+      "mimetype": {
+        "type": "string",
+        "description": "",
+        "example": "",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "MediaFile": {
+    "type": "object",
+    "properties": {
+      "Id": {
+        "type": "string",
+        "description": "Automatically generated file ID number.",
+        "example": "04ffee3d-5d9b-4f66-8398-2b1e86a5bbd9",
+        "nullable": true
+      },
+      "Name": {
+        "type": "string",
+        "description": "Name of the file received.",
+        "example": "DEFAULT_012825094142193879.jpeg",
+        "nullable": true
+      }
+    }
+  },
+  "MediaDetail": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string",
+        "nullable": true
+      },
+      "fileName": {
+        "type": "string",
+        "nullable": true
+      },
+      "extension": {
+        "type": "string",
+        "nullable": true
+      },
+      "mimetype": {
+        "type": "string",
+        "nullable": true
+      },
+      "url": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

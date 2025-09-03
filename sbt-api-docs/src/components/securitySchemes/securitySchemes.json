@@ -1,0 +1,15 @@
+{
+  "oauth": {
+    "type": "oauth2",
+    "flows": {
+      "clientCredentials": {
+        "tokenUrl": "https://login-stage.solutionsbytext.com/connect/token"
+      }
+    }
+  },
+  "Bearer": {
+    "type": "http",
+    "scheme": "bearer",
+    "description": "JWT Authorization header using the Bearer scheme.  'Bearer {token}' - token generated from token url with clientId, secret received separately."
+  }
+}

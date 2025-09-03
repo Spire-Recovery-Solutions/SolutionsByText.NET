@@ -1,0 +1,523 @@
+{
+  "AddGroupResponse": {
+    "type": "object",
+    "properties": {
+      "groupId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AddGroupResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/AddGroupResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "AddressForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "address1": {
+        "type": "string",
+        "nullable": true,
+        "example": "7910 Noemie Knoll"
+      },
+      "address2": {
+        "type": "string",
+        "nullable": true,
+        "example": "Apt 101"
+      },
+      "city": {
+        "type": "string",
+        "nullable": true,
+        "example": "Madylinland"
+      },
+      "state": {
+        "type": "string",
+        "nullable": true,
+        "example": "CO"
+      },
+      "postalCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "99582"
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "US"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalErrorResponse500ForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above).",
+        "example": "gen.1500"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above).",
+        "example": "Internal Error"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": true,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalErrorResponse403ForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above).",
+        "example": "gen.1403"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above).",
+        "example": "Forbiddden"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": true,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalErrorResponse400ForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above).",
+        "example": "grp.1002"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above).",
+        "example": "Invalid GroupId"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": true,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/GroupResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupResponseListPagedResponse": {
+    "type": "object",
+    "properties": {
+      "pageNumber": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/GroupResponse"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupResponseListPagedResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/GroupResponseListPagedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupModel": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupParam": {
+    "required": [
+      "name"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "micrositeURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "userIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "consentCategory": {
+        "type": "string",
+        "description": "Type of consent granted by the subscriber: *Marketing* or *Non-Marketing*.",
+        "example": "Non-Marketing",
+        "nullable": true
+      },
+      "info": {
+        "type": "boolean",
+        "default": false
+      },
+      "notificationMobileNos": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "notificationEmails": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "chatEnabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "autoReponse": {
+        "type": "boolean",
+        "default": false
+      },
+      "autoResponseMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "helpMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "stopMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "optinMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GroupResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "channelId": {
+        "type": "string",
+        "nullable": true
+      },
+      "orgunitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "keywords": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Keywords"
+        },
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "micrositeURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        },
+        "nullable": true
+      },
+      "userIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "info": {
+        "type": "boolean"
+      },
+      "consentCategory": {
+        "type": "string",
+        "description": "Type of consent granted by the subscriber: *Marketing* or *Non-Marketing*.",
+        "example": "Non-Marketing",
+        "nullable": true
+      },
+      "notificationMobileNos": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "notificationEmails": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "chatEnabled": {
+        "type": "boolean"
+      },
+      "autoReponse": {
+        "type": "boolean"
+      },
+      "autoResponseMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "helpMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "stopMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "optinMessage": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "communicationCodes": {
+        "$ref": "#/components/schemas/CommunicationCodes"
+      },
+      "sbtOrgunitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "notificationSettings": {
+        "$ref": "#/components/schemas/NotificationSettings"
+      },
+      "consentCategoryId": {
+        "type": "string",
+        "nullable": true
+      },
+      "subscriptionOrgunitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "allowedVbtTypes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "defaultVbtType": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PropertiesForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true,
+        "description": "Customer-defined variables.",
+        "example": "UniqueId"
+      },
+      "value": {
+        "type": "string",
+        "nullable": true,
+        "description": "Customer-defined variables.",
+        "example": "12345"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RelationForGetAllSubcriberInGroup": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true,
+        "example": "John Doe"
+      },
+      "relationship": {
+        "type": "string",
+        "nullable": true,
+        "example": "Father"
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalGroupCount": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalGroupCountExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/TotalGroupCount"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

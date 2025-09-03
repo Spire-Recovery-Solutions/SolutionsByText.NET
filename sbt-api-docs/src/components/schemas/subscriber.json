@@ -1,0 +1,1149 @@
+{
+  "SubscriberExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/Subscriber"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "Request successful.",
+        "nullable": true,
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "example": "gen.1200",
+        "nullable": true,
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusResponse": {
+    "type": "object",
+    "properties": {
+      "messageId": {
+        "type": "string",
+        "nullable": true,
+        "description": "Opt-in verification Message tracking ID number from SBT.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5"
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902"
+      },
+      "pin": {
+        "type": "string",
+        "nullable": true,
+        "description": "PIN sent to the subscriber.",
+        "example": "210622"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusVerificationResponse": {
+    "type": "object",
+    "properties": {
+      "messageId": {
+        "type": "string",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true,
+        "description": "Opt-in verification Message tracking ID number from SBT."
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "example": "12345678902",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusVerificationResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SubscriberStatusVerificationResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SubscriberStatusResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SubscriberStatusResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "g.2201",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Created successfully",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandSubscriberStatus": {
+    "type": "object",
+    "properties": {
+      "consentCategory": {
+        "type": "string",
+        "description": "Type of consent granted by the subscriber: *Marketing* or *Non-Marketing*.",
+        "example": "Non-Marketing",
+        "nullable": true
+      },
+      "groupIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "The groups of which the subscriber is a member.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7, 425fa869-6116-4e0c-af1c-0c764e78bc70"
+        },
+        "nullable": true
+      },
+      "status": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscription status: *Active*, *InActive*, *Not a Subscriber*, or *UnderVerification*."
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "example": "12345678902",
+        "description": "Mobile number with dialing code"
+      },
+      "carrierName": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider name for the subscriber's carrier",
+        "example": "AT&T Wireless Inc."
+      },
+      "carrierId": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider ID for the subscriber's carrier",
+        "example": "383"
+      },
+      "firstOptInDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2023-08-05T05:03:40.23Z",
+        "description": "First Date the subscriber was opted into messaging."
+      },
+      "lastOptinDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2024-03-15T05:03:40.23Z",
+        "description": "Last Date the subscriber was opted into messaging."
+      },
+      "lastOptoutDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2024-04-21T05:03:40.23Z",
+        "description": "Date the subscriber was opted out of messaging."
+      },
+      "optinType": {
+        "type": "string",
+        "nullable": true,
+        "example": "API",
+        "description": "Method by which the susbcriber was opted into messaging."
+      },
+      "optoutType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Method by which the susbcriber was opted out of messaging. Will show the keyword if that method was used.",
+        "example": "STOPALL"
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BatchSubscribersResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "nullable": true
+      },
+      "mobileNo": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code"
+      },
+      "landLineNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "mobileCountryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      },
+      "uploadStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "isNumberValid": {
+        "type": "string",
+        "nullable": true
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BatchSubscribersResponseListPagedResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "description": "Maximum number of pages in the query return.",
+            "example": 5,
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Maximum number of items on each returned page.",
+            "example": 50,
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Number of pages in the query return.",
+            "example": 3,
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "Total number of items in the query return.",
+            "example": 117,
+            "format": "int64"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeactEventReportAccount"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        }
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetSubscriberResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "landLineNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "nullable": true
+      },
+      "status": {
+        "type": "string",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "mobileCountryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetSubscriberResponseListPagedResponse": {
+    "type": "object",
+    "properties": {
+      "pageNumber": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/GetSubscriberResponse"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "GetSubscriberResponseListPagedResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/GetSubscriberResponseListPagedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberParam": {
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "landLineNo": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "mobileCountryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberRequest": {
+    "required": [
+      "msisdn"
+    ],
+    "type": "object",
+    "properties": {
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902"
+      },
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "example": "Mark",
+        "nullable": true
+      },
+      "landLineNo": {
+        "type": "string",
+        "example": "19876543209",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscriber image URL, if available.",
+        "example": "https://example.com/subscribers/image.jpg"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true,
+        "example": "name@example.com"
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true,
+        "example": "Male"
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "example": "1990-11-11T00:00:00Z",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "example": 33,
+        "nullable": true
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the subscriber.",
+        "example": "192837",
+        "nullable": true
+      },
+      "verification": {
+        "$ref": "#/components/schemas/Verification"
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      },
+      "media": {
+        "type": "string",
+        "nullable": true,
+        "example": "data:[<mediatype>][;base64],<data> *or* https://example.com/image.png",
+        "description": "Media file in base64 Data URI format *or* a fully qualified URL."
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SubscriberResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberResponseInbox": {
+    "type": "object",
+    "properties": {
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "example": "12345678902",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      }
+    },
+    "additionalProperties": false
+  },
+  "Subscribers": {
+    "required": [
+      "msisdn"
+    ],
+    "type": "object",
+    "properties": {
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatus": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscription status: *Active*, *InActive*, *Not a Subscriber*, or *UnderVerification*.",
+        "example": "Active"
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902"
+      },
+      "carrierName": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider name for the subscriber's carrier.",
+        "example": "AT&T Wireless Inc."
+      },
+      "carrierId": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider ID for the subscriber's carrier.",
+        "example": "383"
+      },
+      "firstOptInDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2023-08-05T05:03:40.23Z",
+        "description": "First Date the subscriber was opted into messaging."
+      },
+      "lastOptinDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2024-03-15T05:03:40.23Z",
+        "description": "Last Date the subscriber was opted into messaging."
+      },
+      "lastOptoutDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2024-04-21T05:03:40.23Z",
+        "description": "Date the subscriber was opted out of messaging."
+      },
+      "optinType": {
+        "type": "string",
+        "nullable": true,
+        "example": "API",
+        "description": "Method by which the susbcriber was opted into messaging."
+      },
+      "optoutType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Method by which the susbcriber was opted out of messaging. Will show the keyword if that method was used.",
+        "example": "STOPALL"
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberStatusExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SubscriberStatus"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above).",
+        "example": "gen.1200"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above).",
+        "example": "Request successful"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "Subscriber": {
+    "type": "object",
+    "properties": {
+      "pageNumber": {
+        "type": "integer",
+        "description": "Maximum number of pages in the query return.",
+        "nullable": false,
+        "example": 1
+      },
+      "pageSize": {
+        "type": "integer",
+        "description": "Number of items on each returned page.",
+        "nullable": false,
+        "example": 25
+      },
+      "totalPages": {
+        "type": "integer",
+        "description": "Number of pages in the query return.",
+        "nullable": false,
+        "example": 1
+      },
+      "totalCount": {
+        "type": "integer",
+        "description": "Total number of items in the query return.",
+        "nullable": false,
+        "example": 10
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SubscriberData"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberData": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true,
+        "description": "Internal subscriber ID number (if set by the SBT customer).",
+        "example": "662371297a3c0cd03bd379af"
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true,
+        "example": "John"
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true,
+        "example": "Doe"
+      },
+      "middleName": {
+        "type": "string",
+        "nullable": true,
+        "example": "J"
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902"
+      },
+      "status": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscription status: *Active*, *InActive*, *Not a Subscriber*, or *UnderVerification*.",
+        "example": "Active"
+      },
+      "landLineNo": {
+        "type": "string",
+        "nullable": true,
+        "example": "1234567890"
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true,
+        "example": "https://example.com/image.jpg"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true,
+        "example": "name@example.com"
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true,
+        "example": "Male"
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "nullable": true,
+        "example": "28"
+      },
+      "address": {
+        "$ref": "#/components/schemas/AddressForGetAllSubcriberInGroup"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RelationForGetAllSubcriberInGroup"
+        },
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PropertiesForGetAllSubcriberInGroup"
+        },
+        "nullable": true
+      },
+      "carrierName": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider name for the subscriber's carrier",
+        "example": "AT&T Wireless Inc."
+      },
+      "carrierId": {
+        "type": "string",
+        "nullable": true,
+        "description": "The wireless provider ID for the subscriber's carrier",
+        "example": "383"
+      },
+      "firstOptInDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "description": "First Date the subscriber was opted into messaging.",
+        "example": "2024-04-20T07:39:21.18Z"
+      },
+      "lastOptinDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "example": "2024-03-15T05:03:40.23Z",
+        "description": "Last Date the subscriber was opted into messaging."
+      },
+      "lastOptoutDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true,
+        "description": " Date of the subscriber was opted out of the company",
+        "example": "2024-07-01T09:11:23.73Z"
+      },
+      "optinType": {
+        "type": "string",
+        "nullable": true,
+        "example": "API",
+        "description": "Method by which the susbcriber was opted into messaging."
+      },
+      "optoutType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Method by which the susbcriber was opted out of messaging. Will show the keyword if that method was used.",
+        "example": "STOPALL"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SubscriberCustomParams": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "value": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BatchSubscribersResponseListPagedResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/BatchSubscribersResponseListPagedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ReactivateSubscriber": {
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "example": "Mark",
+        "nullable": true
+      },
+      "landLineNo": {
+        "type": "string",
+        "example": "19876543209",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscriber image URL, if available.",
+        "example": "https://example.com/subscribers/image.jpg"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true,
+        "example": "name@example.com"
+      },
+      "gender": {
+        "type": "string",
+        "nullable": true,
+        "example": "Male"
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "example": "1990-11-11T00:00:00Z",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "example": 33,
+        "nullable": true
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the subscriber.",
+        "example": "192837",
+        "nullable": true
+      },
+      "verification": {
+        "$ref": "#/components/schemas/Verification"
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      },
+      "media": {
+        "type": "string",
+        "nullable": true,
+        "example": "data:[<mediatype>][;base64],<data> *or* https://example.com/image.png",
+        "description": "Media file in base64 Data URI format *or* a fully qualified URL."
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeleteSubscriberSilent": {
+    "type": "object",
+    "properties": {
+      "silent": {
+        "type": "boolean",
+        "example": false,
+        "description": "The default for the *silent* parameter is *false*. If no payload file is submitted, the value will default to *false*."
+      }
+    },
+    "additionalProperties": false
+  }
+}

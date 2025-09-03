@@ -9,15 +9,16 @@ namespace SolutionsByText.NET.Models.Requests.Subscriptions
     public class GetGroupSubscriberStatusRequest
     {
         /// <summary>
-        /// Gets or sets the unique identifier of the group.
+        /// The group of which the subscriber is a member.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets the list of phone numbers to check the status for.
+        /// Mobile number with dialing code. Eleven digits with no plus sign (12345678902).
+        /// Can check up to 50 numbers in a batch.
         /// </summary>
-        [JsonPropertyName("msisdn")]
-        public List<string>? Msisdn { get; set; }
+        [JsonIgnore]
+        public required List<string> Msisdn { get; set; }
     }
 }

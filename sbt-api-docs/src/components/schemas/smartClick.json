@@ -1,0 +1,44 @@
+{
+  "CreateSmartclickExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CreateSmartclickResponseDetails"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateSmartclickResponseDetails": {
+    "type": "object",
+    "properties": {
+      "ShortUrl": {
+        "type": "string",
+        "description": "The SmartURL created by the API call.",
+        "example": "https://s.s-url.pro/bDHpov",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

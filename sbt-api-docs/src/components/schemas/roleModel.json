@@ -1,0 +1,47 @@
+{
+  "RoleModel": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "displayName": {
+        "type": "string",
+        "nullable": true
+      },
+      "hasAccessToAllCampuses": {
+        "type": "boolean"
+      },
+      "hasAccessToAllGroups": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RoleModelIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RoleModel"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

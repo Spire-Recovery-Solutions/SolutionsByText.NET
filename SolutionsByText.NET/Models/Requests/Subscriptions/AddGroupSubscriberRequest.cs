@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Requests.Subscription
+namespace SolutionsByText.NET.Models.Requests.Subscriptions
 {
     /// <summary>
     /// Represents a request to add a new subscriber to a group.
@@ -12,8 +12,8 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// <summary>
         /// Gets or sets the unique identifier of the group to add the subscriber to.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the first name of the subscriber.
@@ -85,8 +85,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// Gets or sets the verification details for the subscriber.
         /// </summary>
         [JsonPropertyName("verification")]
-        [JsonConverter(typeof(JsonStringEnumConverter<VerificationType>))]
-        public VerificationType? Verification { get; set; }
+        public VerificationDetails? Verification { get; set; }
 
         /// <summary>
         /// Gets or sets the custom-defined variables for the subscriber.

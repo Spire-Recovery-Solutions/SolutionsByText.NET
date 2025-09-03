@@ -1,0 +1,577 @@
+{
+  "RegisterUser": {
+    "required": [
+      "email",
+      "password",
+      "phone"
+    ],
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "phone": {
+        "type": "string",
+        "format": "tel"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "password": {
+        "maxLength": 15,
+        "minLength": 8,
+        "pattern": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).*$",
+        "type": "string",
+        "format": "password"
+      },
+      "imageURL": {
+        "type": "string",
+        "format": "uri",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "User": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "role": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "phone": {
+        "type": "string",
+        "nullable": true
+      },
+      "active": {
+        "type": "boolean"
+      },
+      "hidden": {
+        "type": "boolean"
+      },
+      "addedBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "addedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "campuses": {
+        "$ref": "#/components/schemas/Campuses"
+      },
+      "preferences": {
+        "$ref": "#/components/schemas/Preferences"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserAssociateRequest": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserBasicDetails": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserChangePasswordRequest": {
+    "required": [
+      "newPassword",
+      "oldPassword"
+    ],
+    "type": "object",
+    "properties": {
+      "oldPassword": {
+        "type": "string",
+        "format": "password"
+      },
+      "newPassword": {
+        "maxLength": 15,
+        "minLength": 8,
+        "pattern": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).*$",
+        "type": "string",
+        "format": "password"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserChangeRoleResponse": {
+    "type": "object",
+    "properties": {
+      "invalidUserIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "roleAddFailedUserIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "roleRemoveFailedUserIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserChangeRoleResponseGeneralResponse": {
+    "type": "object",
+    "properties": {
+      "statusCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "data": {
+        "$ref": "#/components/schemas/UserChangeRoleResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserChangeRoleResponseGeneralResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/UserChangeRoleResponseGeneralResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserDeAssociateRequest": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserDetails": {
+    "type": "object",
+    "properties": {
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "example": "cburke@weyland-yutani.com",
+        "description": "Email address of the sending user.",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserDetailsNew": {
+    "type": "object",
+    "properties": {
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "example": "cburke@weyland-yutani.com",
+        "description": "Email address of the sending user.",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserListExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserModel": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "userName": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "emailVerified": {
+        "type": "boolean"
+      },
+      "phone": {
+        "type": "string",
+        "nullable": true
+      },
+      "phoneVerified": {
+        "type": "boolean"
+      },
+      "active": {
+        "type": "boolean"
+      },
+      "lastActiveOn": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "preferences": {
+        "$ref": "#/components/schemas/Preferences"
+      },
+      "campusDetails": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgUnitModelBasicDetails"
+        },
+        "nullable": true
+      },
+      "roleDetail": {
+        "$ref": "#/components/schemas/RoleModel"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserModelExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/UserModel"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserModelListPaginatedResponse": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "filterCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserModel"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserModelListPaginatedResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/UserModelListPaginatedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserOutboundResponse": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserOutboundResponseIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserOutboundResponse"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserPlatformContext": {
+    "type": "object",
+    "properties": {
+      "componentName": {
+        "type": "string",
+        "nullable": true
+      },
+      "additionalMeta": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "scopes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "hierarchy": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserRoleChangeRequestModel": {
+    "type": "object",
+    "properties": {
+      "userRole": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserUpdate": {
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "imageURL": {
+        "type": "string",
+        "format": "uri",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

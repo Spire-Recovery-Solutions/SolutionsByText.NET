@@ -1,0 +1,206 @@
+{
+  "SmartUrlClickEventRequestPayload": {
+    "type": "object",
+    "properties": {
+      "Type": {
+        "type": "string",
+        "nullable": false,
+        "description": "SmartUrlClick"
+      },
+      "Payload": {
+        "$ref": "#/components/schemas/SmartUrlClickPayload"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartUrlClickPayload": {
+    "type": "object",
+    "properties": {
+      "Domain": {
+        "type": "string",
+        "nullable": true
+      },
+      "LongUrl": {
+        "type": "string",
+        "description": "The long URL linked by the SmartURL.",
+        "example": "https//:example.com/page.htm",
+        "nullable": true
+      },
+      "SmartUrl": {
+        "type": "string",
+        "description": "The SmartURL itself.",
+        "example": "https://s.s-url.pro/bDHpov",
+        "nullable": true
+      },
+      "BrandId": {
+        "description": "The identifier of the brand being polled.",
+        "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+        "type": "string"
+      },
+      "AccountId": {
+        "description": "SBT client account ID.",
+        "example": "271759e9-ca4f-4835-be61-0fe38d051559",
+        "type": "string"
+      },
+      "ClickedDateTime": {
+        "type": "string",
+        "description": "UTC time the subscriber clicked the SmartURL.",
+        "example": "2024-05-16T16:12:41.18Z",
+        "format": "date-time"
+      },
+      "RemoteIpAddress": {
+        "type": "string",
+        "nullable": true
+      },
+      "Referer": {
+        "type": "string",
+        "nullable": true
+      },
+      "Origin": {
+        "type": "string",
+        "nullable": true
+      },
+      "IsPreviewClick": {
+        "type": "boolean",
+        "default": false
+      },
+      "IPAddressData": {
+        "type": "string",
+        "nullable": true
+      },
+      "UserAgentDetails": {
+        "type": "string",
+        "nullable": true
+      },
+      "UserAgentFamily": {
+        "type": "string",
+        "nullable": true
+      },
+      "UserAgentMajor": {
+        "type": "string",
+        "nullable": true
+      },
+      "UserAgentMinor": {
+        "type": "string",
+        "nullable": true
+      },
+      "OSFamily": {
+        "type": "string",
+        "nullable": true
+      },
+      "OSMajor": {
+        "type": "string",
+        "nullable": true
+      },
+      "OSMinor": {
+        "type": "string",
+        "nullable": true
+      },
+      "DeviceFamily": {
+        "type": "string",
+        "nullable": true
+      },
+      "AdditionalInfo": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartUrlsReportResponsePaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "description": "Total number of items in the query return.",
+        "example": 316,
+        "format": "int64"
+      },
+      "totalPages": {
+        "type": "integer",
+        "description": "Number of pages in the query return.",
+        "example": 11,
+        "format": "int32"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SmartUrlsReportResponse"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartUrlsReportResponsePaginatedResponse2ExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/SmartUrlsReportResponsePaginatedResponse2"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SmartUrlsReportResponse": {
+    "type": "object",
+    "properties": {
+      "createdOn": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date the SmartURL was created, in UTC.",
+        "example": "2023-08-05T016:03:40.23Z",
+        "nullable": true
+      },
+      "createdOnLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date the SmartURL was created, with the *TimeZoneOffset* included.",
+        "example": "2023-08-05T11:03:40.23Z",
+        "nullable": true
+      },
+      "longUrl": {
+        "type": "string",
+        "description": "The original long URL.",
+        "example": "https://example.com/directory/subdirectory/page.htm",
+        "nullable": true
+      },
+      "shortUrl": {
+        "type": "string",
+        "description": "The SmartURL itself.",
+        "example": "https://s.s-url.pro/bDHpov",
+        "nullable": true
+      },
+      "isCustomSuffix": {
+        "description": "Yes/No if the SmartURL has a custom suffix.",
+        "example": "true *or* false",
+        "type": "boolean"
+      },
+      "clickCount": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "totalClicks": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "additionalProperties": false
+  }
+}

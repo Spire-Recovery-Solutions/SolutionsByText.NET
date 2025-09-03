@@ -1,0 +1,89 @@
+{
+  "PhoneNumberResponse": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "string",
+        "nullable": true
+      },
+      "carrierCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "carrierName": {
+        "type": "string",
+        "nullable": true
+      },
+      "type": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PhoneNumberResponseDetails": {
+    "type": "object",
+    "properties": {
+      "msisdn": {
+        "type": "string",
+        "example": "12345678902",
+        "description": "Subscribers' phone numbers.",
+        "nullable": true
+      },
+      "type": {
+        "type": "string",
+        "example": "Mobile",
+        "description": "Type of phone: Mobile, Landline, or Invalid.",
+        "nullable": true
+      },
+      "carrier": {
+        "$ref": "#/components/schemas/Carrier"
+      }
+    },
+    "additionalProperties": false
+  },
+  "PhoneNumberResponseDetailsListExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PhoneNumberResponseDetails"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "PhoneVerificationRequestParam": {
+    "type": "object",
+    "properties": {
+      "phoneNumber": {
+        "type": "string",
+        "nullable": true
+      },
+      "otp": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

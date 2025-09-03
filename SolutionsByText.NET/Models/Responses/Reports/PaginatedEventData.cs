@@ -10,6 +10,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
     public class PaginatedEventData : PaginationData
     {
         [JsonPropertyName("data")]
-        public List<EventData>? Data { get; set; }
+        public List<DeactEventReportAccount>? Data { get; set; }
     }
 }

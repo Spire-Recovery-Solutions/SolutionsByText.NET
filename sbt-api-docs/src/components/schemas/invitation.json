@@ -1,0 +1,317 @@
+{
+  "AcceptInvitationRequest": {
+    "type": "object",
+    "properties": {
+      "user": {
+        "$ref": "#/components/schemas/AcceptInvitationUserData"
+      },
+      "emailVerificationToken": {
+        "type": "string",
+        "nullable": true
+      },
+      "phoneVerificationToken": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AcceptInvitationUserData": {
+    "required": [
+      "password"
+    ],
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "phone": {
+        "type": "string",
+        "format": "tel",
+        "nullable": true
+      },
+      "password": {
+        "maxLength": 15,
+        "minLength": 8,
+        "pattern": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).*$",
+        "type": "string",
+        "format": "password"
+      },
+      "imageURL": {
+        "type": "string",
+        "format": "uri",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationDetails": {
+    "type": "object",
+    "properties": {
+      "invitation": {
+        "$ref": "#/components/schemas/InvitationModel"
+      },
+      "invitationStatus": {
+        "$ref": "#/components/schemas/InvitationResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationDetailsExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InvitationDetails"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationModel": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "invitationVersion": {
+        "$ref": "#/components/schemas/InvitationVersion"
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "isAccepted": {
+        "type": "boolean"
+      },
+      "isDeleted": {
+        "type": "boolean"
+      },
+      "isExpired": {
+        "type": "boolean",
+        "readOnly": true
+      },
+      "orgUnits": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgUnitModelBasicDetails"
+        },
+        "nullable": true
+      },
+      "invitedByUser": {
+        "$ref": "#/components/schemas/UserBasicDetails"
+      },
+      "roleDetail": {
+        "$ref": "#/components/schemas/RoleModel"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationModelExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InvitationModel"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationModelListPaginatedResponse": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "filterCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/InvitationModel"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationModelListPaginatedResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InvitationModelListPaginatedResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationRequest": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email",
+        "nullable": true
+      },
+      "resource": {
+        "$ref": "#/components/schemas/InvitationResourcesModel"
+      },
+      "userRole": {
+        "type": "string",
+        "nullable": true
+      },
+      "isResend": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationResourcesModel": {
+    "type": "object",
+    "properties": {
+      "orgUnits": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OrgUnitModel"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationResponse": {
+    "type": "object",
+    "properties": {
+      "invitationId": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "statusCode": {
+        "$ref": "#/components/schemas/InvitationStatus"
+      },
+      "status": {
+        "type": "string",
+        "nullable": true,
+        "readOnly": true
+      },
+      "statusDescription": {
+        "type": "string",
+        "nullable": true,
+        "readOnly": true
+      },
+      "statusDescriptionOverride": {
+        "type": "string",
+        "nullable": true
+      },
+      "silentLoginDetails": {
+        "$ref": "#/components/schemas/PasswordlessLoginTokenResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InvitationResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvitationStatus": {
+    "enum": [
+      "Valid",
+      "Invalid",
+      "Expired",
+      "Deleted",
+      "Invited",
+      "NotInvited",
+      "AlreadyInvited",
+      "AlreadyAcceptedThisInvite",
+      "AlreadyAcceptedAnotherInvite",
+      "Accepted"
+    ],
+    "type": "string"
+  },
+  "InvitationVersion": {
+    "enum": [
+      "v1"
+    ],
+    "type": "string"
+  }
+}

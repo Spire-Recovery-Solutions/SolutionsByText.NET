@@ -11,31 +11,31 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// <summary>
         /// The unique identifier for the SmartURL.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The creation date of the SmartURL.
         /// </summary>
-        [JsonPropertyName("fromDate")]
+        [JsonIgnore]
         public DateTime? FromDate { get; set; }
 
         /// <summary>
         /// To date the SmartURL.
         /// </summary>
-        [JsonPropertyName("toDate")]
+        [JsonIgnore]
         public DateTime? ToDate { get; set; }
 
         /// <summary>
         /// Search smart urls by text
         /// </summary>
-        [JsonPropertyName("search")]
+        [JsonIgnore]
         public string? Search { get; set; }
 
         /// <summary>
         /// The short URL string.
         /// </summary>
-        [JsonPropertyName("shortUrl")]
+        [JsonIgnore]
         public string? ShortUrl { get; set; }
     }
 }

@@ -1,0 +1,91 @@
+{
+  "CreateAppRequest": {
+    "required": [
+      "name",
+      "role"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "maxLength": 50,
+        "minLength": 1,
+        "type": "string"
+      },
+      "description": {
+        "maxLength": 200,
+        "type": "string",
+        "nullable": true
+      },
+      "role": {
+        "maxLength": 100,
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateAppResponse": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "tokenLifetime": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "appId": {
+        "type": "string",
+        "nullable": true
+      },
+      "appSecret": {
+        "type": "string",
+        "nullable": true
+      },
+      "role": {
+        "type": "string",
+        "nullable": true
+      },
+      "scopes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "enabled": {
+        "type": "boolean"
+      },
+      "appSecretFull": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateAppResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CreateAppResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

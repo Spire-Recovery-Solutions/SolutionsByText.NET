@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses.Reports
 {
-    public class GetAllSubscribersGroupResponse : ApiResponse<PaginatedAllSubscribersGroup>
+    public class GetAllSubscribersGroupResponse : ApiResponse<Subscriber>
     {
     }
 }

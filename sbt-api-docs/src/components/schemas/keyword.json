@@ -1,0 +1,228 @@
+{
+  "KeywordRequest": {
+    "required": [
+      "name",
+      "userId"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "The new keyword itself.",
+        "example": "HOURS",
+        "nullable": true
+      },
+      "onContact": {
+        "type": "string",
+        "nullable": true
+      },
+      "notificationEmails": {
+        "type": "array",
+        "description": "Email addresses which will be sent alerts that the Keyword is received from a subscriber.",
+        "example": "name@example.com",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "notificationMobileNos": {
+        "type": "array",
+        "description": "Phone numbers which will be sent alerts that the Keyword was received from a subscriber.",
+        "example": "12345678902",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Keyword": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "The Keyword itself",
+        "example": "hello",
+        "nullable": true
+      },
+      "response": {
+        "type": "string",
+        "description": "The Keyword's automatic response (if defined).",
+        "example": "Hello back! This is Weyland-Yutani!",
+        "nullable": true
+      },
+      "notificationEmails": {
+        "type": "array",
+        "example": "name@example.com",
+        "description": "Email addresses which will be sent alerts that the Keyword is received from a subscriber.",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "notificationMobileNos": {
+        "type": "array",
+        "description": "Phone numbers which will be sent alerts that the Keyword was received from a subscriber.",
+        "example": "12345678902",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "description": "Date and time on which the keyword was created.",
+        "example": "2023-11-11T15:02:11Z",
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "KeywordListPagedResponse": {
+    "type": "object",
+    "properties": {
+      "pageNumber": {
+        "type": "integer",
+        "description": "Maximum number of pages in the query return.",
+        "example": 5,
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": "integer",
+        "description": "Maximum number of items on each returned page.",
+        "example": 50,
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": "integer",
+        "description": "Number of pages in the query return.",
+        "example": 3,
+        "format": "int32"
+      },
+      "totalCount": {
+        "type": "integer",
+        "description": "Total number of items in the query return.",
+        "example": 117,
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Keyword"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "KeywordListPagedResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/KeywordListPagedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "description": "API response code (see table above).",
+        "example": "gen.1200",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "description": "API response message (see table above).",
+        "example": "Request Successful",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "Keywords": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "onContact": {
+        "type": "string",
+        "nullable": true
+      },
+      "notificationEmails": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "notificationMobileNos": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "orgunitId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Keywordsparam": {
+    "type": "object",
+    "properties": {
+      "keywords": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Keywords"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateKeywordExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "string",
+        "nullable": true,
+        "description": "Data"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  }
+}

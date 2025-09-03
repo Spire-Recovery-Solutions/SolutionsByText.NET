@@ -11,14 +11,14 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// <summary>
         /// Gets or sets the unique identifier of the group to send the message to.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the unique identifier of the template to use.
         /// </summary>
         [JsonPropertyName("templateId")]
-        public required string TemplateId { get; set; }
+        public string TemplateId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the template to use (if templateId is not provided).

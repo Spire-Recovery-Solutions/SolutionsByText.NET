@@ -1,0 +1,36 @@
+{
+  "TotalCoOrdinatorCount": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalCoOrdinatorCountExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/TotalCoOrdinatorCount"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

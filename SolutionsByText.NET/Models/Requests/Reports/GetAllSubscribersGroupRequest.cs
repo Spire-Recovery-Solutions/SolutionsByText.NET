@@ -10,33 +10,33 @@ namespace SolutionsByText.NET.Models.Requests.Reports
     public class GetAllSubscribersGroupRequest : PaginationData
     {
         /// <summary>
-        /// The group ID. This is a required parameter.
+        /// The identifier of the group being polled.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// A string that the search results should start with. This is an optional parameter.
         /// </summary>
-        [JsonPropertyName("startsWith")]
+        [JsonIgnore]
         public string? StartsWith { get; set; }
 
         /// <summary>
         /// A search query string. This is an optional parameter.
         /// </summary>
-        [JsonPropertyName("search")]
+        [JsonIgnore]
         public string? Search { get; set; }
 
         /// <summary>
-        /// The start date for filtering results. This is an optional parameter.
+        /// Start date of query. Default is first of the current month. Must include the *to* date or omitted; an error will result otherwise.
         /// </summary>
-        [JsonPropertyName("from")]
+        [JsonIgnore]
         public string? From { get; set; }
 
         /// <summary>
-        /// The end date for filtering results. This is an optional parameter.
+        /// End date of query. Default is the current date. Must include the *from* date or omitted; an error will result otherwise.
         /// </summary>
-        [JsonPropertyName("to")]
+        [JsonIgnore]
         public string? To { get; set; }
     }
 }

@@ -1,0 +1,141 @@
+{
+  "CreateOAuthProviderRequest": {
+    "required": [
+      "clientId",
+      "clientSecret",
+      "name",
+      "provider",
+      "providerGroup"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "providerGroup": {
+        "type": "string"
+      },
+      "provider": {
+        "type": "string"
+      },
+      "clientId": {
+        "type": "string"
+      },
+      "clientSecret": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateOAuthProviderRequestExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CreateOAuthProviderRequest"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "OAuthProvider": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "providerGroup": {
+        "type": "string",
+        "nullable": true
+      },
+      "provider": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientId": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientSecret": {
+        "type": "string",
+        "nullable": true
+      },
+      "active": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "OAuthProviderIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OAuthProvider"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateOAuthProviderRequest": {
+    "required": [
+      "clientId",
+      "clientSecret",
+      "name"
+    ],
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "clientId": {
+        "type": "string"
+      },
+      "clientSecret": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateOAuthProviderStatusRequest": {
+    "required": [
+      "active"
+    ],
+    "type": "object",
+    "properties": {
+      "active": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -11,43 +11,43 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// <summary>
         /// Gets or sets the unique identifier of the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the message identifier for tracking the message.
         /// </summary>
-        [JsonPropertyName("messageId")]
+        [JsonIgnore]
         public string? MessageId { get; set; }
 
         /// <summary>
         /// Gets or sets the reference identifier for tracking.
         /// </summary>
-        [JsonPropertyName("referenceId")]
+        [JsonIgnore]
         public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the start date for the report in mm/dd/yyyy hh:mm:ss format.
         /// </summary>
-        [JsonPropertyName("fromDate")]
+        [JsonIgnore]
         public DateTime? FromDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date for the report in mm/dd/yyyy hh:mm:ss format.
         /// </summary>
-        [JsonPropertyName("toDate")]
+        [JsonIgnore]
         public DateTime? ToDate { get; set; }
 
         /// <summary>
         /// Gets or sets the timezone offset.
         /// </summary>
-        [JsonPropertyName("timeZoneOffset")]
+        [JsonIgnore]
         public string? TimeZoneOffset { get; set; }
 
         /// <summary>
         /// Gets or sets the type of message.
         /// </summary>
-        [JsonPropertyName("type")]
+        [JsonIgnore]
         public OutboundMessageType? Type { get; set; }
     }
 }

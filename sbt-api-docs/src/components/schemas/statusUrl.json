@@ -1,0 +1,40 @@
+{
+  "StatusUrlSettings": {
+    "type": "object",
+    "properties": {
+      "statusUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "authenticationType": {
+        "type": "string",
+        "nullable": true
+      },
+      "userName": {
+        "type": "string",
+        "nullable": true
+      },
+      "password": {
+        "type": "string",
+        "nullable": true
+      },
+      "tokenAuthority": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientId": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientSecret": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientScope": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

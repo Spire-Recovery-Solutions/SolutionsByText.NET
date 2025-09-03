@@ -1,0 +1,896 @@
+{
+  "/brands/{brandId}/shorturl-clicks": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "SmartURL Click Report for a Brand",
+      "description": "**Description:** Retrieves all SmartURLs for a specified brand. Data includes the dates the SmartURL was created and modifed, and the total number of times it was clicked.\n\n**Use Case:** This API allows a client to see the performance of their SmartURLs within a specified time frame to determine if they are effective.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The identifier of the brand being polled.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isCustomSuffix",
+          "in": "query",
+          "description": "Yes/No if the SmartURL has a custom suffix.",
+          "example": "true *or* false",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "shortUrl",
+          "in": "query",
+          "description": "The SmartURL itself.",
+          "example": "https://s.s-url.pro/bDHpov",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start date of query. Default is first of the current month.",
+            "example": "2024-05-13T00:00:00Z",
+            "default": "First of the current month"
+          }
+        },
+        {
+          "name": "toDate",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End date of query. Default is the current date.",
+            "example": "2024-05-17T00:00:00Z",
+            "default": "Current Date"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "description": "Optional offset from UTC.",
+            "default": "-00:00"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of pages in the query return.",
+            "example": 3,
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items on each page of the query return.",
+            "example": 50,
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SmartUrlsReportResponsePaginatedResponse2ExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1002| Invalid brandId\r\nrpt.1001| From Date cannot be greater than To Date\r\nrpt.1002| Report can be generated for 60 days only",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/brands/{brandId}/shorturl-click-details": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "SmartURL Detailed Click Report for a Brand",
+      "description": "**Description:** Returns all SmartURLs for a brand within a specified date range. Data includes each time a subscriber has clicked on the SmartURL, plus date and time, and short and long URLs. It also includes the subscriber's IP address, operating system, and device information.\n\n**Use Case:** Clients use this API to analyze how their subscribers are using SmartURLs. Clients can also use the subscriber device information to customize SmartURL content.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The identifier of the brand being polled.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isCustomSuffix",
+          "in": "query",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "shortUrl",
+          "in": "query",
+          "description": "The SmartURL itself.",
+          "example": "https://s.s-url.pro/bDHpov",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start date of query. Default is first of the current month.",
+            "example": "2024-05-13T00:00:00Z"
+          }
+        },
+        {
+          "name": "toDate",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End date of query. Default is the current date.",
+            "example": "2024-05-17T00:00:00Z"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "description": "Optional offset from UTC.",
+            "default": "-00:00"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of pages in the query return.",
+            "example": 3,
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items on each page of the query return.",
+            "example": 50,
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortUrlReportResponsePaginatedResponse2ExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1002| Invalid brandId\r\nrpt.1001| From Date cannot be greater than To Date\r\nrpt.1002| Report can be generated for 60 days only",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/brands/{brandId}/subscribers/status": {
+    "get": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Get Subscriber Status at Brand Level",
+      "description": "**Description:** Checks the availability of a phone number within all consent categories associated with a particular brand. It allows clients to determine if a subscriber has opted in to receive Marketing or Non-Marketing messages. It can be used to check for the user’s status within a specific brand.\n\n**Use Case:** Used when the client needs to determine if a user has opted in to receive messages, or to check the consent categories the user has opted into.\n\n**Usage Limits:** This call can verify one phone number at a time.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The brand of which the subscriber is a member.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "query",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandSubscriberStatusListExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\n-1| Downstream server error\nbrd.1001| BrandId is required\r\nbrd.1002| Invalid BrandId\nsub.1144| Mobile number is required\nsub.1013| Mobile number is invalid\ngen.1400| Bad request\nbrd.1006| Brand configured incorrectly\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "401": {
+          "x-summary": "Unauthorized",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1401 | Unauthorized\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1404| Not Found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/brands/{brandId}/subscribers": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Add Subscriber to a Brand",
+      "description": "**Description:** Adds a Subscriber to a brand and all messaging groups within that brand. It adds one Subscriber per call; each Subscriber to be added requires a separate API call. It also initiates the process to obtain the opt-in consent as specified during the API call.\n\nConsent may be determined/specified by one of the following means:\n* A keyword response by a subscriber. The subscriber replies with a keyword selected by the client. The keyword can be as simple as YES.\n* A one-time PIN. The subscriber replies with a PIN code sent by the client, which can be entered by the subscriber into a web form or read to an agent. See *Confirm Brand Subscriber with PIN* for the corresponding API call to confirm the PIN.\n* Opt-In. The subscriber is notified that they have been added to a brand with the option to opt out by a replying with a STOP keyword.\n* Silent Opt-In. The subscriber is added to a brand without any notification. However, the user is free to opt-out by replying with a STOP keyword.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The brand to which the subscriber will be added.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Created",
+          "description": "App Code  | Description\r\n----------------|---------\r\ng.2201| Created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusResponseExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1002| Invalid Brand ID\r\nsub.1144| Mobile number required",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "401": {
+          "x-summary": "Unauthorized",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1401 | Unauthorized",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "409": {
+          "x-summary": "Conflict",
+          "description": "App Code  | Description\r\n----------------|---------\r\nsub.1019| Subscriber exist",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1003| Consent category is not associated to brand\r\nbrd.1005| Brand level optin is not enabled for this brand. Please contact the support team.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v2/brands/{brandId}/subscribers": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Add Subscriber to a Brand (v2)",
+      "description": "**NOTE: The path has been updated for this API.**\n\n**Description:** Adds a Subscriber to a brand and all messaging groups within that brand. It adds one Subscriber per call; each Subscriber to be added requires a separate API call. It also initiates the process to obtain the opt-in consent as specified during the API call.\n\nConsent may be determined/specified by one of the following means:\n* A keyword response by a subscriber. The subscriber replies with a keyword selected by the client. The keyword can be as simple as YES.\n* A one-time PIN. The subscriber replies with a PIN code sent by the client, which can be entered by the subscriber into a web form or read to an agent. See *Confirm Brand Subscriber with PIN* for the corresponding API call to confirm the PIN.\n* Opt-In. The subscriber is notified that they have been added to a brand with the option to opt out by a replying with a STOP keyword.\n* Silent Opt-In. The subscriber is added to a brand without any notification. However, the user is free to opt-out by replying with a STOP keyword.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The brand to which the subscriber will be added.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParamRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Created",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriberStatusResponseExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1002 | Invalid Brand ID\nsub.1013 | Mobile number is invalid\nsub.1143 | Verification type is not allowed\nsub.1144 | Mobile number required\nsub.1149 | Properties name is mandatory",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "409": {
+          "x-summary": "Conflict",
+          "description": "App Code  | Description\r\n----------------|---------\r\nsub.1019| Subscriber exists\nsub.1021 | msisdn already under verification",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1003| Consent category is not associated to brand\r\nbrd.1005| Brand level optin is not enabled for this brand. Please contact the support team.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/brands/{brandId}/subscribers/{msisdn}/verification": {
+    "post": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Confirm Brand Subscriber with PIN",
+      "description": "**Description:** The second half of the Add Subscriber workflow; it is implemented when a client is using a one-time PIN for opt-in consent from the user. The PIN can be entered by client personnel when read back by the customer during a voice call. The Client may also implement a web interface for the Subscriber to enter the PIN themselves.\n\n**Use Case:** Used if the client or their subscribers want an extra layer of security for the opt-in consent process.\n\n*Example:* A company modifies its enrollment process for new customers. They include a phone number field on their online portal’s enrollment form which allows new customers to enter a cell phone number. The portal then makes an Add Subscriber request with the PIN opt-in method, and the portal platform sends a PIN to the new customer.\n\nThe new customer enters the PIN back into the web portal. There are two possible outcomes:\n1. If the PIN entered by the new customer does not match the PIN generated in response to the Add Subscriber call, the portal should display an error and ask the customer to re-enter the PIN.\n2. If the PIN entered by the new customer matches the PIN generated in response to the Add Subscriber call, the portal should invoke the Confirm Subscriber with PIN API call to complete adding the new customer as a subscriber to the T2C platform. The T2C platform will then send an opt-in confirmation message to the subscriber.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "path",
+          "description": "The brand to which the subscriber will be added.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtWithPinByBrandRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtWithPinByBrandRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtWithPinByBrandRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Created",
+          "description": "App Code  | Description\r\n----------------|---------\r\ng.2201| Created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmMultiSubscriptionVerificationResponseExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\n-1| Downstream server error\nbrd.1001| BrandId is required\r\nbrd.1002| Invalid BrandId\r\nsub.1013| Mobile number is invalid\r\nsub.1142| Invalid or expired pin\r\nsub.1144| Mobile number is required\r\nsub.1145| PIN is required",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "401": {
+          "x-summary": "Unauthorized",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1401 | Unauthorized",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbidden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1404| Not Found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Failed",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1005| Brand level optin is not enabled for this brand. Please contact the support team.\r\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/reports/usage/brand-breakdown": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Brand Usage Report",
+      "description": "**Description:** This API pulls data for messaging operations, or *Product Types*, for an entire Account or a specified Brand:\n* Volume (actual count)\n* Rate per Product Type\n* Usage (count times rate)\n\nIf no Brand is specified, data for all Brands in the Account will be returned.\n\nData can be retrieved for all products or for a single product such as Outbound MMS.\n\n**Note:** The previous month’s usage is not completed until the fifth business day of the following month. That delay allows for any manual adjustments.\n\n**Important:** This API is only available for customers and partners on our subscription model. Product Types and Rates are established based on the customer’s current subscription agreement.",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "query",
+          "description": "The identifier for a specific brand to be polled.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "productType",
+          "in": "query",
+          "description": "The type of messaging operation to be searched on. Types:\n* CarrierLookup\n* inboundSMS\n* outboundCompliance\n* outboundSMS\n* ExtraoutboundCompliance\n* outboundComplianceMMS\n* outboundMMS\n* inboundMMS\n* ExtraoutboundSMS\n* smartclick",
+          "example": "outboundSMS",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "month",
+          "in": "query",
+          "description": "Month in which to search. Two-number format. Examples: Apr = 04, Nov = 11.",
+          "example": "04",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "description": "Year in which to search. Four-number format. Example: 2024.",
+          "example": "2024",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandUsageResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nrpt.1016| Please enter valid Month\r\nrpt.1018| Month is required\r\nrpt.1019| Year is required",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{{groupId}}/subscribers": {
+    "put": {
+      "tags": [
+        "Subscription"
+      ],
+      "summary": "Update Subscriber Data in a Brand",
+      "description": "**Description:** Changes subscriber information like first name, last name, and other values, within a single brand.\n\nSubscribers can be listed in multiple brands of the same account. However, each brand must maintain a separate copy of the subscriber’s information: first name, last name, and any other unique and relevant information.\n\nAll groups within a brand share the same subscriber information. Subscribers are added and maintained at the group level, so their information is also visible to the parent brand.\n\n**Note:** The organizational unit specified during the API call is a group which is a subunit of the target brand, using the *groupId* parameter seen below. The subscriber information for that group then cascades up into the target brand. Any other groups the subscriber belongs to which reside in that brand will then receive the same updated subscriber information.\n\n**Use Case:** A typical scenario for using this API is a name change when a customer gets married.",
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParam"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParam"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactParam"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StringExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\nsub.1144| Mobile number is required\nsub.1146| Subscriber does not exist\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

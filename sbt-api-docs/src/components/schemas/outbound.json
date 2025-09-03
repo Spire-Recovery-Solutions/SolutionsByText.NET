@@ -1,0 +1,56 @@
+{
+  "OutboundSummaryCount": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "OutboundSummaryCountExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/OutboundSummaryCount"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "OutboundMessageTypes": {
+    "enum": [
+      "TwoWay",
+      "OptInResponse",
+      "KeywordResponse",
+      "AutoResponse",
+      "StopResponse",
+      "HelpResponse",
+      "StopAllResponse",
+      "Notification",
+      "Unicast",
+      "Vbt",
+      "Multicast",
+      "Deact",
+      "BroadcastDeviceDelivery",
+      "NonSubscriberAutoResponse",
+      "NonSubscriberHelpResponse",
+      "NonSubscriberStopResponse",
+      "NonSubscriberStopAllResponse",
+      "OnDemandMessage"
+    ],
+    "type": "string"
+  }
+}

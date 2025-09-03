@@ -34,31 +34,31 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         public string? CarrierId { get; set; }
 
         /// <summary>
-        /// Gets or sets the first opt-in date.
+        /// First Date the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("firstOptInDate")]
-        public DateTime FirstOptInDate { get; set; }
+        public string? FirstOptInDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the last opt-in date.
+        /// Last Date the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("lastOptinDate")]
-        public DateTime LastOptInDate { get; set; }
+        public string? LastOptinDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the last opt-out date.
+        /// Date the subscriber was opted out of messaging.
         /// </summary>
         [JsonPropertyName("lastOptoutDate")]
-        public DateTime LastOptoutDate { get; set; }
+        public string? LastOptoutDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of opt-in.
+        /// Method by which the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("optinType")]
         public string? OptinType { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of opt-out.
+        /// Method by which the subscriber was opted out of messaging. Will show the keyword if that method was used.
         /// </summary>
         [JsonPropertyName("optoutType")]
         public string? OptoutType { get; set; }

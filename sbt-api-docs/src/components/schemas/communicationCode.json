@@ -1,0 +1,157 @@
+{
+  "CommunicationCode": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "nullable": true
+      },
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "aggregator": {
+        "type": "string",
+        "nullable": true
+      },
+      "supportMultiAssignment": {
+        "type": "boolean"
+      },
+      "allocated": {
+        "type": "boolean"
+      },
+      "status": {
+        "$ref": "#/components/schemas/AggregatorStatus"
+      },
+      "brandMessageSupported": {
+        "type": "boolean"
+      },
+      "campaignId": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunicationCodeListExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CommunicationCode"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunicationCodes": {
+    "type": "object",
+    "properties": {
+      "commCode": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CommCode"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunicationCodesExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CommunicationCodes"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunicationCodesExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/CommunicationCodes"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunicationCodeUpdate": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "status": {
+        "$ref": "#/components/schemas/AggregatorStatus"
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "supportMultiAssignment": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommCode": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "value": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

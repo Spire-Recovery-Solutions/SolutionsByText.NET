@@ -1,0 +1,96 @@
+{
+  "InteractionBroadcastMessageRequest": {
+    "required": [
+      "message",
+      "messageType"
+    ],
+    "type": "object",
+    "properties": {
+      "from": {
+        "type": "string",
+        "description": "Company name or other identifier.",
+        "example": "Weyland-Yutani",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Hello! Your account is currently at $426. Contact us for more...",
+        "description": "The message text. Mandatory for SMS; not mandatory for MMS."
+      },
+      "messageType": {
+        "$ref": "#/components/schemas/InteractionTypesNew"
+      },
+      "referenceId": {
+        "type": "string",
+        "nullable": true,
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837"
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      },
+      "subscribers": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Subscribers"
+        },
+        "nullable": true
+      },
+      "media": {
+        "type": "string",
+        "example": "data:[<mediatype>][;base64],<data> *or* https://example.com/image.png",
+        "description": "Media file in base64 Data URI format *or* a fully qualified URL."
+      }
+    },
+    "additionalProperties": false
+  },
+  "InteractionBroadcastMessageResponse": {
+    "type": "object",
+    "properties": {
+      "transactionTicketId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InteractionBroadcastMessageResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InteractionBroadcastMessageResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "InteractionTypesNew": {
+    "type": "string",
+    "enum": [
+      "Unicast",
+      "Multicast"
+    ],
+    "title": "Status indicator",
+    "description": "Type of message to be sent. See the API **Description** above for definitions.",
+    "x-enumDescriptions": {
+      "Unicast": "Send message to a single msisdn",
+      "Multicast": "Send message to multiple msisdns"
+    }
+  }
+}

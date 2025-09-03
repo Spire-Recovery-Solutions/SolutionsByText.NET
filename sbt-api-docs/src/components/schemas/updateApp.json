@@ -1,0 +1,32 @@
+{
+  "UpdateAppRequest": {
+    "required": [
+      "role"
+    ],
+    "type": "object",
+    "properties": {
+      "description": {
+        "maxLength": 200,
+        "type": "string",
+        "nullable": true
+      },
+      "role": {
+        "maxLength": 100,
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateAppStatusRequest": {
+    "required": [
+      "enabled"
+    ],
+    "type": "object",
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  }
+}

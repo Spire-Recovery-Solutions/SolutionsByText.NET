@@ -1,0 +1,741 @@
+{
+  "/groups/{groupId}/shortUrls": {
+    "post": {
+      "tags": [
+        "SmartClick"
+      ],
+      "summary": "Add SmartURL to Group",
+      "description": "**Description:** Adds a shortened, character-saving URL for use within a specified group. The shortened URL uses SBT’s *s-url.pro* domain by default; a custom domain may also be used. Contact SBT for more information on custom domains.\n\nWhen the subscriber opens the SmartURL link within a message, the subscriber’s browser first opens the SmartURL on the SBT server and is then redirected to the long URL—the actual site address—provided by the client.\n\n**Use Case:** SmartURL provides clients with a short, branded, secure, and trackable link to send to subscribers. The shorter link allows the SMS message to be more detailed and customized for the subscriber. The branded link gives subscribers confidence that the link is legitimate and secure, improving click-through rates. The click-through rate is tracked by SBT, providing the client with data on the success of the message or campaign.\n\n*Example:* An SBT client organization has a page on their website for customers to e-sign confidential documents. The URL, including the https:// URI, is 40 characters long, which would use 25 percent of an SMS message. Using SmartURL would shorten the link in the SMS message to between 14–17 characters on average (including the https:// URI).",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the SmartURL will be added.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSmartclickExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nslk.1001| Long URL is required\nslk.1002| ShortURL setting should be enabled\nslk.1007| Only HTTPS URLs are supported in the long url field\nslk.1011| Custom URL suffix length must be greater than 2 characters and less than 10 characters\nslk.1012| Only alphanumeric characters, hyphen ('-') and underscore ('_')  are allowed in custom URL suffix\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "412": {
+          "x-summary": "Precondition Failed",
+          "description": "App Code  | Description\n----------------|---------\ngen.1412 | Precondition Failed\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/shortUrls/{shortUrl}": {
+    "patch": {
+      "tags": [
+        "SmartClick"
+      ],
+      "summary": "Update a Long URL by SmartURL",
+      "description": "**Description:** Updates a Long URL associated with a SmartURL.\n\n**Use Case:** If the Long URL of a web page changes, the client must update the SmartURL to reflect that change.\n\n*Example:* A client changes the URL of an important web page, such as their privacy policy page. To update the SmartURL for that page in their opt-in message, they would use this API.\n\n**Note:** SmartURLs must be encoded for a successful update request. URL encoding is a mechanism for translating unprintable or special characters to a universally accepted format by web servers and browsers.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group in which the SmartURL to be updated resides.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "shortUrl",
+          "in": "path",
+          "description": "The SmartURL being updated",
+          "example": "https://s.s-url.pro/bDHpov",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlsUpdateRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlsUpdateRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ShorturlsUpdateRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLongURLbyShortURLExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nslk.1001| Long URL is required\nslk.1002| ShortURL setting should be enabled\nslk.1006| Short URL is required\nslk.1007| Only HTTPS URLs are supported in the long url field\nslk.1009| Custom short url not found\nslk.1010| Invalid URI\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "412": {
+          "x-summary": "Precondition Failed",
+          "description": "App Code  | Description\n----------------|---------\ngen.1412 | Precondition Failed\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/keywords": {
+    "get": {
+      "tags": [
+        "Keyword"
+      ],
+      "summary": "Get All Keywords by Group ID",
+      "description": "**Description:** Returns a list of all client-created keywords in a specified group. The list includes information on email and SMS notifications and to whom they are sent.\n\n**Use Case:** A client wants a list of active keywords in a group, and needs to know who is receiving notifications if they have been set up.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which keywords will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "filter",
+          "in": "query",
+          "description": "",
+          "schema": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "example": 5,
+          "schema": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each returned page.",
+          "example": 50,
+          "schema": {
+            "type": "integer",
+            "format": "int32",
+            "default": 50
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordListPagedResponseExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ng.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/phonenumbers/{msisdn}/events?countryCode=US": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get Deactivation Events for a Single Number",
+      "description": "**Description:** Returns all service changes to a single mobile number and will return all deactivations and ported events based on a provided date range.\n\n**Use Case:** Before sending a message to a subscriber, a client may want to determine if the mobile number has been deactivated since their last communication.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group of which the subscriber is a member.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "in": "query",
+          "description": "Start date of query.",
+          "example": "2023-12-25T00:00:00Z",
+          "required": false,
+          "schema": {
+            "type": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "in": "query",
+          "description": "End date of query.",
+          "example": "2024-05-17T00:00:00Z",
+          "required": false,
+          "schema": {
+            "type": "date-time"
+          }
+        },
+        {
+          "name": "CountryCode",
+          "in": "query",
+          "description": "Country Code is not required to retrieve deact events for US numbers. Currently, SBT only has deact data for US numbers.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "example": 5,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each returned page.",
+          "example": 50,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactEventReportExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\ndea.1001| From Date cannot be greater than To Date\ndea.1004| Unsupported CountryCode\nsub.1146| Contact/Subscriber does not exist\nrpt.1005| Mobile number is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/shorturls": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get All SmartURLs",
+      "description": "**Description:** Gets all SmartURLs created in a specified date range. Data includes: Creation date; date modified; total clicks on the SmartURL.\n\n**Use Case:** This API allows a client to see the performance of their SmartURLs within a specified time frame to determine if they are effective.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The identifier of the group being polled.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "search",
+          "in": "query",
+          "description": "search",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "in": "query",
+          "description": "Start date of query.",
+          "example": "2023-12-25T00:00:00Z",
+          "required": false,
+          "schema": {
+            "type": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "in": "query",
+          "description": "End date of query.",
+          "example": "2024-05-17T00:00:00Z",
+          "required": false,
+          "schema": {
+            "type": "date-time"
+          }
+        },
+        {
+          "name": "shortUrl",
+          "in": "query",
+          "description": "A specific SmartURL to include in the search. Narrows results to a specific SmartURL.",
+          "example": "s.s-url.pro/bDHpov",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Maximum number of pages in the query return.",
+          "example": 5,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Maximum number of items on each returned page.",
+          "example": 50,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShorturlReportExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nslk.1016| From Date cannot be greater than To Date\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/templates": {
+    "get": {
+      "tags": [
+        "Template"
+      ],
+      "summary": "Get All Templates In a Group",
+      "description": "**Description:** Gets all client-created templates within a group, including the templates' content. \n\n**Use Case:** A client wants to review their current group templates and determine if modifcations are needed.\n\n**Usage Limits:** Supports a maximum of 10 concurrent connections.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The identifier of group from which the templates will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "search",
+          "in": "query",
+          "description": "Search term used to find a template or templates.",
+          "example": "textpay001",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "example": 3,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each returned page.",
+          "example": 50,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTemplateListExternalresponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/templates/{templateId}": {
+    "get": {
+      "tags": [
+        "Template"
+      ],
+      "summary": "Get Templates by Template ID",
+      "description": "**Description:** Retrieves the content for the specified template using the template's ID. \n\n**Use Case:** Clients use this API when they want to check the content of a single template.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which template will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "templateId",
+          "in": "path",
+          "description": "Identifying number of the template.",
+          "example": "106",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTemplateExternalresponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\ntml.1036| TemplateId is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\n----------------|---------\ngen.1404 | Resource not found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

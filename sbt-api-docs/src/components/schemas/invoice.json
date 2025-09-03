@@ -1,0 +1,82 @@
+{
+  "InvoiceDetails": {
+    "type": "object",
+    "properties": {
+      "mbtAccountID": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceType": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceDate": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceAmount": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentFailureReason": {
+        "type": "string",
+        "nullable": true
+      },
+      "planName": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoicePDFLink": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvoiceHistory": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "invoiceList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/InvoiceDetails"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "InvoiceHistoryExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/InvoiceHistory"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

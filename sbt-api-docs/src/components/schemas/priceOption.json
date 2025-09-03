@@ -1,0 +1,55 @@
+{
+  "PriceOption": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "price": {
+        "type": "string",
+        "nullable": true
+      },
+      "discount": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PriceoptionNew": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "display_text": {
+        "type": "string",
+        "nullable": true
+      },
+      "price": {
+        "type": "string",
+        "nullable": true
+      },
+      "discount": {
+        "nullable": true
+      },
+      "recommended": {
+        "type": "boolean"
+      },
+      "defaultOption": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  }
+}

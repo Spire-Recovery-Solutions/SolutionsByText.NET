@@ -1,0 +1,209 @@
+{
+  "ContactParamRequest": {
+    "required": [
+      "msisdn"
+    ],
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "example": "Mark",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true,
+        "example": "12345678902",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "landLineNo": {
+        "type": "string",
+        "example": "19876543209",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "nullable": true,
+        "description": "Subscriber image URL, if available.",
+        "example": "https://example.com/subscribers/image.jpg"
+      },
+      "email": {
+        "type": "string",
+        "example": "name@example.com",
+        "nullable": true
+      },
+      "gender": {
+        "type": "string",
+        "example": "Male",
+        "nullable": true
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "example": "1990-11-11T00:00:00Z",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "example": 33,
+        "nullable": true
+      },
+      "referenceId": {
+        "description": "Customer-defined identifier for the subscriber.",
+        "example": "M41A",
+        "type": "string",
+        "nullable": true
+      },
+      "verification": {
+        "$ref": "#/components/schemas/Verification"
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalContactCount": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalContactCountExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/TotalContactCount"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ContactParam": {
+    "required": [
+      "msisdn"
+    ],
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "middleName": {
+        "type": "string",
+        "example": "Mark",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "example": "12345678902",
+        "nullable": true,
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902)."
+      },
+      "landLineNo": {
+        "type": "string",
+        "example": "19876543209",
+        "nullable": true
+      },
+      "imageUrl": {
+        "type": "string",
+        "description": "Subscriber image URL, if available.",
+        "example": "https://example.com/subscribers/image.jpg",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "example": "name@example.com",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "birthDate": {
+        "type": "string",
+        "format": "date-time",
+        "example": "1990-11-11T00:00:00Z",
+        "nullable": true
+      },
+      "gender": {
+        "type": "string",
+        "example": "Male",
+        "nullable": true
+      },
+      "age": {
+        "type": "integer",
+        "format": "int32",
+        "example": 33,
+        "nullable": true
+      },
+      "relations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Relation"
+        },
+        "nullable": true
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Properties"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

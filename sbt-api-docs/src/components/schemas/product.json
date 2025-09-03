@@ -1,0 +1,74 @@
+{
+  "ProductNew": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "code": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_capacity": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_overageCost": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_short_code_type": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_long_code_type": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_community_access": {
+        "type": "boolean"
+      },
+      "priceOptions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PriceoptionNew"
+        },
+        "nullable": true
+      },
+      "private": {
+        "type": "boolean"
+      },
+      "features": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Feature"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ProductTicker": {
+    "type": "object",
+    "properties": {
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "productType": {
+        "type": "string",
+        "nullable": true
+      },
+      "initiatedDateTime": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "count": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "additionalProperties": false
+  }
+}

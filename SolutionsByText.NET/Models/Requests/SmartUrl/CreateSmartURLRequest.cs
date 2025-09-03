@@ -11,8 +11,8 @@ namespace SolutionsByText.NET.Models.Requests.SmartUrl
         /// <summary>
         /// Gets or sets the unique identifier of the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the long URL to be shortened.

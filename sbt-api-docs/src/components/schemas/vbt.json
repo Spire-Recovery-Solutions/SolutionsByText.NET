@@ -1,0 +1,325 @@
+{
+  "MessageResponseExternalApiResponseODMPIN": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      },
+      "data": {
+        "$ref": "#/components/schemas/MessageResponseODMPIN"
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandVBTInboundMessages": {
+    "enum": [
+      "Stop",
+      "Stopall",
+      "Help",
+      "TwoWay"
+    ],
+    "type": "string"
+  },
+  "BrandVBTOutboundMessages": {
+    "enum": [
+      "OptInResponse",
+      "StopResponse",
+      "HelpResponse",
+      "StopAllResponse",
+      "Vbt"
+    ],
+    "type": "string"
+  },
+  "BrandVbtMessageReportResponse": {
+    "type": "object",
+    "properties": {
+      "subscriber": {
+        "$ref": "#/components/schemas/SubscriberResponseInbox"
+      },
+      "messageId": {
+        "type": "string",
+        "description": "Tracking ID number of the message.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true
+      },
+      "deliveryStatus": {
+        "type": "string",
+        "description": "Message status when the API was called.",
+        "example": "Delivered",
+        "nullable": true
+      },
+      "deliveryStatusCode": {
+        "type": "string",
+        "description": "Message status code when the API was called.",
+        "example": "100",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "description": "Message content.",
+        "example": "Hello! Your account is currently at $426. Contact us for more...",
+        "nullable": true
+      },
+      "templateId": {
+        "type": "string",
+        "example": "1",
+        "description": "Optional if *templateName* is provisioned.",
+        "nullable": true
+      },
+      "direction": {
+        "description": "Message direction.",
+        "example": "Outbound",
+        "$ref": "#/components/schemas/MessageType"
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "communicationCode": {
+        "type": "string",
+        "description": "Short Code or 10DLC used to send the message.",
+        "example": "54321",
+        "nullable": true
+      },
+      "sentAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time the message was sent from SBT.",
+        "example": "2024-04-22T016:50:00.00Z",
+        "nullable": true
+      },
+      "deliveredAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time the message was received by the handset.",
+        "example": "2024-04-22T016:51:25.00Z",
+        "nullable": true
+      },
+      "receivedAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time the message was received by the handset.",
+        "example": "2024-04-22T016:51:25.00Z",
+        "nullable": true
+      },
+      "readAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time the message was read by the subscriber.",
+        "example": "2024-04-22T016:53:31.22Z",
+        "nullable": true
+      },
+      "user": {
+        "$ref": "#/components/schemas/UserDetails"
+      },
+      "sentTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was sent from SBT (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:50:00.00Z",
+        "nullable": true
+      },
+      "deliveredTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was delivered by the carrier (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:51:15.00Z",
+        "nullable": true
+      },
+      "receivedTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was received by the handset (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:51:25.00Z",
+        "nullable": true
+      },
+      "readTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was read by the subscriber (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:53:31.22Z",
+        "nullable": true
+      },
+      "mediaDetails": {
+        "$ref": "#/components/schemas/MediaDetails"
+      },
+      "totalMessageSegments": {
+        "type": "integer",
+        "description": "Number of message segments used by the message.",
+        "example": 2,
+        "format": "int32"
+      },
+      "messageCategory": {
+        "type": "string",
+        "description": "Type of message sent.",
+        "example": "Unicast",
+        "nullable": true
+      },
+      "modeOfCommunication": {
+        "type": "string",
+        "description": "Message type (SMS, MMS, or RCS).",
+        "example": "SMS",
+        "nullable": true
+      },
+      "subscriberCustomParams": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SubscriberCustomParams"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandVbtMessageReportResponsePaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BrandVbtMessageReportResponse"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandVbtMessageReportResponsePaginatedResponse2ExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/BrandVbtMessageReportResponsePaginatedResponse2"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ConfirmVbtWithPinByBrandRequest": {
+    "required": [
+      "pin"
+    ],
+    "type": "object",
+    "properties": {
+      "pin": {
+        "minLength": 1,
+        "type": "string",
+        "example": "210622",
+        "description": "PIN sent to the subscriber."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ConfirmVbtMessageRequest": {
+    "type": "object",
+    "required": [
+      "pin"
+    ],
+    "properties": {
+      "pin": {
+        "type": "string",
+        "nullable": true,
+        "example": "210622",
+        "description": "PIN sent to the subscriber."
+      }
+    },
+    "additionalProperties": false
+  },
+  "VbtTypes": {
+    "enum": [
+      "Optin",
+      "Pin",
+      "ReservedWord",
+      "SilentOptin"
+    ],
+    "type": "string"
+  },
+  "Verification": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "$ref": "#/components/schemas/VbtTypes"
+      },
+      "force": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ODMPINresponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ODMPINresponseData"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ODMPINresponseData": {
+    "type": "object",
+    "properties": {
+      "pin": {
+        "type": "string",
+        "nullable": true,
+        "description": "PIN sent to the subscriber.",
+        "example": "210622"
+      },
+      "additionalProperties": false
+    }
+  }
+}

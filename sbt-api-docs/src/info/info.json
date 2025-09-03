@@ -1,0 +1,8 @@
+{
+  "title": "FinText™ Platform: API Documentation",
+  "version": "",
+  "description": "Welcome to Solutions By Text's online documentation for our FinText (2.0) platform Our documentation is written for both developers and business users. We use the industry standard Redoc platform for our documentation.\n\n**Select a topic from the menu on the left to begin.**",
+  "x-logo": {
+    "url": "images/solutionsbytext.png"
+  }
+}

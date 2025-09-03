@@ -1,0 +1,990 @@
+{
+  "/groups/{groupId}/messages": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send Message to Subscribers",
+      "description": "**Description:** Sends a single, one-time message to one or more subscribers in a Group. Message types:\n* Unicast: Addressed to a single subscriber. Example: A welcome message.\n* Multicast: Addressed to multiple subscribers, but not an entire group. Example: Payment reminders for subscribers with bills coming due.\n\n**Use Case:** Send Message should be used to send a unique, one-time message to one or more subscribers. It is often used in two-way texting applications where a representative has a live conversation via text with a customer through a user interface.\n\n**Usage Limits:** Please observe the following limits when calling this API:\n* No more than 10 concurrent API calls.\n* No more than 100 subscribers per API call.\n\nExceeding these limits will result in degradation of the T2C application's performance.\n\n**Important:** SBT highly recommends running the [*Get Subscriber Status*](#tag/Subscription/paths/~1groups~1{groupId}~1subscribers~1status/get) API before sending any messages using Send Message to Subscribers to ensure the intended recipient subscriber phone numbers are active.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the message will be sent.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "Value",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "x-summary": "Accepted",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageResponseExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\nsub.1144| Mobile number is required\nmsg.1030| Message is required\nmsg.1033| Message type is invalid.\nmsg.1046|Content type is not supported\nmsg.1047|Content Size is greater than maximum allowed size\nmsg.1049|Malformed content received in Base 64 format. Unable to decode.\nmsg.1051|File extension not supported\nmsg.1052|Timeout when accessing URL\nmsg.1052|Timeout when accessing URL. Status code = {{status code}}\nmsg.1053|Error encountered when accessing URL\nmsg.1053|Error encountered when accessing URL. Status code = {{status code}}\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/template-messages": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send Template Message to Subscribers",
+      "description": "**Description:** Sends a prewritten message to one or more subscribers within a group. Message types:\n* Unicast: Addressed to a single Subscriber. Example: A welcome message.\n* Multicast: Addressed to multiple Subscribers, but not an entire Group. Example: Payment reminders for Subscribers with bills coming due.\n\n**Use Case:** Send Template Message to Subscribers allows an organization to create standardized messages for repeat use in typical scenarios. It is typically used in messaging campaigns or other instances when multiple subscribers are sent the same message. However, it can be used to send a message to a single subscriber.\n\n**Usage Limits:** Please observe the following limits when calling this API:\n* No more than 10 concurrent API calls.\n* No more than 100 subscribers per API call.\n\nExceeding these limits will result in degradation of the T2C application's performance.\n\n**Important:** SBT highly recommends running the [*Get Subscriber Status*](#tag/Subscription/paths/~1groups~1{groupId}~1subscribers~1status/get) API before sending any messages using Send Message to Subscribers to ensure the intended recipient subscriber phone numbers are active.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the message will be sent.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "Value",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastTemplateMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastTemplateMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/InteractionBroadcastTemplateMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "x-summary": "Accepted",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageResponseExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\ntml.1036|TemplateId is required\ntml.1037|TemplateId does not exist in the group\nsub.1144| Mobile number is required\nmsg.1046|Content type is not supported\nmsg.1047|Content Size is greater than maximum allowed size\nmsg.1049|Malformed content received in Base 64 format. Unable to decode.\nmsg.1051|File extension not supported\nmsg.1052|Timeout when accessing URL\nmsg.1052|Timeout when accessing URL. Status code = {{status code}}\nmsg.1053|Error encountered when accessing URL\nmsg.1053|Error encountered when accessing URL. Status code = {{status code}}\nmsg.1055|MMS messages can be sent to a maximum of 100 subscribers\nmsg.1056|Broadcast message does not support MMS\nmsg.1061|TemplateName does not exist in the group\nmsg.1033| Message type is invalid.\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/schedule-messages": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send Scheduled Message to Subscribers",
+      "description": "**Description:** Sends a single, one-time message set to be sent at a time specified by the client to one or more subscribers in a Group.\n\n**Use Case:** This API is used to send a unique, one-time message to one or more subscribers at a specific time.\n\n**Usage Limits:** Please observe the following limits when calling this API:\n* No more than 10 concurrent API calls.\n* No more than 100 subscribers per API call.\n\nExceeding these limits will result in degradation of the T2C application's performance.\n\n**Important:** SBT highly recommends running the [*Get Subscriber Status*](#tag/Subscription/paths/~1groups~1{groupId}~1subscribers~1status/get) API before sending any messages using Send Message to Subscribers to ensure the intended recipient subscriber phone numbers are active.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the message will be sent.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Accepted\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleMessageExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nmsg.1030| Message is required\nmsg.1035| Scheduled time should be greater than 15 minutes from current time\nmsg.1046|Content type is not supported\nmsg.1047|Content Size is greater than maximum allowed size\nmsg.1049|Malformed content received in Base 64 format. Unable to decode.\nmsg.1051|File extension not supported\nmsg.1052|Timeout when accessing URL\nmsg.1052|Timeout when accessing URL. Status code = {{status code}}\nmsg.1053|Error encountered when accessing URL\nmsg.1053|Error encountered when accessing URL. Status code = {{status code}}\nmsg.1055| MMS messages can be sent to a maximum of 100 subscribers\nmsg.1056| Broadcast message does not support MMS\nmsg.1059| Scheduled time should be within 7 days of current time\nmsg.1064| Invalid scheduledatetime. The value cannot be null, empty, or default.\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/schedule-template-messages": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send Scheduled Template Message to Subscribers",
+      "description": "**Description:** Sends a prewritten template message to one or more subscribers within a group at a specified time.\n\n**Use Case:** This API allows clients to send standardized messages for repeat use in typical scenarios. It is typically used in messaging campaigns or other instances when multiple subscribers are sent the same message. However, it can be used to send a message to a single subscriber.\n\n**Usage Limits:** Please observe the following limits when calling this API:\n* No more than 10 concurrent API calls.\n* No more than 100 subscribers per API call.\n\nExceeding these limits will result in degradation of the T2C application's performance.\n\n**Important:** SBT highly recommends running the [*Get Subscriber Status*](#tag/Subscription/paths/~1groups~1{groupId}~1subscribers~1status/get) API before sending any messages using Send Message to Subscribers to ensure the intended recipient subscriber phone numbers are active.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group to which the message will be sent.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleTemplateMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleTemplateMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ScheduleTemplateMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Accepted\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleMessageExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nmsg.1035| Scheduled time should be greater than 15 minutes from current time\nmsg.1046|Content type is not supported.\nmsg.1047|Content Size is greater than maximum allowed size\nmsg.1049|Malformed content received in Base 64 format. Unable to decode.\nmsg.1051|File extension not supported\nmsg.1052|Timeout when accessing URL\nmsg.1052|Timeout when accessing URL. Status code = {{status code}}\nmsg.1053|Error encountered when accessing URL\nmsg.1053|Error encountered when accessing URL. Status code = {{status code}}\nmsg.1055| MMS messages can be sent to a maximum of 100 subscribers\nmsg.1059| Scheduled time should be within 7 days of current time\nmsg.1061|TemplateName does not exist in the group\nmsg.1064| Invalid scheduledatetime. The value cannot be null, empty, or default.\ntml.1036|TemplateId is required\ntml.1037|TemplateId does not exist in the group\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/media-messages/{messageId}/file/{fileId}": {
+    "get": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "MMS Retrieve",
+      "description": "**Description:** Retrieves and saves images from the MMS file stream. The image will be saved to the client's system.\n\n**Use Case:** A customer/subscriber sends images of required documents, such as a driver's license or pay stub. The client uses this API to download the images to their system for permanent storage.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which the MMS file will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "messageId",
+          "in": "path",
+          "description": "Message tracking ID number from SBT.",
+          "example": "44463f49-ad32-460d-956c-83849fc639a5",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "description": "The MMS file's ID number.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request Successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nmsg.1042| Message ID is required\nmsg.1043| File id is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\n----------------|---------\nmsg.1044 | File not found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "MMS Delete",
+      "description": "**Description:** Deletes saved inbound MMS images from the SBT system. Note: MMS images are automatically deleted from the SBT system seven days after they are received.\n\n**Use Case:** The images received likely contain sensitive, personal, or proprietary information. Clients can use this API to delete the images immediately after they are stored on their systems.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which the MMS file will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "messageId",
+          "in": "path",
+          "description": "Message tracking ID number from SBT.",
+          "example": "44463f49-ad32-460d-956c-83849fc639a5",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fileId",
+          "in": "path",
+          "description": "The MMS file's ID number.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request Successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\n-1| Downstream server error\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nmsg.1042| Message id is required \nmsg.1043 | File id is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "x-summary": "Not Found",
+          "description": "App Code  | Description\n----------------|---------\nmsg.1044 | File not found\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/outbound-messages": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get Sent Message Details",
+      "description": "**Description:** Generates a report on outbound messages. It can check for message and audit information including the following:\n* How many messages were sent in a campaign?\n* How many opt-in messages were sent?\n* Were reminder messages—for example, for payments—sent on time?",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The identifier of the group being polled.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "messageId",
+          "description": "Tracking ID number of the message.",
+          "example": "44463f49-ad32-460d-956c-83849fc639a5",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "referenceId",
+          "description": "Customer-defined identifier for the message.",
+          "example": "192837",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "description": "Start date of query. Default is first of the current month.",
+          "example": "2024-05-13T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "description": "End date of query. Default is the current date.",
+          "example": "2024-05-17T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "in": "query",
+          "description": "Optional offset from UTC.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "description": "Type of message sent.",
+          "schema": {
+            "$ref": "#/components/schemas/OutboundMessageTypes"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "example": 3,
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each page of the query return.",
+          "example": 50,
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatConversationPaginatedResponse2ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nrpt.1001| From Date cannot be greater than To Date\nrpt.1002| Report can be generated for 60 days only\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/inbound-messages": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get Inbound Message Details",
+      "description": "**Description:** Generates a report on inbound messages.\n\n**Use Case:** Can be used to check for received messages; it can also be automated to periodically check. If the client has not implemented a webhook or callback to alert for inbound messages, then Get Inbound Message Details is the only option.\n\nThis call can also be used to verify or audit that the organization has responded to all customer queries sent via text.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "groupId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "referenceId",
+          "description": "note field trackingId",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "description": "fromDate accept in mm/dd/yyyyy hh:mm:ss",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "description": "toDate accept in mm/dd/yyyyy hh:mm:ss",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "description": "get details based on timezone",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "schema": {
+            "$ref": "#/components/schemas/InboundMessageTypes"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatConversationPaginatedResponse2ExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nrpt.1001| From Date cannot be greater than To Date\nrpt.1002| Report can be generated for 60 days only\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/odm/message": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send On-Demand Message",
+      "description": "**Description:** This API allows the client to send an On Demand Message (ODM) to a single phone number based on a predefined template.  The template must be pre-loaded by SBT customer support before using this API.\n\nThe template can contain custom variables which can be substituted by the client during the API call.  Additionally, the template may contain the variable *SystemPIN* which will be substituted with a randomly generated 6-digit PIN during message dispatch.  This PIN may be verified subsequently using the confirmation API described next.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group of which the subscriber is a member.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ODMpayload"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ODMpayload"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ODMpayload"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageResponseExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupID required\ngrp.1002| Invalid GroupId\ngrp.1026| On Demand Messaging not available for group provided\nsub.1013| Mobile number is invalid\nsub.1144| Mobile number is required\ntml.1039| Template must be specified for ODM message\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/groups/{groupId}/odm/{msisdn}/verification": {
+    "post": {
+      "tags": [
+        "Message"
+      ],
+      "summary": "Send On-Demand Message PIN",
+      "description": "**Description:** This API allows the client to verify if the consumer has received the PIN sent by the most recent call of the ODM API.\n\n**Note:** The PIN must be verified by the consumer/subscriber within 20 minutes of being sent.",
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "description": "The group from which the MMS file will be retrieved.",
+          "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "msisdn",
+          "in": "path",
+          "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "name": "messageId",
+          "in": "path",
+          "description": "Message tracking ID number from SBT.",
+          "example": "44463f49-ad32-460d-956c-83849fc639a5",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          },
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          },
+          "application/*+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmVbtMessageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageResponseExternalApiResponseODMPIN"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ngrp.1001| GroupId is required\ngrp.1002| Invalid GroupId\nsub.1013| Mobile number is invalid\n sub.1144| Mobile number is required\nsub.1145| PIN is required\nsub.1155| Expired PIN\nsub.1156| Invalid PIN\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

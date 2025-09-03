@@ -13,13 +13,13 @@ namespace SolutionsByText.NET.Models.Requests.Keywords
         /// <summary>
         /// The unique identifier for the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Optional filter to apply to the keywords.
         /// </summary>
-        [JsonPropertyName("filter")]
+        [JsonIgnore]
         public string? Filter { get; set; }
     }
 }

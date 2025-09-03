@@ -1,0 +1,139 @@
+{
+  "InboundMessageTypes": {
+    "enum": [
+      "Stop",
+      "Stopall",
+      "Help",
+      "Keyword",
+      "TwoWay"
+    ],
+    "description": "Type of message sent.",
+    "type": "string"
+  },
+  "InboundMessagesRequestPayload": {
+    "type": "object",
+    "properties": {
+      "Type": {
+        "type": "string",
+        "nullable": false,
+        "description": "InboundMessages"
+      },
+      "Payload": {
+        "$ref": "#/components/schemas/InboundMessagePayload"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InboundMessagePayload": {
+    "type": "object",
+    "properties": {
+      "AccountId": {
+        "type": "string",
+        "description": "SBT client account ID.",
+        "example": "271759e9-ca4f-4835-be61-0fe38d051559",
+        "nullable": true
+      },
+      "BrandId": {
+        "type": "string",
+        "description": "The identifier of the brand being polled.",
+        "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+        "nullable": true
+      },
+      "Message": {
+        "type": "string",
+        "description": "Inbound message content.",
+        "example": "BILLINFO",
+        "nullable": true
+      },
+      "OriginalMessage": {
+        "type": "string",
+        "description": "Text of the original message, if the inbound message is a response to a message sent by the SBT platform.",
+        "example": "Hello! This is Weyland-Yutani about your overdue account...",
+        "nullable": true
+      },
+      "Msisdn": {
+        "type": "string",
+        "description": "Mobile number with dialing code. Eleven digits with no plus sign (12345678902).",
+        "example": "12345678902",
+        "nullable": true
+      },
+      "GroupName": {
+        "type": "string",
+        "description": "Name of the messaging group of which the subscriber is a member.",
+        "example": "Account Updates",
+        "nullable": true
+      },
+      "GroupId": {
+        "type": "string",
+        "description": "The identifier of the group of which the subscriber is a member.",
+        "example": "f0618891-6561-43fb-ae67-c84f5448cea7",
+        "nullable": true
+      },
+      "CommunicationCode": {
+        "type": "string",
+        "description": "Short Code or 10DLC used to send the message.",
+        "example": "54321",
+        "nullable": true
+      },
+      "MessageType": {
+        "description": "Type of message sent.",
+        "enum": [
+          "Stop",
+          "Stopall",
+          "Help",
+          "Keyword",
+          "CustomKeyword",
+          "TwoWay"
+        ],
+        "example": "TwoWay",
+        "type": "string",
+        "nullable": true
+      },
+      "ReceivedTime": {
+        "type": "string",
+        "description": "Time the inbound message was received.",
+        "example": "2023-11-11T15:21:35Z",
+        "format": "date-time"
+      },
+      "Properties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PropertiesNew"
+        },
+        "nullable": true
+      },
+      "ReferenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "MessageId": {
+        "type": "string",
+        "description": "Message tracking ID number from SBT.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true
+      },
+      "files": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MediaFile"
+        },
+        "nullable": true
+      },
+      "totalMessageSegments": {
+        "type": "integer",
+        "description": "Number of message segments used by the message.",
+        "example": 2,
+        "format": "int32"
+      },
+      "Intent": {
+        "type": "string",
+        "description": "Statement of purpose as set by the customer. Only appears if a custom keyword is in use. ",
+        "example": "RETURNS LATEST BILL",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

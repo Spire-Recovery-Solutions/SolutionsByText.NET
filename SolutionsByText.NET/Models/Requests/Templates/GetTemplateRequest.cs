@@ -7,13 +7,13 @@ namespace SolutionsByText.NET.Models.Requests.Templates
         /// <summary>
         /// The unique identifier for the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// The unique identifier for the template.
         /// </summary>
-        [JsonPropertyName("templateId")]
-        public required string TemplateId { get; set; }
+        [JsonIgnore]
+        public string TemplateId { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,352 @@
+{
+  "AccountCancelRequest": {
+    "type": "object",
+    "properties": {
+      "reasonforcancel": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AccountRegistrationResponse": {
+    "type": "object",
+    "properties": {
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "silentLoginDetails": {
+        "$ref": "#/components/schemas/PasswordlessLoginTokenResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "AccountRegistrationResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/AccountRegistrationResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AccountsResilience": {
+    "type": "object",
+    "properties": {
+      "appId": {
+        "type": "string",
+        "nullable": true
+      },
+      "externalAccountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "externalAccountName": {
+        "type": "string",
+        "nullable": true
+      },
+      "sbtAccountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "status": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AccountStatusRequest": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "nullable": true
+      },
+      "reasonforsuspend": {
+        "type": "string",
+        "nullable": true
+      },
+      "resonforreactivate": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccountParamUpdate": {
+    "type": "object",
+    "properties": {
+      "registerCompany": {
+        "$ref": "#/components/schemas/RegisterCompany"
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccount": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "planId": {
+        "type": "string",
+        "nullable": true
+      },
+      "registerUser": {
+        "$ref": "#/components/schemas/RegisterUser"
+      },
+      "registerCompany": {
+        "$ref": "#/components/schemas/RegisterCompany"
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "modifiedBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "active": {
+        "type": "boolean"
+      },
+      "status": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentDetail": {
+        "$ref": "#/components/schemas/PaymentDetail"
+      },
+      "billingAddress": {
+        "$ref": "#/components/schemas/Billing"
+      },
+      "billingAccountDetails": {
+        "$ref": "#/components/schemas/BillingAccountDetails"
+      },
+      "accountStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "accountStatusDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "fundingStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "fundingStatusDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "paymentStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentStatusDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "failureCount": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "suspensionReason": {
+        "type": "string",
+        "nullable": true
+      },
+      "reactivationReason": {
+        "type": "string",
+        "nullable": true
+      },
+      "cancellationReason": {
+        "type": "string",
+        "nullable": true
+      },
+      "privatePlan": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PrivatePlan"
+        },
+        "nullable": true
+      },
+      "billingContact": {
+        "$ref": "#/components/schemas/BillingContact"
+      },
+      "communicationCodes": {
+        "$ref": "#/components/schemas/CommunicationCodes"
+      },
+      "replenishmentBillingDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "sbtAccountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "softwarePartners": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "brands": {
+        "$ref": "#/components/schemas/OrgunitResponse"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccountExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/RegisterAccount"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccountPaginatedResponse2ExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/RegisterAccountPaginatedResponse2"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccountParam": {
+    "type": "object",
+    "properties": {
+      "planId": {
+        "type": "string",
+        "nullable": true
+      },
+      "registerUser": {
+        "$ref": "#/components/schemas/RegisterUser"
+      },
+      "phoneVerificationToken": {
+        "type": "string",
+        "nullable": true
+      },
+      "registerCompany": {
+        "$ref": "#/components/schemas/RegisterCompany"
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdBy": {
+        "type": "string",
+        "nullable": true
+      },
+      "sbtAccountId": {
+        "type": "string",
+        "nullable": true
+      },
+      "softwarePartners": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterAccountPaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64",
+        "readOnly": true
+      },
+      "totalPages": {
+        "type": "integer",
+        "format": "int32",
+        "readOnly": true
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RegisterAccount"
+        },
+        "nullable": true,
+        "readOnly": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

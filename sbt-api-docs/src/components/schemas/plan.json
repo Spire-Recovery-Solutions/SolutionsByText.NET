@@ -1,0 +1,55 @@
+{
+  "PlanData": {
+    "type": "object",
+    "properties": {
+      "cartItems": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CartItems"
+        },
+        "nullable": true
+      },
+      "methodofpaymentDetails": {
+        "$ref": "#/components/schemas/MethodofpaymentDetails"
+      }
+    },
+    "additionalProperties": false
+  },
+  "PlanMergedData": {
+    "type": "object",
+    "properties": {
+      "products": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProductNew"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PlanMergedDataExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/PlanMergedData"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

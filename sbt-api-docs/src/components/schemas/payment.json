@@ -1,0 +1,146 @@
+{
+  "MethodofpaymentDetails": {
+    "type": "object",
+    "properties": {
+      "paymentType": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentDetails": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentExpiry": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PaymentDetail": {
+    "type": "object",
+    "properties": {
+      "planName": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "code": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_capacity": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_overageCost": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_short_code_type": {
+        "type": "string",
+        "nullable": true
+      },
+      "entitlement_long_code_type": {
+        "type": "string",
+        "nullable": true
+      },
+      "finalAmount": {
+        "type": "string",
+        "nullable": true
+      },
+      "type": {
+        "type": "string",
+        "nullable": true
+      },
+      "price": {
+        "type": "string",
+        "nullable": true
+      },
+      "discount": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentdatatime": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "PaymentResponse": {
+    "type": "object",
+    "properties": {
+      "messageCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "messageText": {
+        "type": "string",
+        "nullable": true
+      },
+      "externalReferenceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "accountNumber": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "billingToken": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentDate": {
+        "type": "string",
+        "nullable": true
+      },
+      "paymentAmount": {
+        "type": "string",
+        "nullable": true
+      },
+      "confirmationNumber": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PaymentResponseExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/PaymentResponse"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "PaymentRetryTransaction": {
+    "type": "object",
+    "properties": {
+      "invoiceId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

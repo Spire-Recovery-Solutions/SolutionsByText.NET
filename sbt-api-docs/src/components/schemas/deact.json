@@ -1,0 +1,271 @@
+{
+  "DeactEvent": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "firstName": {
+        "type": "string",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "nullable": true
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "dialingCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "oldCarrierName": {
+        "type": "string",
+        "nullable": true
+      },
+      "oldCarrierId": {
+        "type": "string",
+        "nullable": true
+      },
+      "newCarrierId": {
+        "type": "string",
+        "nullable": true
+      },
+      "newCarrierName": {
+        "type": "string",
+        "nullable": true
+      },
+      "eventDate": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "mobileStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "eventType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Deactivated,"
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeactEventReportAccount": {
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "example": "John",
+        "nullable": true
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Doe",
+        "nullable": true
+      },
+      "countryCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "msisdn": {
+        "type": "string",
+        "example": "12345678902",
+        "nullable": true
+      },
+      "dialingCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "oldCarrierId": {
+        "type": "string",
+        "description": "SBT platform code for the subscriber's previous carrier.",
+        "example": "79",
+        "nullable": true
+      },
+      "oldCarrierName": {
+        "type": "string",
+        "description": "Name of subscriber's previous carrier.",
+        "example": "T-Mobile",
+        "nullable": true
+      },
+      "newCarrierId": {
+        "type": "string",
+        "description": "SBT platform code for the subscriber's new/current carrier.",
+        "example": "383",
+        "nullable": true
+      },
+      "newCarrierName": {
+        "type": "string",
+        "description": "Name of subscriber's new/current carrier.",
+        "example": "AT&T Wireless Inc.",
+        "nullable": true
+      },
+      "mobileStatus": {
+        "type": "string",
+        "nullable": true
+      },
+      "eventType": {
+        "type": "string",
+        "nullable": true
+      },
+      "eventDate": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date and time the deact event occurred.",
+        "example": "2024-05-17T11:21:35Z",
+        "nullable": true
+      },
+      "customParams": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PropertiesNew"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeactEventReport": {
+    "type": "object",
+    "properties": {
+      "processDateTime": {
+        "type": "string",
+        "description": "Date and time the request was processed.",
+        "example": "2024-05-17T11:21:35Z",
+        "format": "date-time",
+        "nullable": true
+      },
+      "oldCarrierId": {
+        "type": "string",
+        "description": "SBT platform code for the subscriber's previous carrier.",
+        "example": "79",
+        "nullable": true
+      },
+      "oldCarrierName": {
+        "type": "string",
+        "description": "Name of subscriber's previous carrier.",
+        "example": "T-Mobile",
+        "nullable": true
+      },
+      "newCarrierId": {
+        "type": "string",
+        "description": "SBT platform code for the subscriber's new/current carrier.",
+        "example": "383",
+        "nullable": true
+      },
+      "countryCode": {
+        "type": "string",
+        "description": "Country in which the subscriber resides.",
+        "example": "US",
+        "nullable": true
+      },
+      "newCarrierName": {
+        "type": "string",
+        "description": "Name of subscriber's new/current carrier.",
+        "example": "AT&T Wireless Inc.",
+        "nullable": true
+      },
+      "mobileStatus": {
+        "type": "string",
+        "description": "Confirms that the number is a mobile number.",
+        "example": "mobile",
+        "nullable": true
+      },
+      "event": {
+        "type": "string",
+        "description": "Deact event type. Will be either Deactivated or Ported",
+        "example": "Ported",
+        "nullable": true
+      },
+      "eventDate": {
+        "type": "string",
+        "description": "Date and time the deact event occurred.",
+        "example": "2024-09-29T18:33:11Z",
+        "format": "date-time",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeactEventExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/DeactEvent"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeactEventReportExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "description": "Total number of items in the query return.",
+            "example": 9,
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Number of pages in the query return.",
+            "example": 1,
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeactEventReport"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        }
+      },
+      "appCode": {
+        "type": "string",
+        "example": "gen.1200",
+        "description": "API response code (see table above).",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Request successful",
+        "description": "API response message (see table above).",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "description": "If no error, *false*. If error, *true*.",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

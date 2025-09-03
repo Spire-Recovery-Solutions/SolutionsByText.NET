@@ -1,0 +1,205 @@
+{
+  "ChatConversation": {
+    "type": "object",
+    "properties": {
+      "subscriber": {
+        "$ref": "#/components/schemas/SubscriberResponseInbox"
+      },
+      "messageId": {
+        "type": "string",
+        "description": "Tracking ID number of the message.",
+        "example": "44463f49-ad32-460d-956c-83849fc639a5",
+        "nullable": true
+      },
+      "deliveryStatus": {
+        "type": "string",
+        "description": "Message status when the API was called.",
+        "example": "Delivered",
+        "nullable": true
+      },
+      "deliveryStatusCode": {
+        "type": "string",
+        "description": "Message status code when the API was called.",
+        "example": "100",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "description": "Message content.",
+        "example": "Hello! Your account is currently at $426. Contact us for more...",
+        "nullable": true
+      },
+      "templateId": {
+        "type": "integer",
+        "example": 1,
+        "description": "Identifying number of the template.",
+        "nullable": true
+      },
+      "direction": {
+        "$ref": "#/components/schemas/MessageType"
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "communicationCode": {
+        "type": "string",
+        "description": "Short Code or 10DLC used to send the message.",
+        "example": "54321",
+        "nullable": true
+      },
+      "sentAt": {
+        "type": "string",
+        "description": "Time the message was sent from SBT.",
+        "example": "2024-04-22T016:50:00.00Z",
+        "format": "date-time",
+        "nullable": true
+      },
+      "receivedAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time the message was received by the handset.",
+        "example": "2024-04-22T016:51:25.00Z",
+        "nullable": true
+      },
+      "user": {
+        "$ref": "#/components/schemas/UserDetails"
+      },
+      "sentTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was sent from SBT (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:50:00.00Z",
+        "nullable": true
+      },
+      "deliveredTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was delivered by the carrier (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:51:15.00Z",
+        "nullable": true
+      },
+      "receivedTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was received by the handset (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:51:25.00Z",
+        "nullable": true
+      },
+      "readTimeLocal": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Local time the message was read by the subscriber (with *timeZoneOffset*).",
+        "example": "2024-04-22T011:53:31.22Z",
+        "nullable": true
+      },
+      "mediaDetails": {
+        "$ref": "#/components/schemas/MediaDetails"
+      },
+      "totalMessageSegments": {
+        "type": "integer",
+        "description": "Number of message segments used by the message.",
+        "example": 2,
+        "format": "int32"
+      },
+      "messageCategory": {
+        "type": "string",
+        "description": "Type of message sent.",
+        "example": "ReservedKeyword",
+        "nullable": true
+      },
+      "modeOfCommunication": {
+        "type": "string",
+        "description": "Message type (SMS, MMS, or RCS).",
+        "example": "SMS",
+        "nullable": true
+      },
+      "subscriberCustomParams": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SubscriberCustomParams"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ChatConversationListExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ChatConversation"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ChatConversationPaginatedResponse2": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "description": "Total number of items in the query return.",
+        "example": 231,
+        "format": "int64"
+      },
+      "totalPages": {
+        "type": "integer",
+        "description": "Number of pages in the query return.",
+        "example": 5,
+        "format": "int32"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ChatConversation"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ChatConversationPaginatedResponse2ExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ChatConversationPaginatedResponse2"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  }
+}

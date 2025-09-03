@@ -9,21 +9,21 @@ namespace SolutionsByText.NET.Models.Requests.Reports
     public class GetDeactivationEventsRequest : PaginationData
     {
         /// <summary>
-        /// Gets or sets the date of the event.
+        /// Gets or sets the date of the event. Date to be checked for events.
         /// </summary>
-        [JsonPropertyName("eventDate")]
+        [JsonIgnore]
         public DateTime EventDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of the event (e.g., "UserDeactivation").
+        /// Gets or sets the type of the event. The event type can be "Deactivated" or "Ported".
         /// </summary>
-        [JsonPropertyName("eventType")]
-        public required string EventType { get; set; }
+        [JsonIgnore]
+        public string EventType { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets the country code where the event occurred (e.g., "US").
+        /// Gets or sets the country code where the event occurred. Country Code is not required to retrieve deact events for US numbers. Currently, SBT only has deact data for US numbers.
         /// </summary>
-        [JsonPropertyName("countryCode")]
-        public required string CountryCode { get; set; }
+        [JsonIgnore]
+        public string? CountryCode { get; set; }
     }
 }

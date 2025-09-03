@@ -1,0 +1,88 @@
+{
+  "C2WApp": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "tokenLifetime": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "appId": {
+        "type": "string",
+        "nullable": true
+      },
+      "appSecret": {
+        "type": "string",
+        "nullable": true
+      },
+      "role": {
+        "type": "string",
+        "nullable": true
+      },
+      "scopes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "enabled": {
+        "type": "boolean"
+      },
+      "allCampusAccess": {
+        "type": "boolean"
+      },
+      "campusId": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "updatedOn": {
+        "type": "string",
+        "format": "date-time",
+        "nullable": true
+      },
+      "accountId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "C2WAppIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/C2WApp"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

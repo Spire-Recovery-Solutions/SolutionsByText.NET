@@ -34,13 +34,13 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         public string? MiddleName { get; set; }
 
         /// <summary>
-        /// Gets or sets the mobile subscriber ISDN number.
+        /// Mobile number with dialing code. Eleven digits with no plus sign (12345678902).
         /// </summary>
         [JsonPropertyName("msisdn")]
         public string? Msisdn { get; set; }
 
         /// <summary>
-        /// Gets or sets the status of the individual.
+        /// Subscription status: *Active*, *InActive*, *Not a Subscriber*, or *UnderVerification*.
         /// </summary>
         [JsonPropertyName("status")]
         public string? Status { get; set; }
@@ -73,7 +73,7 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Gets or sets the age of the individual.
         /// </summary>
         [JsonPropertyName("age")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         /// <summary>
         /// Gets or sets the address of the individual.
@@ -94,43 +94,43 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         public List<Property>? Properties { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the carrier.
+        /// The wireless provider name for the subscriber's carrier.
         /// </summary>
         [JsonPropertyName("carrierName")]
         public string? CarrierName { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier of the carrier.
+        /// The wireless provider ID for the subscriber's carrier.
         /// </summary>
         [JsonPropertyName("carrierId")]
         public string? CarrierId { get; set; }
 
         /// <summary>
-        /// Gets or sets the first opt-in date.
+        /// First Date the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("firstOptInDate")]
-        public DateTime? FirstOptInDate { get; set; }
+        public string? FirstOptInDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the last opt-in date.
+        /// Last Date the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("lastOptinDate")]
-        public DateTime? LastOptinDate { get; set; }
+        public string? LastOptinDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the last opt-out date.
+        /// Date of the subscriber was opted out of the company.
         /// </summary>
         [JsonPropertyName("lastOptoutDate")]
-        public DateTime? LastOptoutDate { get; set; }
+        public string? LastOptoutDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of opt-in.
+        /// Method by which the subscriber was opted into messaging.
         /// </summary>
         [JsonPropertyName("optinType")]
         public string? OptinType { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of opt-out.
+        /// Method by which the subscriber was opted out of messaging. Will show the keyword if that method was used.
         /// </summary>
         [JsonPropertyName("optoutType")]
         public string? OptoutType { get; set; }

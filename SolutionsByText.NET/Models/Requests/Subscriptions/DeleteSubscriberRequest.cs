@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Requests.Subscription
+namespace SolutionsByText.NET.Models.Requests.Subscriptions
 {
     /// <summary>
     /// Represents a request to delete a subscriber from a group.
@@ -10,13 +10,13 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// <summary>
         /// Gets or sets the unique identifier of the group.
         /// </summary>
-        [JsonPropertyName("groupId")]
-        public required string GroupId { get; set; }
+        [JsonIgnore]
+        public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber to delete.
         /// </summary>
-        [JsonPropertyName("msisdn")]
-        public required string Msisdn { get; set; }
+        [JsonIgnore]
+        public string Msisdn { get; set; } = string.Empty;
     }
 }

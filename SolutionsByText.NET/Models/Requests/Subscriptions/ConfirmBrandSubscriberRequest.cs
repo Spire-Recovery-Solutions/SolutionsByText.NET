@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Requests.Subscription
+namespace SolutionsByText.NET.Models.Requests.Subscriptions
 {
     /// <summary>
     /// Represents a request to confirm a subscriber's opt-in for a brand using a PIN.
@@ -10,14 +10,14 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// <summary>
         /// Gets or sets the unique identifier of the brand.
         /// </summary>
-        [JsonPropertyName("brandId")]
-        public required string BrandId { get; set; }
+        [JsonIgnore]
+        public string BrandId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber.
         /// </summary>
-        [JsonPropertyName("msisdn")]
-        public required string Msisdn { get; set; }
+        [JsonIgnore]
+        public string Msisdn { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the PIN provided by the subscriber.

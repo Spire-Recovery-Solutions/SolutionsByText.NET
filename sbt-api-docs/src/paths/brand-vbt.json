@@ -1,0 +1,333 @@
+{
+  "/brand-vbt-outbound-messages": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get Brand VBT Outbound Messages",
+      "description": "**Description:** Generates a report of messages that were sent to subscribers during brand-level opt-ins.\n\n**Use Case:** Use cases for Brand VBT Outbound Messages would be to seek answers to typical questions pertaining to an opt-in campaign, such as:\n* How many brand-level opt-in messages were sent from a specific brand?\n* How many brand-level opt-in messages were sent within a date range?\n* How many stop or stop-all responses were sent to subscribers?",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "query",
+          "description": "The identifier of the brand being polled.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "messageId",
+          "description": "Tracking ID number of the message.",
+          "example": "44463f49-ad32-460d-956c-83849fc639a5",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "referenceId",
+          "description": "Customer-defined identifier for the message.",
+          "example": "192837",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "description": "Start date of query. Default is first of the current month.",
+          "example": "2024-05-13T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "description": "End date of query. Default is the current date.",
+          "example": "2024-05-17T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "in": "query",
+          "description": "Optional offset from UTC.",
+          "schema": {
+            "type": "string",
+            "default": "-00:00"
+          }
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "description": "Type of message sent.",
+          "schema": {
+            "$ref": "#/components/schemas/BrandVBTOutboundMessages"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of pages in the query return.",
+            "example": 3,
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items on each page of the query return.",
+            "example": 50,
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandVbtMessageReportResponsePaginatedResponse2ExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1001| BrandId is required\r\nge.1132| Invalid timezone offset\r\nrpt.1001| From Date cannot be greater than To Date\r\nrpt.1002| Report can be generated for 60 days only",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "401": {
+          "x-summary": "Unauthorized",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1401 | Unauthorized\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1005| Brand level optin is not enabled for this brand. Please contact the support team.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/brand-vbt-inbound-messages": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get Brand VBT Inbound Messages",
+      "description": "**Description:** Generates a report of inbound messages received after brand-level VBT. After adding subscribers via brand-level VBT, clients can send messages and continue the conversation from any of the groups within the brand.  However, it is possible that the subscriber may respond to a brand-level VBT message and that message would not be available in any of the available groups.  This API allows the client to download a report of such messages that were sent right after a brand-level VBT event. \n\n**Use Case:** The brand-vbt inbound messages API can be used be used to check for messages received right after the brand-level VBT.  Use cases would include:\n* How many subscribers responded to brand-VBT opt-in campaign with a STOP or STOPALL?\n* Did any of the subscribers respond to a brand-VBT opt-in campaign with a question?\n* Did any subscriber respond to the brand-VBT opt-in campaign using a HELP?",
+      "parameters": [
+        {
+          "name": "brandId",
+          "in": "query",
+          "description": "The identifier of the brand being polled.",
+          "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "referenceId",
+          "description": "Customer-defined identifier for the message.",
+          "example": "192837",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fromDate",
+          "description": "Start date of query. Default is first of the current month.",
+          "example": "2024-05-13T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "toDate",
+          "description": "End date of query. Default is the current date.",
+          "example": "2024-05-17T00:00:00Z",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "timeZoneOffset",
+          "description": "Optional offset from UTC.",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "default": "-00:00"
+          }
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "description": "Type of message sent.",
+          "schema": {
+            "$ref": "#/components/schemas/BrandVBTInboundMessages"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "schema": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of pages in the query return.",
+            "example": 3,
+            "default": 1
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "schema": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items on each page of the query return.",
+            "example": 50,
+            "default": 10
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1200| Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandVbtMessageReportResponsePaginatedResponse2ExternalApiResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1001| BrandId is required\r\nge.1132| Invalid timezone offset\r\nrpt.1001| From Date cannot be greater than To Date\r\nrpt.1002| Report can be generated for 60 days only",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "401": {
+          "x-summary": "Unauthorized",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1401 | Unauthorized\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1403| Forbidden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "428": {
+          "x-summary": "Precondition Required",
+          "description": "App Code  | Description\r\n----------------|---------\r\nbrd.1005| Brand level optin is not enabled for this brand. Please contact the support team.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\r\n----------------|---------\r\ngen.1500| Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

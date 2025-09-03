@@ -1,0 +1,107 @@
+{
+  "/accounts/deactevents": {
+    "get": {
+      "tags": [
+        "Report"
+      ],
+      "summary": "Get All Deactivation Events for an Account",
+      "description": "**Description:** Retrieves all service changes to all mobile numbers subscribed to a client's account, including deactivations and and ported numbers.\n\n**Use Case:** This API allows clients to check if a number is still with the person who originally opted in for messaging. If the number has been re-used by a carrier, the returned data will show that result.",
+      "parameters": [
+        {
+          "name": "EventDate",
+          "in": "query",
+          "description": "Date to be checked for events.",
+          "example": "2024-05-17T00:00:00Z",
+          "required": true,
+          "schema": {
+            "type": "date-time"
+          }
+        },
+        {
+          "name": "EventType",
+          "in": "query",
+          "description": "The event type can be *Deactivated* or *Ported*.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "CountryCode",
+          "in": "query",
+          "description": "Country Code is not required to retrieve deact events for US numbers. Currently, SBT only has deact data for US numbers.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pageNumber",
+          "in": "query",
+          "description": "Number of pages in the query return.",
+          "example": 5,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "description": "Number of items on each returned page.",
+          "example": 50,
+          "required": false,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchSubscribersResponseListPagedResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\ndea.1002| To Date cannot be greater than Current Date\ndea.1003| Invalid EventType\ndea.1004| Unsupported CountryCode\ndea.1005| Event type is required\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "403": {
+          "x-summary": "Forbiddden",
+          "description": "App Code  | Description\n----------------|---------\ngen.1403 | Forbiddden\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

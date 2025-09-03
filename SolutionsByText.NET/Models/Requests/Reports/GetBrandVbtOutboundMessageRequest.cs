@@ -10,45 +10,46 @@ namespace SolutionsByText.NET.Models.Requests.Reports
 {
     public class GetBrandVbtOutboundMessageRequest : PaginationData
     {
-        // Required: The unique identifier for the brand
-        [JsonPropertyName("brandId")]
-        public required string BrandId { get; set; }
+        /// <summary>
+        /// Required: The unique identifier for the brand
+        /// </summary>
+        [JsonIgnore]
+        public string BrandId { get; set; } = string.Empty;
 
         /// <summary>
         /// Tracking ID for the opt-in verification message.
         /// </summary>
-        [JsonPropertyName("messageId")]
+        [JsonIgnore]
         public string? MessageId { get; set; }
 
         /// <summary>
         /// Tracking ID for reference notes.
         /// </summary>
-        [JsonPropertyName("referenceId")]
+        [JsonIgnore]
         public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Start date-time for filtering messages.
         /// </summary>
-        [JsonPropertyName("fromDate")]
+        [JsonIgnore]
         public DateTime? FromDate { get; set; }
 
         /// <summary>
         /// End date-time for filtering messages.
         /// </summary>
-        [JsonPropertyName("toDate")]
+        [JsonIgnore]
         public DateTime? ToDate { get; set; }
 
         /// <summary>
         /// Timezone offset for retrieving details.
         /// </summary>
-        [JsonPropertyName("timeZoneOffset")]
+        [JsonIgnore]
         public string? TimeZoneOffset { get; set; }
 
         /// <summary>
         /// Type of the message (Enum values).
         /// </summary>
-        [JsonPropertyName("type")]
-        [JsonConverter(typeof(JsonStringEnumConverter<OutboundMessageType>))]
+        [JsonIgnore]
         public OutboundMessageType? Type { get; set; }
     }
 }

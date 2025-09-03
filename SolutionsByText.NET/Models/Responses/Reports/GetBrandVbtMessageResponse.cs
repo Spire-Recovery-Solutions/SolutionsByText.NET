@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SolutionsByText.NET.Models.Responses.Reports
 {
-    public class GetBrandVbtMessageResponse : ApiResponse<PaginatedBrandVbtMessage>
+    public class GetBrandVbtMessageResponse : ApiResponse<BrandVbtMessageReportResponsePaginatedResponse2>
     {
     }
 }

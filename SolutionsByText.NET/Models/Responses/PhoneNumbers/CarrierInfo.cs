@@ -1,4 +1,3 @@
-﻿using SolutionsByText.NET.Models.Requests.Enums;
 using System.Text.Json.Serialization;
 
 namespace SolutionsByText.NET.Models.Responses.PhoneNumbers
@@ -9,16 +8,16 @@ namespace SolutionsByText.NET.Models.Responses.PhoneNumbers
     public class CarrierInfo
     {
         /// <summary>
-        /// Gets or sets the name of the carrier.
+        /// Gets or sets the wireless provider ID for the subscriber's carrier.
+        /// </summary>
+        [JsonPropertyName("code")]
+        public string? Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wireless provider name for the subscriber's carrier.
         /// </summary>
         [JsonPropertyName("name")]
         public string? Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the carrier.
-        /// </summary>
-        [JsonPropertyName("type")]
-        public CarrierType Type { get; set; }
     }
 
 }

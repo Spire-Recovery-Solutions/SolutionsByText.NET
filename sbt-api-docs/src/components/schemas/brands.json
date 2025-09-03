@@ -1,0 +1,109 @@
+{
+  "BrandSubscriberStatusListExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BrandSubscriberStatus"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandUsageResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/BrandUsageReport"
+      },
+      "appCode": {
+        "type": "string",
+        "example": "Request successful.",
+        "nullable": true,
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "example": "gen.1200",
+        "nullable": true,
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "BrandUsageReport": {
+    "type": "object",
+    "properties": {
+      "brandId": {
+        "type": "string",
+        "nullable": true,
+        "description": "The identifier of the brand being polled.",
+        "example": "b85c02b4-c3de-4c7f-8717-97aa551652bb"
+      },
+      "brandName": {
+        "type": "string",
+        "nullable": true,
+        "description": "Name of the brand polled.",
+        "example": "W-Y Auto Finance"
+      },
+      "productType": {
+        "$ref": "#/components/schemas/productType"
+      }
+    },
+    "additionalProperties": false
+  },
+  "productType": {
+    "type": "object",
+    "properties": {
+      "productType": {
+        "type": "string",
+        "description": "The type of messaging operation searched for. ",
+        "example": "outboundSMS",
+        "nullable": true
+      },
+      "volume": {
+        "type": "integer",
+        "description": "Number of messages or operations of that type sent, received, or made during the specified time frame.",
+        "example": 24,
+        "nullable": true
+      },
+      "ratePerProductType": {
+        "type": "integer",
+        "description": "",
+        "example": 0.04,
+        "nullable": true
+      },
+      "usage": {
+        "type": "integer",
+        "description": "",
+        "example": 0.96,
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

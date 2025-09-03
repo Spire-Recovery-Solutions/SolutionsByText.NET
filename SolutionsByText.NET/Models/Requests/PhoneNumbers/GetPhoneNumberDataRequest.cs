@@ -9,9 +9,15 @@ namespace SolutionsByText.NET.Models.Requests.PhoneNumbers
     public class GetPhoneNumberDataRequest
     {
         /// <summary>
-        /// Gets or sets the list of phone numbers to look up.
+        /// Mobile numbers with dialing code. Eleven digits with no plus sign (12345678902).
         /// </summary>
-        [JsonPropertyName("msisdn")]
+        [JsonIgnore]
         public required List<string> Msisdn { get; set; }
+
+        /// <summary>
+        /// Carrier specifier.
+        /// </summary>
+        [JsonIgnore]
+        public string? Includes { get; set; }
     }
 }

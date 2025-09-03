@@ -7,7 +7,6 @@ using SolutionsByText.NET.Models.Requests.Messages;
 using SolutionsByText.NET.Models.Requests.PhoneNumbers;
 using SolutionsByText.NET.Models.Requests.Reports;
 using SolutionsByText.NET.Models.Requests.SmartUrl;
-using SolutionsByText.NET.Models.Requests.Subscription;
 using SolutionsByText.NET.Models.Requests.Subscriptions;
 using SolutionsByText.NET.Models.Requests.Templates;
 using SolutionsByText.NET.Models.Responses;
@@ -19,6 +18,7 @@ using SolutionsByText.NET.Models.Responses.SmartUrl;
 using SolutionsByText.NET.Models.Responses.Subscriptions;
 using SolutionsByText.NET.Models.Responses.Templates;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -40,6 +40,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     private TimeSpan _tokenExpiresIn;
     private readonly Stopwatch _tokenStopwatch;
     private readonly TimeSpan _tokenRefreshMargin;
+    private static readonly bool _enableResponseLogging = Environment.GetEnvironmentVariable("SBT_DEBUG_RESPONSES") == "true";
 
     public SolutionsByTextClient(string baseUrl, string tokenUrl, string clientId, string clientSecret)
     {
@@ -77,23 +78,21 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     public async Task<SendMessageResponse?> SendMessageAsync(SendMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/messages";
-        return await SendRequestAsync<SendMessageRequest, SendMessageResponse?>(HttpMethod.Post, endpoint, request);
+        return await SendPostAsync<SendMessageRequest, SendMessageResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
     public async Task<SendTemplateMessageResponse?> SendTemplateMessageAsync(SendTemplateMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/template-messages";
-        return await SendRequestAsync<SendTemplateMessageRequest, SendTemplateMessageResponse?>(HttpMethod.Post,
-            endpoint, request);
+        return await SendPostAsync<SendTemplateMessageRequest, SendTemplateMessageResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
     public async Task<ScheduleMessageResponse?> ScheduleMessageAsync(ScheduleMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/schedule-messages";
-        return await SendRequestAsync<ScheduleMessageRequest, ScheduleMessageResponse?>(HttpMethod.Post, endpoint,
-            request);
+        return await SendPostAsync<ScheduleMessageRequest, ScheduleMessageResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
@@ -108,63 +107,94 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers/status",
                 queryParams);
-        return await SendRequestAsync<GetGroupSubscriberStatusRequest, GetGroupSubscriberStatusResponse?>(
-            HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetGroupSubscriberStatusResponse?>(endpoint);
     }
 
     /// <inheritdoc />
     public async Task<AddSubscriberResponse?> AddGroupSubscriberAsync(AddGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers";
-        return await SendRequestAsync<AddGroupSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint,
-            request);
+        return await SendPostAsync<AddGroupSubscriberRequest, AddSubscriberResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
     public async Task<ConfirmGroupSubscriberResponse?> ConfirmSubscriberAsync(ConfirmGroupSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/verification";
-        return await SendRequestAsync<ConfirmGroupSubscriberRequest, ConfirmGroupSubscriberResponse?>(HttpMethod.Post,
-            endpoint,
-            request);
+        return await SendPostAsync<ConfirmGroupSubscriberRequest, ConfirmGroupSubscriberResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
     public async Task<DeleteSubscriberResponse?> DeleteSubscriberAsync(DeleteSubscriberRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}";
-        return await SendRequestAsync<DeleteSubscriberRequest, DeleteSubscriberResponse?>(HttpMethod.Delete, endpoint);
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/";
+        return await SendDeleteAsync<DeleteSubscriberResponse?>(endpoint);
     }
 
     /// <inheritdoc />
-    public async Task<GetGroupResponse?> GetGroupAsync(GetGroupRequest request)
+    public async Task<ReactivateSubscriberResponse?> ReactivateSubscriberAsync(ReactivateSubscriberRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}";
-        return await SendRequestAsync<GetGroupRequest, GetGroupResponse?>(HttpMethod.Get, endpoint);
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/reactivation-request";
+        return await SendPostAsync<ReactivateSubscriberRequest, ReactivateSubscriberResponse?>(endpoint, request);
     }
+
+    /// <inheritdoc />
+    public async Task<CancelSubscriptionResponse?> CancelSubscriptionAsync(CancelSubscriptionRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers/{request.Msisdn}/subscription-cancellation";
+        return await SendPostAsync<CancelSubscriptionRequest, CancelSubscriptionResponse?>(endpoint, request);
+    }
+
+    /// <inheritdoc />
+    public async Task<UpdateSubscriberDataResponse?> UpdateSubscriberDataAsync(UpdateSubscriberDataRequest request)
+    {
+        // Note: The API spec has double brackets {{groupId}} but we use single brackets
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/subscribers";
+        return await SendPutAsync<UpdateSubscriberDataRequest, UpdateSubscriberDataResponse?>(endpoint, request);
+    }
+
+
 
     /// <inheritdoc />
     public async Task<GetOutboundMessagesResponse?> GetOutboundMessagesAsync(GetOutboundMessagesRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/outbound-messages";
-        return await SendRequestAsync<GetOutboundMessagesRequest, GetOutboundMessagesResponse?>(HttpMethod.Get,
-            endpoint);
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "messageId", request.MessageId },
+            { "referenceId", request.ReferenceId },
+            { "fromDate", request.FromDate?.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "timeZoneOffset", request.TimeZoneOffset },
+            { "type", request.Type?.ToString() },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/outbound-messages", queryParams);
+        return await SendGetAsync<GetOutboundMessagesResponse?>(endpoint);
     }
 
     /// <inheritdoc />
     public async Task<GetInboundMessagesResponse?> GetInboundMessagesAsync(GetInboundMessagesRequest request)
     {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/inbound-messages";
-        return await SendRequestAsync<GetInboundMessagesRequest, GetInboundMessagesResponse?>(HttpMethod.Get, endpoint);
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "referenceId", request.ReferenceId },
+            { "fromDate", request.FromDate?.ToString() },
+            { "toDate", request.ToDate?.ToString() },
+            { "timeZoneOffset", request.TimeZoneOffset },
+            { "type", request.Type?.ToString() },
+            { "pageNumber", request.PageNumber?.ToString() },
+            { "pageSize", request.PageSize?.ToString() }
+        };
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/inbound-messages", queryParams);
+        return await SendGetAsync<GetInboundMessagesResponse?>(endpoint);
     }
 
     /// <inheritdoc />
     public async Task<CreateSmartURLResponse?> CreateSmartURLAsync(CreateSmartURLRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/shortUrls";
-        return await SendRequestAsync<CreateSmartURLRequest, CreateSmartURLResponse?>(HttpMethod.Post, endpoint,
-            request);
+        return await SendPostAsync<CreateSmartURLRequest, CreateSmartURLResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
@@ -172,18 +202,25 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "msisdn", string.Join(",", request.Msisdn) }
+            { "msisdn", string.Join(",", request.Msisdn) },
+            { "includes", request.Includes }
         };
         var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/phonenumbers-data", queryParams);
-        return await SendRequestAsync<GetPhoneNumberDataRequest, GetPhoneNumberDataResponse?>(HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetPhoneNumberDataResponse?>(endpoint);
     }
 
     /// <inheritdoc />
     public async Task<AddSubscriberResponse?> AddBrandSubscriberAsync(AddBrandSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers";
-        return await SendRequestAsync<AddBrandSubscriberRequest, AddSubscriberResponse?>(HttpMethod.Post, endpoint,
-            request);
+        return await SendPostAsync<AddBrandSubscriberRequest, AddSubscriberResponse?>(endpoint, request);
+    }
+
+    /// <inheritdoc />
+    public async Task<AddSubscriberResponse?> AddBrandSubscriberV2Async(AddBrandSubscriberRequest request)
+    {
+        var endpoint = $"{_baseUrl}/v2/brands/{request.BrandId}/subscribers";
+        return await SendPostAsync<AddBrandSubscriberRequest, AddSubscriberResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
@@ -191,8 +228,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         ConfirmBrandSubscriberRequest request)
     {
         var endpoint = $"{_baseUrl}/brands/{request.BrandId}/subscribers/{request.Msisdn}/verification";
-        return await SendRequestAsync<ConfirmBrandSubscriberRequest, ConfirmBrandSubscriberResponse?>(HttpMethod.Post,
-            endpoint, request);
+        return await SendPostAsync<ConfirmBrandSubscriberRequest, ConfirmBrandSubscriberResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
@@ -200,8 +236,21 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         ScheduleTemplateMessageRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/schedule-template-messages";
-        return await SendRequestAsync<ScheduleTemplateMessageRequest, ScheduleTemplateMessageResponse?>(HttpMethod.Post,
-            endpoint, request);
+        return await SendPostAsync<ScheduleTemplateMessageRequest, ScheduleTemplateMessageResponse?>(endpoint, request);
+    }
+
+    /// <inheritdoc />
+    public async Task<SendODMMessageResponse?> SendODMMessageAsync(SendODMMessageRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/odm/message";
+        return await SendPostAsync<SendODMMessageRequest, SendODMMessageResponse?>(endpoint, request);
+    }
+
+    /// <inheritdoc />
+    public async Task<VerifyODMResponse?> VerifyODMAsync(VerifyODMRequest request)
+    {
+        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/odm/{request.Msisdn}/verification";
+        return await SendPostAsync<VerifyODMRequest, VerifyODMResponse?>(endpoint, request);
     }
 
     /// <inheritdoc />
@@ -216,8 +265,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageSize", request.PageSize?.ToString() }
         };
         var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/accounts/deactevents", queryParams);
-        return await SendRequestAsync<GetDeactivationEventsRequest, GetDeactivationEventsResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetDeactivationEventsResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -226,18 +274,9 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var endpoint =
             $"{_baseUrl}/groups/{request.GroupId}/shortUrls/{request.ShortUrl}";
 
-        return await SendRequestAsync<UpdateSmartURLRequest, UpdateSmartURLResponse?>(HttpMethod.Patch,
-            endpoint, request);
+        return await SendPatchAsync<UpdateSmartURLRequest, UpdateSmartURLResponse?>(endpoint, request);
     }
 
-    /// <inheritdoc />
-    public async Task<AddKeywordResponse?> AddKeywordAsync(AddKeywordRequest request)
-    {
-        var endpoint = $"{_baseUrl}/groups/{request.GroupId}/keywords";
-
-        return await SendRequestAsync<AddKeywordRequest, AddKeywordResponse?>(HttpMethod.Post,
-            endpoint, request);
-    }
 
     /// <inheritdoc />
     public async Task<GetKeywordsResponse?> GetKeywordsAsync(GetKeywordsRequest request)
@@ -250,7 +289,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         };
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/keywords", queryParams);
-        return await SendRequestAsync<GetKeywordsRequest, GetKeywordsResponse?>(HttpMethod.Get, endpoint, request);
+        return await SendGetAsync<GetKeywordsResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -258,8 +297,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
 
-        return await SendRequestAsync<RetrieveMMSRequest, RetrieveMMSResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<RetrieveMMSResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -267,8 +305,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/media-messages/{request.MessageId}/file/{request.FileId}";
 
-        return await SendRequestAsync<DeleteMMSRequest, DeleteMMSResponse?>(HttpMethod.Delete,
-            endpoint);
+        return await SendDeleteAsync<DeleteMMSResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -282,19 +319,9 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/subscribers/status",
                 queryParams);
-        return await SendRequestAsync<GetBrandSubscriberStatusRequest, GetBrandSubscriberStatusResponse?>(
-            HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetBrandSubscriberStatusResponse?>(endpoint);
     }
 
-    /// <inheritdoc />
-    public async Task<UpdateSubscribersBrandResponse?> UpdateSubscribersBrand(UpdateSubscribersBrandRequest request)
-    {
-        var endpoint =
-            $"{_baseUrl}/groups/{request.GroupId}/subscribers";
-
-        return await SendRequestAsync<UpdateSubscribersBrandRequest?, UpdateSubscribersBrandResponse?>(HttpMethod.Patch,
-            endpoint, request);
-    }
 
     /// <inheritdoc />
     public async Task<GetNumberDeactivateEventsResponse?> GetNumberDeactivationEventsAsync(
@@ -311,8 +338,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl,
             $"/groups/{request.GroupId}/phonenumbers/{request.Msisdn}/events", queryParams);
 
-        return await SendRequestAsync<GetNumberDeactivateEventsRequest, GetNumberDeactivateEventsResponse?>(
-            HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetNumberDeactivateEventsResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -326,19 +352,19 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         };
         var endpoint =
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/templates", queryParams);
-        return await SendRequestAsync<GetTemplatesRequest, GetTemplatesResponse?>(HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetTemplatesResponse?>(endpoint);
     }
 
     /// <inheritdoc />
     public async Task<GetTemplateResponse?> GetTemplateAsync(GetTemplateRequest request)
     {
         var endpoint = $"{_baseUrl}/groups/{request.GroupId}/templates/{request.TemplateId}";
-        return await SendRequestAsync<GetTemplateRequest, GetTemplateResponse?>(HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetTemplateResponse?>(endpoint);
     }
 
 
     /// <inheritdoc />
-    public async Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAync(GetAllSmartUrlRequest request)
+    public async Task<GetAllSmartUrlResponse?> GetAllSmartUrlsAsync(GetAllSmartUrlRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
@@ -353,11 +379,11 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/shorturls",
                 queryParams);
 
-        return await SendRequestAsync<GetAllSmartUrlRequest, GetAllSmartUrlResponse?>(HttpMethod.Get, endpoint);
+        return await SendGetAsync<GetAllSmartUrlResponse?>(endpoint);
     }
 
     /// <inheritdoc />
-    public async Task<GetSmartUrlClickReportResponse?> GetSmartUrlClickReportAync(GetSmartUrlReportRequest request)
+    public async Task<GetSmartUrlClickReportResponse?> GetSmartUrlClickReportAsync(GetSmartUrlReportRequest request)
     {
         var queryParams = new Dictionary<string, string?>
         {
@@ -373,12 +399,11 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/shorturl-clicks",
                 queryParams);
 
-        return await SendRequestAsync<GetSmartUrlReportRequest, GetSmartUrlClickReportResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetSmartUrlClickReportResponse?>(endpoint);
     }
 
     /// <inheritdoc />
-    public async Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAync(
+    public async Task<GetSmartUrlDetailClickReportResponse?> GetSmartUrlDetailedClickReportAsync(
         GetSmartUrlReportRequest request)
     {
         var queryParams = new Dictionary<string, string?>
@@ -392,11 +417,10 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "pageSize", request.PageSize?.ToString() }
         };
         var endpoint =
-            this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/shorturl-clicks-details",
+            this.ConstructEndpointWithQueryParams(_baseUrl, $"/brands/{request.BrandId}/shorturl-click-details",
                 queryParams);
 
-        return await SendRequestAsync<GetSmartUrlReportRequest, GetSmartUrlDetailClickReportResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetSmartUrlDetailClickReportResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -419,8 +443,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             this.ConstructEndpointWithQueryParams(_baseUrl, "/brand-vbt-outbound-messages",
                 queryParams);
 
-        return await SendRequestAsync<GetBrandVbtOutboundMessageRequest, GetBrandVbtMessageResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetBrandVbtMessageResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -442,8 +465,22 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             this.ConstructEndpointWithQueryParams(_baseUrl, "/brand-vbt-inbound-messages",
                 queryParams);
 
-        return await SendRequestAsync<GetBrandVbtOutboundMessageRequest, GetBrandVbtMessageResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetBrandVbtMessageResponse?>(endpoint);
+    }
+
+    /// <inheritdoc />
+    public async Task<GetUsageBrandBreakdownResponse?> GetUsageBrandBreakdownAsync(GetUsageBrandBreakdownRequest request)
+    {
+        var queryParams = new Dictionary<string, string?>
+        {
+            { "month", request.Month.ToString() },
+            { "year", request.Year.ToString() },
+            { "brandId", request.BrandId },
+            { "productType", request.ProductType }
+        };
+
+        var endpoint = this.ConstructEndpointWithQueryParams(_baseUrl, "/reports/usage/brand-breakdown", queryParams);
+        return await SendGetAsync<GetUsageBrandBreakdownResponse?>(endpoint);
     }
 
     /// <inheritdoc />
@@ -463,107 +500,404 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             this.ConstructEndpointWithQueryParams(_baseUrl, $"/groups/{request.GroupId}/subscribers",
                 queryParams);
 
-        return await SendRequestAsync<GetAllSubscribersGroupRequest, GetAllSubscribersGroupResponse?>(HttpMethod.Get,
-            endpoint);
+        return await SendGetAsync<GetAllSubscribersGroupResponse?>(endpoint);
     }
 
     /// <summary>
-    /// Sends an HTTP request to the specified endpoint and returns the deserialized response.
+    /// Sends a GET request to the specified endpoint and returns the deserialized response.
     /// </summary>
-    /// <typeparam name="TRequest">The type of the request body.</typeparam>
     /// <typeparam name="TResponse">The type of the response data.</typeparam>
-    /// <param name="method">The HTTP method to use for the request.</param>
     /// <param name="endpoint">The API endpoint to send the request to.</param>
-    /// <param name="request">The request body (optional).</param>
     /// <returns>The deserialized response data.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the request or response type is not registered in the JSON context.</exception>
-    /// <exception cref="NotSupportedException">Thrown when an unsupported HTTP method is used.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the response type is not registered in the JSON context.</exception>
     /// <exception cref="ApiException">Thrown when the API returns an error or when an unexpected error occurs.</exception>
-    private async Task<TResponse> SendRequestAsync<TRequest, TResponse>(HttpMethod method, string endpoint,
-        TRequest? request = default)
+    private async Task<TResponse> SendGetAsync<TResponse>(string endpoint)
     {
-        // Ensure that the access token is valid before making the request.
         await EnsureValidTokenAsync();
 
-        // Get the type information for serialization/deserialization.
-        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
-        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(ApiResponse<TResponse>))
-            as JsonTypeInfo<ApiResponse<TResponse>>;
-
-        // Validate that the types are registered in the JSON context.
-        if (requestInfo == null || responseInfo == null)
+        // TResponse should always be a response type that inherits from ApiResponse<T>
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TResponse)) as JsonTypeInfo<TResponse>;
+        if (responseInfo == null)
         {
             throw new InvalidOperationException(
-                $"Type {typeof(TRequest)} or {typeof(ApiResponse<TResponse>)} is not registered in SolutionsByTextJsonContext.");
+                $"Type {typeof(TResponse)} is not registered in SolutionsByTextJsonContext.");
         }
-
-        // Serialize the request body if it's provided.
-        using var content = request != null
-            ? new StringContent(JsonSerializer.Serialize(request, requestInfo), Encoding.UTF8, "application/json")
-            : null;
 
         try
         {
-            // Execute the HTTP request with retry and unauthorized policies combined.
             var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
-                .ExecuteAsync(async () =>
-                {
-                    return method switch
-                    {
-                        { } m when m == HttpMethod.Get => await _httpClient.GetAsync(endpoint),
-                        { } m when m == HttpMethod.Post => await _httpClient.PostAsync(endpoint, content),
-                        { } m when m == HttpMethod.Put => await _httpClient.PutAsync(endpoint, content),
-                        { } m when m == HttpMethod.Delete => await _httpClient.DeleteAsync(endpoint),
-                        _ => throw new NotSupportedException($"HTTP method {method} is not supported.")
-                    };
-                });
-
+                .ExecuteAsync(async () => await _httpClient.GetAsync(endpoint));
+                
             var responseContent = await response.Content.ReadAsStringAsync();
+            
+            // Log raw response for debugging when enabled
+            if (_enableResponseLogging)
+            {
+                LogResponse(response, responseContent, typeof(TResponse).Name);
+            }
 
             if (response.IsSuccessStatusCode)
             {
-                // Deserialize the successful response
                 var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
-                if (apiResponse == null || apiResponse.Data == null)
+                if (apiResponse == null)
                 {
-                    throw new ApiException("Failed to deserialize the response or response data is null.");
+                    throw new ApiException("Failed to deserialize the response.");
                 }
-
-                return apiResponse.Data;
+                return apiResponse;
             }
+            else
+            {
+                // Handle error responses from the API
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
 
-            // Handle error responses from the API
-            var errorResponse = JsonSerializer.Deserialize(responseContent,
-                SolutionsByTextJsonContext.Default.ErrorResponse);
-
-            // Throw an ApiException with appropriate error details
-            throw errorResponse != null
-                ? new ApiException(
-                    errorResponse.AppCode ?? "Unknown app code",
-                    errorResponse.Message ?? "Unknown error message"
-                )
-                : new ApiException(
-                    response.StatusCode.ToString(),
-                    responseContent ?? "No response content"
-                );
-
+                throw errorResponse != null
+                    ? new ApiException(
+                        errorResponse.AppCode ?? "Unknown app code",
+                        errorResponse.Message ?? "Unknown error message"
+                    )
+                    : new ApiException(
+                        response.StatusCode.ToString(),
+                        responseContent ?? "No response content"
+                    );
+            }
         }
         catch (ApiException)
         {
-            // Re-throw ApiExceptions without wrapping
             throw;
+        }
+        catch (JsonException jsonEx)
+        {
+            // Log the problematic response for debugging
+            if (_enableResponseLogging)
+            {
+                Console.WriteLine($"[SBT Debug] JSON deserialization failed for {typeof(TResponse).Name}");
+                Console.WriteLine($"[SBT Debug] Error: {jsonEx.Message}");
+            }
+            throw new ApiException($"JSON deserialization failed for {typeof(TResponse).Name}: {jsonEx.Message}", jsonEx.InnerException?.Message ?? "No inner exception");
         }
         catch (Exception ex)
         {
-            // Wrap any other exceptions in an ApiException
-            throw new ApiException("An unexpected error occurred", ex.Message);
+            throw new ApiException($"An unexpected error occurred: {ex.GetType().Name}", ex.Message);
         }
     }
+
+    /// <summary>
+    /// Sends a POST request with a JSON body to the specified endpoint.
+    /// </summary>
+    private async Task<TResponse> SendPostAsync<TRequest, TResponse>(string endpoint, TRequest request)
+    {
+        await EnsureValidTokenAsync();
+
+        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TResponse)) as JsonTypeInfo<TResponse>;
+
+        if (requestInfo == null || responseInfo == null)
+        {
+            throw new InvalidOperationException(
+                $"Type {typeof(TRequest)} or {typeof(TResponse)} is not registered in SolutionsByTextJsonContext.");
+        }
+
+        try
+        {
+            var json = JsonSerializer.Serialize(request, requestInfo);
+            using var content = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
+                .ExecuteAsync(async () => await _httpClient.PostAsync(endpoint, content));
+                
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            // Log raw response for debugging when enabled
+            if (_enableResponseLogging)
+            {
+                LogResponse(response, responseContent, typeof(TResponse).Name);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
+                if (apiResponse == null)
+                {
+                    throw new ApiException("Failed to deserialize the response.");
+                }
+                return apiResponse;
+            }
+            else
+            {
+                // Handle error responses from the API
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
+
+                throw errorResponse != null
+                    ? new ApiException(
+                        errorResponse.AppCode ?? "Unknown app code",
+                        errorResponse.Message ?? "Unknown error message"
+                    )
+                    : new ApiException(
+                        response.StatusCode.ToString(),
+                        responseContent ?? "No response content"
+                    );
+            }
+        }
+        catch (ApiException)
+        {
+            throw;
+        }
+        catch (JsonException jsonEx)
+        {
+            // Log the problematic response for debugging
+            if (_enableResponseLogging)
+            {
+                Console.WriteLine($"[SBT Debug] JSON deserialization failed for {typeof(TResponse).Name}");
+                Console.WriteLine($"[SBT Debug] Error: {jsonEx.Message}");
+            }
+            throw new ApiException($"JSON deserialization failed for {typeof(TResponse).Name}: {jsonEx.Message}", jsonEx.InnerException?.Message ?? "No inner exception");
+        }
+        catch (Exception ex)
+        {
+            throw new ApiException($"An unexpected error occurred: {ex.GetType().Name}", ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Sends a PUT request with a JSON body to the specified endpoint.
+    /// </summary>
+    private async Task<TResponse> SendPutAsync<TRequest, TResponse>(string endpoint, TRequest request)
+    {
+        await EnsureValidTokenAsync();
+
+        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TResponse)) as JsonTypeInfo<TResponse>;
+
+        if (requestInfo == null || responseInfo == null)
+        {
+            throw new InvalidOperationException(
+                $"Type {typeof(TRequest)} or {typeof(TResponse)} is not registered in SolutionsByTextJsonContext.");
+        }
+
+        try
+        {
+            var json = JsonSerializer.Serialize(request, requestInfo);
+            using var content = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
+                .ExecuteAsync(async () => await _httpClient.PutAsync(endpoint, content));
+                
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            // Log raw response for debugging when enabled
+            if (_enableResponseLogging)
+            {
+                LogResponse(response, responseContent, typeof(TResponse).Name);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
+                if (apiResponse == null)
+                {
+                    throw new ApiException("Failed to deserialize the response.");
+                }
+                return apiResponse;
+            }
+            else
+            {
+                // Handle error responses from the API
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
+
+                throw errorResponse != null
+                    ? new ApiException(
+                        errorResponse.AppCode ?? "Unknown app code",
+                        errorResponse.Message ?? "Unknown error message"
+                    )
+                    : new ApiException(
+                        response.StatusCode.ToString(),
+                        responseContent ?? "No response content"
+                    );
+            }
+        }
+        catch (ApiException)
+        {
+            throw;
+        }
+        catch (JsonException jsonEx)
+        {
+            // Log the problematic response for debugging
+            if (_enableResponseLogging)
+            {
+                Console.WriteLine($"[SBT Debug] JSON deserialization failed for {typeof(TResponse).Name}");
+                Console.WriteLine($"[SBT Debug] Error: {jsonEx.Message}");
+            }
+            throw new ApiException($"JSON deserialization failed for {typeof(TResponse).Name}: {jsonEx.Message}", jsonEx.InnerException?.Message ?? "No inner exception");
+        }
+        catch (Exception ex)
+        {
+            throw new ApiException($"An unexpected error occurred: {ex.GetType().Name}", ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Sends a PATCH request with a JSON body to the specified endpoint.
+    /// </summary>
+    private async Task<TResponse> SendPatchAsync<TRequest, TResponse>(string endpoint, TRequest request)
+    {
+        await EnsureValidTokenAsync();
+
+        var requestInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TRequest)) as JsonTypeInfo<TRequest>;
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TResponse)) as JsonTypeInfo<TResponse>;
+
+        if (requestInfo == null || responseInfo == null)
+        {
+            throw new InvalidOperationException(
+                $"Type {typeof(TRequest)} or {typeof(TResponse)} is not registered in SolutionsByTextJsonContext.");
+        }
+
+        try
+        {
+            var json = JsonSerializer.Serialize(request, requestInfo);
+            using var content = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
+                .ExecuteAsync(async () => await _httpClient.PatchAsync(endpoint, content));
+                
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            // Log raw response for debugging when enabled
+            if (_enableResponseLogging)
+            {
+                LogResponse(response, responseContent, typeof(TResponse).Name);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
+                if (apiResponse == null)
+                {
+                    throw new ApiException("Failed to deserialize the response.");
+                }
+                return apiResponse;
+            }
+            else
+            {
+                // Handle error responses from the API
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
+
+                throw errorResponse != null
+                    ? new ApiException(
+                        errorResponse.AppCode ?? "Unknown app code",
+                        errorResponse.Message ?? "Unknown error message"
+                    )
+                    : new ApiException(
+                        response.StatusCode.ToString(),
+                        responseContent ?? "No response content"
+                    );
+            }
+        }
+        catch (ApiException)
+        {
+            throw;
+        }
+        catch (JsonException jsonEx)
+        {
+            // Log the problematic response for debugging
+            if (_enableResponseLogging)
+            {
+                Console.WriteLine($"[SBT Debug] JSON deserialization failed for {typeof(TResponse).Name}");
+                Console.WriteLine($"[SBT Debug] Error: {jsonEx.Message}");
+            }
+            throw new ApiException($"JSON deserialization failed for {typeof(TResponse).Name}: {jsonEx.Message}", jsonEx.InnerException?.Message ?? "No inner exception");
+        }
+        catch (Exception ex)
+        {
+            throw new ApiException($"An unexpected error occurred: {ex.GetType().Name}", ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Sends a DELETE request to the specified endpoint (no request body).
+    /// </summary>
+    private async Task<TResponse> SendDeleteAsync<TResponse>(string endpoint)
+    {
+        await EnsureValidTokenAsync();
+
+        var responseInfo = SolutionsByTextJsonContext.Default.GetTypeInfo(typeof(TResponse)) as JsonTypeInfo<TResponse>;
+
+        if (responseInfo == null)
+        {
+            throw new InvalidOperationException(
+                $"Type {typeof(TResponse)} is not registered in SolutionsByTextJsonContext.");
+        }
+
+        try
+        {
+            var response = await Policy.WrapAsync(_retryPolicy, _unauthorizedPolicy)
+                .ExecuteAsync(async () => await _httpClient.DeleteAsync(endpoint));
+                
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            // Log raw response for debugging when enabled
+            if (_enableResponseLogging)
+            {
+                LogResponse(response, responseContent, typeof(TResponse).Name);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = JsonSerializer.Deserialize(responseContent, responseInfo);
+                if (apiResponse == null)
+                {
+                    throw new ApiException("Failed to deserialize the response.");
+                }
+                return apiResponse;
+            }
+            else
+            {
+                // Handle error responses from the API
+                var errorResponse = JsonSerializer.Deserialize(responseContent,
+                    SolutionsByTextJsonContext.Default.ErrorResponse);
+
+                throw errorResponse != null
+                    ? new ApiException(
+                        errorResponse.AppCode ?? "Unknown app code",
+                        errorResponse.Message ?? "Unknown error message"
+                    )
+                    : new ApiException(
+                        response.StatusCode.ToString(),
+                        responseContent ?? "No response content"
+                    );
+            }
+        }
+        catch (ApiException)
+        {
+            throw;
+        }
+        catch (JsonException jsonEx)
+        {
+            // Log the problematic response for debugging
+            if (_enableResponseLogging)
+            {
+                Console.WriteLine($"[SBT Debug] JSON deserialization failed for {typeof(TResponse).Name}");
+                Console.WriteLine($"[SBT Debug] Error: {jsonEx.Message}");
+            }
+            throw new ApiException($"JSON deserialization failed for {typeof(TResponse).Name}: {jsonEx.Message}", jsonEx.InnerException?.Message ?? "No inner exception");
+        }
+        catch (Exception ex)
+        {
+            throw new ApiException($"An unexpected error occurred: {ex.GetType().Name}", ex.Message);
+        }
+    }
+
 
     //Get the bearer token and start the stopwatch
     private async Task ObtainBearerTokenAsync()
     {
-        var tokenEndpoint = $"{_tokenUrl}/connect/token";
+        // Check if the tokenUrl already contains the full path
+        var tokenEndpoint = _tokenUrl.EndsWith("/connect/token") 
+            ? _tokenUrl 
+            : $"{_tokenUrl}/connect/token";
 
         // Prepare the request content for obtaining the bearer token (used x-www-form-urlencoded). 
         var contentString = $@"client_id={Uri.EscapeDataString(_clientId)}&" +
@@ -626,6 +960,47 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         // Check if the token is either missing or has expired, used margin to refresh before it expired 
         return string.IsNullOrEmpty(_accessToken) ||
                _tokenStopwatch.Elapsed > (_tokenExpiresIn - _tokenRefreshMargin);
+    }
+
+    /// <summary>
+    /// Logs HTTP response details for debugging purposes.
+    /// </summary>
+    private static void LogResponse(HttpResponseMessage response, string responseContent, string expectedType)
+    {
+        try
+        {
+            var logDir = Path.Combine(Path.GetTempPath(), "sbt-debug");
+            Directory.CreateDirectory(logDir);
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff");
+            var statusCode = (int)response.StatusCode;
+            var logFile = Path.Combine(logDir, $"{timestamp}_{statusCode}_{expectedType}.json");
+            
+            // Pretty print the JSON for readability
+            string prettyJson;
+            try
+            {
+                var jsonDoc = JsonDocument.Parse(responseContent);
+                prettyJson = JsonSerializer.Serialize(jsonDoc, new JsonSerializerOptions { WriteIndented = true });
+            }
+            catch
+            {
+                // If not valid JSON, save as-is
+                prettyJson = responseContent;
+            }
+            
+            File.WriteAllText(logFile, prettyJson);
+            Console.WriteLine($"[SBT Debug] Response logged to: {logFile}");
+            Console.WriteLine($"[SBT Debug] Status: {response.StatusCode}, Type: {expectedType}");
+            Console.WriteLine($"[SBT Debug] Request URI: {response.RequestMessage?.RequestUri}");
+            
+            // Also log first 500 chars to console for immediate visibility
+            var preview = responseContent.Length > 500 ? responseContent.Substring(0, 500) + "..." : responseContent;
+            Console.WriteLine($"[SBT Debug] Response preview: {preview}");
+        }
+        catch (Exception logEx)
+        {
+            Console.WriteLine($"[SBT Debug] Failed to log response: {logEx.Message}");
+        }
     }
 
     private async Task RefreshTokenAsync()

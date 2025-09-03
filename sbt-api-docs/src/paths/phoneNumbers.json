@@ -1,0 +1,69 @@
+{
+  "/phonenumbers-data": {
+    "get": {
+      "tags": [
+        "PhoneNumbers"
+      ],
+      "summary": "Get Phone Numbers Data",
+      "description": "**Description:** Obtains information about a specified number (or numbers). It provides metadata about the number—if it is a valid cell phone number and if so, information about the carrier.\n\n**Use Case:** This API call should be the first run when a company is importing cell phone numbers from a CRM. Before adding the numbers with the Add Subscriber call, the numbers should be validated using Get Phone Numbers Data.\n\n**Usage Limits:** This API can check information for up to 10 phone numbers in a single call.\n\n**Important:** Get Phone Numbers Data may be called using either an Account- or Brand-level API key. Ensure you have generated and are using a Brand-level API key if you want usage information for a Brand within your Account. Otherwise, information for the entire Account will be collected.\n\n**Query Format:** Add each phone number/MSISDN to the endpoint URL. Example:\n\n{Production or Staging Endpoint}/phonenumbers-data&msisdn=12345678910\n&msisdn=13456789123&msisdn=14567891234&msisdn=15678912345&msisdn=16789123456",
+      "parameters": [
+        {
+          "name": "msisdn",
+          "required": true,
+          "in": "query",
+          "description": "Mobile numbers with dialing code. Eleven digits with no plus sign (12345678902).",
+          "example": "12345678902",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "name": "includes",
+          "in": "query",
+          "description": "Carrier specifier.",
+          "schema": {
+            "$ref": "#/components/schemas/Includes"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "x-summary": "Success",
+          "description": "App Code  | Description\n----------------|---------\ngen.1200 | Request successful\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhoneNumberResponseDetailsListExternalApiResponseNew"
+              }
+            }
+          }
+        },
+        "400": {
+          "x-summary": "Bad Request",
+          "description": "App Code  | Description\n----------------|---------\nphn.1001| Phone number cannot be blank\nphn.1002| Phone number cannot be more than 10 digits\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        },
+        "500": {
+          "x-summary": "Internal Error",
+          "description": "App Code  | Description\n----------------|---------\ngen.1500 | Internal Error\n\n",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalErrorResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

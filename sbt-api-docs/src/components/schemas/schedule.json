@@ -1,0 +1,415 @@
+{
+  "AddScheduleResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "AddScheduleResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/AddScheduleResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleMessageRequest": {
+    "required": [
+      "message"
+    ],
+    "type": "object",
+    "properties": {
+      "from": {
+        "type": "string",
+        "description": "Company name or other identifier.",
+        "example": "Weyland-Yutani",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "example": "Hello! Your account is currently at $426. Contact us for more...",
+        "description": "The message text. Mandatory for SMS; not mandatory for MMS.",
+        "nullable": true
+      },
+      "ScheduleDateTime": {
+        "type": "string",
+        "example": "2023-11-11T15:00:00Z",
+        "description": "**MUST BE IN UTC FORMAT.** See *Request samples* at right. Date and time the message will be sent.",
+        "format": "date-time"
+      },
+      "subscribers": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Subscribers"
+        },
+        "nullable": true
+      },
+      "variables": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Variables"
+        },
+        "nullable": true
+      },
+      "referenceId": {
+        "type": "string",
+        "description": "Customer-defined identifier for the message.",
+        "example": "192837",
+        "nullable": true
+      },
+      "media": {
+        "type": "string",
+        "nullable": true,
+        "example": "data:[<mediatype>][;base64],<data> *or* https://example.com/image.png",
+        "description": "Media file in base64 Data URI format *or* a fully qualified URL."
+      }
+    },
+    "additionalProperties": false
+  },
+  "InteractionBroadcastScheduleMessageRequest": {
+    "type": "object",
+    "properties": {
+      "groupId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "from": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "subscriberNumber": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "scheduleDate": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleTime": {
+        "type": "string",
+        "nullable": true
+      },
+      "timeZoneId": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateScheduleMessageResponseDetails": {
+    "type": "object",
+    "properties": {
+      "ShortUrl": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateScheduleMessageExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "string",
+        "items": {
+          "$ref": "#/components/schemas/CreateScheduleMessageResponseDetails"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleNewResponse": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "scheduleTime": {
+        "type": "string",
+        "nullable": true
+      },
+      "timeZoneId": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleDateUTC": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "status": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "externalReferenceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "orgunitId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "parentOrgUnitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "from": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "subscriberNumber": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "scheduleType": {
+        "type": "string",
+        "nullable": true
+      },
+      "userDetails": {
+        "$ref": "#/components/schemas/UserDetailsNew"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleNewResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ScheduleNewResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleResponseNew": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleDate": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleTime": {
+        "type": "string",
+        "nullable": true
+      },
+      "timeZoneId": {
+        "type": "string",
+        "nullable": true
+      },
+      "scheduleDateUTC": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "status": {
+        "type": "string",
+        "nullable": true
+      },
+      "createdOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "modifiedOn": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "externalReferenceId": {
+        "type": "string",
+        "nullable": true
+      },
+      "orgunitId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "parentOrgUnitId": {
+        "type": "string",
+        "nullable": true
+      },
+      "from": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "userId": {
+        "type": "string",
+        "description": "Internal ID number of the sending user.",
+        "example": "08e2ad9b-b5b6-46d1-b12e-b568a64b4419",
+        "nullable": true
+      },
+      "subscriberNumber": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleResponseNewListPaginatedResponse": {
+    "type": "object",
+    "properties": {
+      "totalCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "filterCount": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ScheduleResponseNew"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ScheduleResponseNewListPaginatedResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ScheduleResponseNewListPaginatedResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalScheduleMessageCount": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "TotalScheduleMessageCountExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/TotalScheduleMessageCount"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

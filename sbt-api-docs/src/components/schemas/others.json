@@ -1,0 +1,573 @@
+{
+  "Address": {
+    "type": "object",
+    "properties": {
+      "address1": {
+        "type": "string",
+        "example": "7910 Noemie Knoll",
+        "nullable": true
+      },
+      "address2": {
+        "type": "string",
+        "example": "Apt 101",
+        "nullable": true
+      },
+      "city": {
+        "type": "string",
+        "example": "Madilynland",
+        "nullable": true
+      },
+      "state": {
+        "type": "string",
+        "example": "CO",
+        "nullable": true
+      },
+      "postalCode": {
+        "type": "string",
+        "example": "99582",
+        "nullable": true
+      },
+      "countryCode": {
+        "type": "string",
+        "example": "US",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ApiRoleResponseIEnumerableExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ApiRoleResponse"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "BooleanExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "boolean"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CallbackUrlSettings": {
+    "type": "object",
+    "properties": {
+      "callBackUrl": {
+        "type": "string",
+        "nullable": true
+      },
+      "authenticationType": {
+        "type": "string",
+        "nullable": true
+      },
+      "userName": {
+        "type": "string",
+        "nullable": true
+      },
+      "password": {
+        "type": "string",
+        "nullable": true
+      },
+      "tokenAuthority": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientId": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientSecret": {
+        "type": "string",
+        "nullable": true
+      },
+      "clientScope": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Campuses": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "nullable": true
+      },
+      "isDefault": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "Carrier": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "The wireless provider ID for the subscriber's carrier.",
+        "example": "383",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "description": "The wireless provider name for the subscriber's carrier.",
+        "example": "AT&T Wireless Inc.",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CartItems": {
+    "type": "object",
+    "properties": {
+      "app": {
+        "type": "string",
+        "nullable": true
+      },
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "code": {
+        "type": "string",
+        "nullable": true
+      },
+      "priceOption": {
+        "$ref": "#/components/schemas/PriceOption"
+      },
+      "finalAmount": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "CommunityAccessType": {
+    "enum": [
+      "PlanDefault",
+      "ForceEnable",
+      "ForceDisable"
+    ],
+    "type": "string"
+  },
+  "ExternalApiResponse`1": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/T"
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalConsentContext": {
+    "type": "object",
+    "properties": {
+      "externalConsentProvided": {
+        "type": "string",
+        "nullable": true
+      },
+      "messageContext": {
+        "type": "string",
+        "nullable": true
+      },
+      "consentRecordReference": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ExternalErrorResponse": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": true,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "Feature": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "description": {
+        "type": "string",
+        "nullable": true
+      },
+      "comments": {
+        "type": "string",
+        "nullable": true
+      },
+      "present": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ImageUploadResponse": {
+    "type": "object",
+    "properties": {
+      "imageUrl": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "ImageUploadResponseExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "$ref": "#/components/schemas/ImageUploadResponse"
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "Includes": {
+    "enum": [
+      "Carrier"
+    ],
+    "type": "string"
+  },
+  "Preferences": {
+    "type": "object",
+    "properties": {
+      "helpEnabled": {
+        "type": "boolean",
+        "default": true
+      },
+      "themes": {
+        "$ref": "#/components/schemas/Themes"
+      }
+    },
+    "additionalProperties": false
+  },
+  "PrivatePlan": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "privatePlanCodes": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Properties": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true,
+        "example": "UniqueID",
+        "description": "Customer-defined variable. Typically used for customer ID numbers, dollar amounts, etc."
+      },
+      "value": {
+        "type": "string",
+        "nullable": true,
+        "example": "A1B2C3",
+        "description": "Variable data. As shown here, a unique customer/subscriber ID."
+      }
+    },
+    "additionalProperties": false
+  },
+  "PropertiesNew": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true,
+        "example": "UniqueID",
+        "description": "Customer-defined variable. Typically used for customer ID numbers, dollar amounts, etc."
+      },
+      "value": {
+        "type": "string",
+        "nullable": true,
+        "example": "A1B2C3",
+        "description": "Variable data. As shown here, a unique customer/subscriber ID."
+      }
+    },
+    "additionalProperties": false
+  },
+  "RegisterCompany": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true
+      },
+      "leadId": {
+        "type": "string",
+        "nullable": true
+      },
+      "shortName": {
+        "type": "string",
+        "nullable": true
+      },
+      "email": {
+        "type": "string",
+        "nullable": true
+      },
+      "address": {
+        "$ref": "#/components/schemas/Address"
+      },
+      "phone": {
+        "type": "string",
+        "nullable": true
+      },
+      "webAddress": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "Relation": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "example": "Mike Doe",
+        "nullable": true
+      },
+      "relationship": {
+        "type": "string",
+        "example": "Brother",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "StringArrayExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "nullable": true
+      },
+      "appCode": {
+        "type": "string",
+        "nullable": true
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "StringExternalApiResponse": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "string",
+        "nullable": true
+      },
+      "appCode": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string",
+        "nullable": true
+      },
+      "isError": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  },
+  "StringExternalApiResponseNew": {
+    "type": "object",
+    "properties": {
+      "appCode": {
+        "type": "string",
+        "nullable": true,
+        "example": "gen.1200",
+        "description": "API response code (see table above)."
+      },
+      "message": {
+        "type": "string",
+        "nullable": true,
+        "example": "Request successful",
+        "description": "API response message (see table above)."
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If no error, *false*. If error, *true*."
+      }
+    },
+    "additionalProperties": false
+  },
+  "T": {
+    "type": "object",
+    "additionalProperties": false
+  },
+  "Themes": {
+    "enum": [
+      "Light",
+      "Dark"
+    ],
+    "type": "string"
+  },
+  "Variables": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "nullable": true,
+        "example": "BankName",
+        "description": "Customer-defined variable. Typically used for customer ID numbers, dollar amounts, etc."
+      },
+      "value": {
+        "type": "string",
+        "nullable": true,
+        "example": "ABC Bank",
+        "description": "Variable data. As shown here, a unique customer name."
+      }
+    },
+    "additionalProperties": false
+  },
+  "WebHook": {
+    "type": "object",
+    "properties": {
+      "callbackUrlEnabled": {
+        "type": "boolean"
+      },
+      "statusUrlEnabled": {
+        "type": "boolean"
+      },
+      "callbackUrlSettings": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CallbackUrlSettings"
+        },
+        "nullable": true
+      },
+      "statusUrlSettings": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/StatusUrlSettings"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

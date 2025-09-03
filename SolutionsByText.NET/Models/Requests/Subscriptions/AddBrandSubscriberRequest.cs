@@ -1,7 +1,7 @@
 ﻿using SolutionsByText.NET.Models.Requests.Enums;
 using System.Text.Json.Serialization;
 
-namespace SolutionsByText.NET.Models.Requests.Subscription
+namespace SolutionsByText.NET.Models.Requests.Subscriptions
 {
     /// <summary>
     /// Represents a request to add a new subscriber to a brand.
@@ -11,8 +11,8 @@ namespace SolutionsByText.NET.Models.Requests.Subscription
         /// <summary>
         /// Gets or sets the unique identifier of the brand.
         /// </summary>
-        [JsonPropertyName("brandId")]
-        public required string BrandId { get; set; }
+        [JsonIgnore]
+        public string BrandId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the phone number of the subscriber.
