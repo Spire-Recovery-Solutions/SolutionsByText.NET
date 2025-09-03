@@ -89,6 +89,173 @@ catch (ApiException ex)
 }
 ```
 
+## 📋 API Workflow Examples
+
+The Solutions By Text API follows a specific workflow for proper messaging implementation. Following this procedure ensures correct API usage and avoids common problems, pitfalls, and gotchas.
+
+**⚠️ Follow this procedure for every phone number, every time.**
+
+### 🔑 Token Management
+
+The SDK automatically handles OAuth2 token management for you:
+- Tokens are cached and automatically refreshed 5 minutes before expiry
+- No manual token handling required - just initialize the client once
+- The SDK uses event-based token refresh on 401 Unauthorized responses
+
+### 📱 Required API Flow
+
+Here are examples for each step in the required workflow:
+
+### 1. Get Subscriber Status (Required First Step)
+
+**Call this API first, every time.** Based on the status received, follow these rules:
+
+```csharp
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+
+var statusRequest = new GetGroupSubscriberStatusRequest
+{
+    GroupId = "your-group-id",
+    Msisdn = new List<string> { "12345678901" }
+};
+
+var statusResponse = await client.GetGroupSubscriberStatusAsync(statusRequest);
+var status = statusResponse?.Data?.FirstOrDefault()?.Status;
+
+switch (status)
+{
+    case "Active":
+        // ✅ Send messages to this number
+        Console.WriteLine("Subscriber is active - ready for messaging");
+        break;
+    case "Inactive":  
+        // ❌ Do not send messages to this number
+        Console.WriteLine("Subscriber is inactive - do not message");
+        break;
+    case "UnderVerification":
+        // ⏳ Wait for subscriber to respond with keyword or PIN
+        Console.WriteLine("Subscriber is under verification - wait for PIN response");
+        break;
+    case null:
+        // 👤 Not a Subscriber - proceed to step 2 (Get Phone Numbers Data)
+        Console.WriteLine("Not a subscriber - check if mobile number");
+        break;
+}
+```
+
+### 2. Get Phone Numbers Data (Only for "Not a Subscriber")
+
+**This API determines if a number is mobile or landline.** Only call this for numbers that are "Not a Subscriber":
+
+```csharp
+using SolutionsByText.NET.Models.Requests.PhoneNumbers;
+
+var phoneRequest = new GetPhoneNumberDataRequest
+{
+    Msisdn = new List<string> { "12345678901" }
+};
+
+var phoneResponse = await client.GetPhoneNumberDataAsync(phoneRequest);
+var phoneData = phoneResponse?.Data?.FirstOrDefault();
+
+if (phoneData?.Type == "Mobile")
+{
+    // ✅ Use Add Subscriber to Group or Brand APIs to opt in the subscriber  
+    Console.WriteLine("Number is mobile - can proceed with opt-in");
+    // Proceed to step 3
+}
+else
+{
+    // ❌ Landline number - DO NOT attempt to add or message
+    Console.WriteLine("Number is not mobile - cannot message");
+    // ⚠️ Messaging will result in StopFail and may cost usage credits
+    // Update records to mark as non-mobile and not eligible for messaging
+}
+```
+
+### 3. Add Subscriber to Group (Only for Mobile Numbers)
+
+**Only for mobile numbers that aren't subscribers.** Opts in subscriber to Marketing OR Non-Marketing messages:
+
+```csharp
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Enums;
+
+var addRequest = new AddGroupSubscriberRequest
+{
+    GroupId = "your-group-id",
+    Msisdn = "12345678901",
+    FirstName = "John",
+    LastName = "Doe",
+    VerificationType = VerificationType.Pin // or ReservedWord, SilentOptin, Optin
+};
+
+var addResponse = await client.AddGroupSubscriberAsync(addRequest);
+if (addResponse != null && !addResponse.IsError)
+{
+    Console.WriteLine("Subscriber added successfully");
+}
+```
+
+### 4. Add Subscriber to Brand (Alternative Option)
+
+**Alternative to step 3.** Opts in subscriber to BOTH Marketing AND Non-Marketing messages:
+
+```csharp
+using SolutionsByText.NET.Models.Requests.Subscriptions;
+using SolutionsByText.NET.Models.Requests.Enums;
+
+var brandRequest = new AddBrandSubscriberRequest
+{
+    BrandId = "your-brand-id",
+    Msisdn = "12345678901",
+    FirstName = "John",
+    LastName = "Doe",
+    VerificationType = VerificationType.Pin // or ReservedWord, SilentOptin, Optin
+};
+
+var brandResponse = await client.AddBrandSubscriberAsync(brandRequest);
+if (brandResponse != null && !brandResponse.IsError)
+{
+    Console.WriteLine("Subscriber added to brand successfully");
+}
+```
+
+### 5. Send Messages (Only to "Active" Subscribers)
+
+**Only send messages to subscribers with "Active" status** from step 1:
+
+```csharp
+// Already shown in Quick Start example above
+var messageRequest = new SendMessageRequest
+{
+    GroupId = "your-group-id",
+    From = "YourBrand",
+    Message = "Hello from Solutions By Text!",
+    MessageType = MessageType.Unicast,
+    Subscribers = new List<Subscriber>
+    {
+        new Subscriber { Msisdn = "12345678901" }
+    },
+    ReferenceId = Guid.NewGuid().ToString()
+};
+
+var response = await client.SendMessageAsync(messageRequest);
+```
+
+### 🎯 Five Important Takeaways
+
+1. **🔑 Token Management**: SDK automatically handles OAuth2 tokens (1 hour lifetime, auto-refresh)
+2. **📞 Always Check Status**: Use Get Subscriber Status for every number, every time
+3. **📱 Phone Data Once**: Get Phone Numbers Data is only required once per number  
+4. **🚫 No Landline Adds**: Do not use Add Subscriber APIs with non-mobile numbers
+5. **⚠️ Status Before Messaging**: Do not attempt to send messages before checking subscriber status
+
+**❌ Common Mistakes to Avoid:**
+- Adding landline numbers (will fail and waste credits)
+- Messaging inactive or unverified subscribers  
+- Skipping subscriber status checks
+- Using Add Subscriber APIs before attempting to send messages
 
 ## 🏛 Architecture & Design
 
