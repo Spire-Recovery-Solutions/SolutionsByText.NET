@@ -47,6 +47,8 @@ Here's a simple example to get you started:
 using SolutionsByText.NET;
 using SolutionsByText.NET.Models.Requests.Messages;
 using SolutionsByText.NET.Models.Requests.Enums;
+using SolutionsByText.NET.Models.Requests;
+using SolutionsByText.NET.Models.Exceptions;
 
 // Initialize the client with OAuth2 credentials
 var client = new SolutionsByTextClient(
@@ -76,7 +78,10 @@ var request = new SendMessageRequest
 try
 {
     var response = await client.SendMessageAsync(request);
-    Console.WriteLine($"Message sent successfully!");
+    if (response != null)
+    {
+        Console.WriteLine($"Message sent successfully!");
+    }
 }
 catch (ApiException ex)
 {
