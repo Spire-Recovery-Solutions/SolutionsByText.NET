@@ -162,8 +162,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         {
             { "messageId", request.MessageId },
             { "referenceId", request.ReferenceId },
-            { "fromDate", request.FromDate?.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "type", request.Type?.ToString() },
             { "pageNumber", request.PageNumber?.ToString() },
@@ -179,8 +179,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var queryParams = new Dictionary<string, string?>
         {
             { "referenceId", request.ReferenceId },
-            { "fromDate", request.FromDate?.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "type", request.Type?.ToString() },
             { "pageNumber", request.PageNumber?.ToString() },
@@ -258,7 +258,7 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "EventDate", request.EventDate.ToString() },
+            { "EventDate", request.EventDate.ToString("O") },
             { "EventType", request.EventType },
             { "CountryCode", request.CountryCode },
             { "pageNumber", request.PageNumber?.ToString() },
@@ -330,8 +330,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         var queryParams = new Dictionary<string, string?>
         {
             { "CountryCode", request.CountryCode },
-            { "fromDate", request.FromDate?.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "pageNumber", request.PageNumber?.ToString() },
             { "pageSize", request.PageSize?.ToString() }
         };
@@ -368,8 +368,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "fromDate", request.FromDate.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "search", request.Search },
             { "shortUrl", request.ShortUrl },
             { "pageNumber", request.PageNumber?.ToString() },
@@ -387,8 +387,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "fromDate", request.FromDate.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "isCustomSuffix", request.IsCustomSuffix?.ToString() },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "shortUrl", request.ShortUrl },
@@ -408,8 +408,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
     {
         var queryParams = new Dictionary<string, string?>
         {
-            { "fromDate", request.FromDate.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "isCustomSuffix", request.IsCustomSuffix?.ToString() },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "shortUrl", request.ShortUrl },
@@ -432,8 +432,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
             { "brandId", request.BrandId },
             { "messageId", request.MessageId },
             { "referenceId", request.ReferenceId },
-            { "fromDate", request.FromDate?.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "type", request.Type?.ToString() },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "pageNumber", request.PageNumber?.ToString() },
@@ -454,8 +454,8 @@ public class SolutionsByTextClient : ISolutionsByTextClient
         {
             { "brandId", request.BrandId },
             { "referenceId", request.ReferenceId },
-            { "fromDate", request.FromDate?.ToString() },
-            { "toDate", request.ToDate?.ToString() },
+            { "fromDate", request.FromDate?.ToString("O") },
+            { "toDate", request.ToDate?.ToString("O") },
             { "type", request.Type?.ToString() },
             { "timeZoneOffset", request.TimeZoneOffset },
             { "pageNumber", request.PageNumber?.ToString() },

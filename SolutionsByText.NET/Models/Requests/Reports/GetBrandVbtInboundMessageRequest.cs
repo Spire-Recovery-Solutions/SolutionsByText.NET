@@ -26,13 +26,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Start date of query. Default is first of the current month.
         /// </summary>
         [JsonIgnore]
-        public DateTime? FromDate { get; set; }
+        public DateTimeOffset? FromDate { get; set; }
 
         /// <summary>
         /// End date of query. Default is the current date.
         /// </summary>
         [JsonIgnore]
-        public DateTime? ToDate { get; set; }
+        public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
         /// Optional offset from UTC.

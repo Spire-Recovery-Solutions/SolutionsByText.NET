@@ -27,16 +27,16 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         public string? ReferenceId { get; set; }
 
         /// <summary>
-        /// Gets or sets the start date for the report in mm/dd/yyyy hh:mm:ss format.
+        /// Gets or sets the start date for the report in ISO 8601 format.
         /// </summary>
         [JsonIgnore]
-        public DateTime? FromDate { get; set; }
+        public DateTimeOffset? FromDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the end date for the report in mm/dd/yyyy hh:mm:ss format.
+        /// Gets or sets the end date for the report in ISO 8601 format.
         /// </summary>
         [JsonIgnore]
-        public DateTime? ToDate { get; set; }
+        public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
         /// Gets or sets the timezone offset.

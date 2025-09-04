@@ -67,7 +67,7 @@ namespace SolutionsByText.NET.Models.Requests.Subscriptions
         /// Gets or sets the birth date of the subscriber.
         /// </summary>
         [JsonPropertyName("birthDate")]
-        public DateTime? BirthDate { get; set; }
+        public DateTimeOffset? BirthDate { get; set; }
 
         /// <summary>
         /// Gets or sets the address details of the subscriber.

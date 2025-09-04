@@ -18,13 +18,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The creation date of the SmartURL.
         /// </summary>
         [JsonIgnore]
-        public DateTime? FromDate { get; set; }
+        public DateTimeOffset? FromDate { get; set; }
 
         /// <summary>
         /// To date the SmartURL.
         /// </summary>
         [JsonIgnore]
-        public DateTime? ToDate { get; set; }
+        public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
         /// Search smart urls by text

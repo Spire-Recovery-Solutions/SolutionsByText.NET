@@ -257,6 +257,42 @@ var response = await client.SendMessageAsync(messageRequest);
 - Skipping subscriber status checks
 - Using Add Subscriber APIs before attempting to send messages
 
+## 🔧 Technical Requirements & Standards
+
+### UUID Support
+The SDK fully supports SBT's UUID format requirements:
+- **Format**: Standard 8-4-4-4-12 format (e.g., `44463f49-ad32-460d-956c-83849fc639a5`)
+- **Implementation**: All ID fields use `string` type accepting UUIDs
+- **Validation**: Automatic UUID validation through API responses
+
+### Query Parameter Formatting  
+REST API URIs follow SBT specifications:
+- **Format**: `{BaseURL}/{Path}?param1=value1&param2=value2`
+- **Encoding**: Automatic URL encoding for all parameter values
+- **Arrays**: Multiple values supported (e.g., `msisdn=123&msisdn=456`)
+
+### Date/Time Handling
+ISO 8601 format compliance with timezone-explicit handling:
+- **Format**: `2025-03-07T18:51:29.9451124Z` (ISO 8601 UTC with 'Z' indicator)
+- **Implementation**: All date/time properties use `DateTimeOffset` for timezone-explicit handling
+- **Serialization**: Automatic ISO 8601 formatting via `System.Text.Json` with proper timezone offsets
+- **Query Parameters**: Query string parameters use `.ToString("O")` for ISO 8601 compliance
+- **Timezone**: UTC timestamps with explicit timezone offset designation
+
+### Token Management Standards
+Exceeds SBT requirements for optimal performance:
+- ✅ **1-Hour Caching**: Tokens cached and reused for full 1-hour lifetime
+- ✅ **Auto-Refresh**: Automatic refresh 5 minutes before expiry  
+- ✅ **Event-Based Recovery**: Handles 401 responses with immediate token refresh
+- ✅ **Single Token Policy**: Never generates multiple tokens per request
+- ✅ **Persistent Cache**: Token survives across multiple API calls
+
+**Best Practices Implemented:**
+- No token-per-request (prevents server stress)
+- Tolerant of token expiry during execution
+- Automatic retry with new token on authentication failure
+- Respects SBT's 5-10 tokens per hour reasonable limit
+
 ## 🏛 Architecture & Design
 
 ### Core Components

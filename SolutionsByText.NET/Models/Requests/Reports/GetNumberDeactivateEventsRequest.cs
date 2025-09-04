@@ -20,13 +20,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// The start date for the request.
         /// </summary>
         [JsonIgnore]
-        public DateTime? FromDate { get; set; }
+        public DateTimeOffset? FromDate { get; set; }
 
         /// <summary>
         /// The end date for the request.
         /// </summary>
         [JsonIgnore]
-        public DateTime? ToDate { get; set; }
+        public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
         /// The country code of the subscriber.

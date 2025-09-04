@@ -63,25 +63,25 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Time the message was sent (UTC).
         /// </summary>
         [JsonPropertyName("sentAt")]
-        public DateTime SentAt { get; set; }
+        public DateTimeOffset SentAt { get; set; }
 
         /// <summary>
         /// Time the message was delivered (UTC).
         /// </summary>
         [JsonPropertyName("deliveredAt")]
-        public DateTime DeliveredAt { get; set; }
+        public DateTimeOffset DeliveredAt { get; set; }
 
         /// <summary>
         /// Time the message was received (UTC).
         /// </summary>
         [JsonPropertyName("receivedAt")]
-        public DateTime ReceivedAt { get; set; }
+        public DateTimeOffset ReceivedAt { get; set; }
 
         /// <summary>
         /// Time the message was read (UTC).
         /// </summary>
         [JsonPropertyName("readAt")]
-        public DateTime ReadAt { get; set; }
+        public DateTimeOffset ReadAt { get; set; }
 
         /// <summary>
         /// User details related to the message.
@@ -93,25 +93,25 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Sent time in local timezone.
         /// </summary>
         [JsonPropertyName("sentTimeLocal")]
-        public DateTime SentTimeLocal { get; set; }
+        public DateTimeOffset SentTimeLocal { get; set; }
 
         /// <summary>
         /// Delivered time in local timezone.
         /// </summary>
         [JsonPropertyName("deliveredTimeLocal")]
-        public DateTime DeliveredTimeLocal { get; set; }
+        public DateTimeOffset DeliveredTimeLocal { get; set; }
 
         /// <summary>
         /// Received time in local timezone.
         /// </summary>
         [JsonPropertyName("receivedTimeLocal")]
-        public DateTime ReceivedTimeLocal { get; set; }
+        public DateTimeOffset ReceivedTimeLocal { get; set; }
 
         /// <summary>
         /// Read time in local timezone.
         /// </summary>
         [JsonPropertyName("readTimeLocal")]
-        public DateTime ReadTimeLocal { get; set; }
+        public DateTimeOffset ReadTimeLocal { get; set; }
 
         /// <summary>
         /// Media details associated with the message.

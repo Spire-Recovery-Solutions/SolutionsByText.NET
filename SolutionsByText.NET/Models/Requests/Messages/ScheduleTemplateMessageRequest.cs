@@ -36,7 +36,7 @@ namespace SolutionsByText.NET.Models.Requests.Messages
         /// The date and time when the message is scheduled to be sent.
         /// </summary>
         [JsonPropertyName("scheduleDateTime")]
-        public DateTime? ScheduleDateTime { get; set; }
+        public DateTimeOffset? ScheduleDateTime { get; set; }
 
         /// <summary>
         /// The list of subscribers to whom the message will be sent.

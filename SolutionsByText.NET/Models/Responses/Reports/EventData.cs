@@ -85,7 +85,7 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The date and time of the event.
         /// </summary>
         [JsonPropertyName("eventDate")]
-        public DateTime EventDate { get; set; }
+        public DateTimeOffset EventDate { get; set; }
 
         /// <summary>
         /// The list of custom parameters associated with the event.

@@ -68,7 +68,7 @@ public class UpdateSubscriberDataRequest
     /// Gets or sets the subscriber's birth date (optional).
     /// </summary>
     [JsonPropertyName("birthDate")]
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     
     /// <summary>
     /// Gets or sets the subscriber's address information (optional).

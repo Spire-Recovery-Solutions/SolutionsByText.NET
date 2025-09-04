@@ -13,7 +13,7 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The date and time of the process.
         /// </summary>
         [JsonPropertyName("processDateTime")]
-        public DateTime ProcessDateTime { get; set; }
+        public DateTimeOffset ProcessDateTime { get; set; }
 
         /// <summary>
         /// The ID of the old carrier.
@@ -61,6 +61,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// The date of the event.
         /// </summary>
         [JsonPropertyName("eventDate")]
-        public DateTime EventDate { get; set; }
+        public DateTimeOffset EventDate { get; set; }
     }
 }

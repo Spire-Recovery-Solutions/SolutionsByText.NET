@@ -32,13 +32,13 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Start date-time for filtering messages.
         /// </summary>
         [JsonIgnore]
-        public DateTime? FromDate { get; set; }
+        public DateTimeOffset? FromDate { get; set; }
 
         /// <summary>
         /// End date-time for filtering messages.
         /// </summary>
         [JsonIgnore]
-        public DateTime? ToDate { get; set; }
+        public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
         /// Timezone offset for retrieving details.

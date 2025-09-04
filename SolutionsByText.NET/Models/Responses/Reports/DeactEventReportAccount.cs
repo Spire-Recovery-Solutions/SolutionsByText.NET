@@ -77,6 +77,6 @@ namespace SolutionsByText.NET.Models.Responses.Reports
         /// Gets or sets the date and time of the event.
         /// </summary>
         [JsonPropertyName("eventDate")]
-        public DateTime? EventDate { get; set; }
+        public DateTimeOffset? EventDate { get; set; }
     }
 }

@@ -68,7 +68,7 @@ public class ReactivateSubscriberRequest
     /// Gets or sets the birth date (optional).
     /// </summary>
     [JsonPropertyName("birthDate")]
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     
     /// <summary>
     /// Gets or sets the address (optional).

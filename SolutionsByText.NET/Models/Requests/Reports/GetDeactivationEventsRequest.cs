@@ -12,7 +12,7 @@ namespace SolutionsByText.NET.Models.Requests.Reports
         /// Gets or sets the date of the event. Date to be checked for events.
         /// </summary>
         [JsonIgnore]
-        public DateTime EventDate { get; set; }
+        public DateTimeOffset EventDate { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the event. The event type can be "Deactivated" or "Ported".

@@ -47,19 +47,19 @@ namespace SolutionsByText.NET.Models.Responses.Subscriptions
         /// Gets or sets the date and time of the first opt-in.
         /// </summary>
         [JsonPropertyName("firstOptInDate")]
-        public DateTime FirstOptInDate { get; set; }
+        public DateTimeOffset FirstOptInDate { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time of the last opt-in.
         /// </summary>
         [JsonPropertyName("lastOptinDate")]
-        public DateTime LastOptinDate { get; set; }
+        public DateTimeOffset LastOptinDate { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time of the last opt-out.
         /// </summary>
         [JsonPropertyName("lastOptoutDate")]
-        public DateTime LastOptoutDate { get; set; }
+        public DateTimeOffset LastOptoutDate { get; set; }
 
         /// <summary>
         /// Gets or sets the type of opt-in.
